@@ -1,0 +1,208 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>functions package &#8212; PyTherm 2021 documentation</title>
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="functions-package">
+<h1>functions package<a class="headerlink" href="#functions-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-functions.bootstrappingFcn">
+<span id="functions-bootstrappingfcn-module"></span><h2>functions.bootstrappingFcn module<a class="headerlink" href="#module-functions.bootstrappingFcn" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="functions.bootstrappingFcn.optimizer">
+<code class="sig-prename descclassname">functions.bootstrappingFcn.</code><code class="sig-name descname">optimizer</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#functions.bootstrappingFcn.optimizer" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="functions.bootstrappingFcn.runBootstrap">
+<code class="sig-prename descclassname">functions.bootstrappingFcn.</code><code class="sig-name descname">runBootstrap</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">N</span></em>, <em class="sig-param"><span class="n">alpha</span></em><span class="sig-paren">)</span><a class="headerlink" href="#functions.bootstrappingFcn.runBootstrap" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-functions.comparisonFcn">
+<span id="functions-comparisonfcn-module"></span><h2>functions.comparisonFcn module<a class="headerlink" href="#module-functions.comparisonFcn" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="functions.comparisonFcn.BinaryVLE_Comparison">
+<code class="sig-prename descclassname">functions.comparisonFcn.</code><code class="sig-name descname">BinaryVLE_Comparison</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">Case</span></em>, <em class="sig-param"><span class="n">expT</span></em>, <em class="sig-param"><span class="n">expP</span></em>, <em class="sig-param"><span class="n">expX</span></em>, <em class="sig-param"><span class="n">expY</span></em>, <em class="sig-param"><span class="n">deviationType</span></em>, <em class="sig-param"><span class="n">expZ</span><span class="o">=</span><span class="default_value">1</span></em><span class="sig-paren">)</span><a class="headerlink" href="#functions.comparisonFcn.BinaryVLE_Comparison" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="functions.comparisonFcn.LiqRho_comparison">
+<code class="sig-prename descclassname">functions.comparisonFcn.</code><code class="sig-name descname">LiqRho_comparison</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">Case</span></em>, <em class="sig-param"><span class="n">expT</span></em>, <em class="sig-param"><span class="n">expRho</span></em>, <em class="sig-param"><span class="n">expComposition</span></em>, <em class="sig-param"><span class="n">deviationType</span></em>, <em class="sig-param"><span class="n">Pini</span><span class="o">=</span><span class="default_value">1</span></em><span class="sig-paren">)</span><a class="headerlink" href="#functions.comparisonFcn.LiqRho_comparison" title="Permalink to this definition">¶</a></dt>
+<dd><p>deviation = LiqRho_comparison(expT,expP,expMoles,deviationType)
+Inputs:
+expT: Experimental temperature (K)
+expRho: Experimental liquid density (mol/L)
+expComposition: Experimental feed composition (mole)
+deviationType: Type of deviation. Must be a string. Either “AD” (absolute deviation) or “ARD” (absolute relative deviation)
+Absolute deviation = abs(model - exp_data)
+Absolute relative deviation = abs( (model - exp_data) / exp_data)</p>
+<p>Outputs:
+deviation: Deviation in either (%) (if deviationType == “ARD”) or (K) (if deviationType == “AD”)</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="functions.comparisonFcn.PBubble_comparison">
+<code class="sig-prename descclassname">functions.comparisonFcn.</code><code class="sig-name descname">PBubble_comparison</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">Case</span></em>, <em class="sig-param"><span class="n">expT</span></em>, <em class="sig-param"><span class="n">expP</span></em>, <em class="sig-param"><span class="n">expComposition</span></em>, <em class="sig-param"><span class="n">deviationType</span></em>, <em class="sig-param"><span class="n">Pini</span><span class="o">=</span><span class="default_value">1.0</span></em><span class="sig-paren">)</span><a class="headerlink" href="#functions.comparisonFcn.PBubble_comparison" title="Permalink to this definition">¶</a></dt>
+<dd><p>deviation = PBubble_comparison(expT,expP,expMoles,deviationType)
+Inputs:
+expT: Experimental temperature (K)
+expP: Experimental bubble pressure (bar)
+expComposition: Experimental feed composition (mole)
+deviationType: Type of deviation. Must be a string. Either “AD” (absolute deviation) or “ARD” (absolute relative deviation)
+Absolute deviation = abs(model - exp_data)
+Absolute relative deviation = abs( (model - exp_data) / exp_data)</p>
+<p>Outputs:
+deviation: Deviation in either (%) (if deviationType == “ARD”) or (bar) (if deviationType == “AD”)</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="functions.comparisonFcn.PDew_comparison">
+<code class="sig-prename descclassname">functions.comparisonFcn.</code><code class="sig-name descname">PDew_comparison</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">Case</span></em>, <em class="sig-param"><span class="n">expT</span></em>, <em class="sig-param"><span class="n">expP</span></em>, <em class="sig-param"><span class="n">expComposition</span></em>, <em class="sig-param"><span class="n">deviationType</span></em>, <em class="sig-param"><span class="n">Pini</span><span class="o">=</span><span class="default_value">1.0</span></em><span class="sig-paren">)</span><a class="headerlink" href="#functions.comparisonFcn.PDew_comparison" title="Permalink to this definition">¶</a></dt>
+<dd><p>deviation = PDew_comparison(expT,expP,expMoles,deviationType)
+Inputs:
+expT: Experimental temperature (K)
+expP: Experimental dew pressure (bar)
+expComposition: Experimental feed composition (mole)
+deviationType: Type of deviation. Must be a string. Either “AD” (absolute deviation) or “ARD” (absolute relative deviation)
+Absolute deviation = abs(model - exp_data)
+Absolute relative deviation = abs( (model - exp_data) / exp_data)</p>
+<p>Outputs:
+deviation: Deviation in either (%) (if deviationType == “ARD”) or (bar) (if deviationType == “AD”)</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="functions.comparisonFcn.TBubble_comparison">
+<code class="sig-prename descclassname">functions.comparisonFcn.</code><code class="sig-name descname">TBubble_comparison</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">Case</span></em>, <em class="sig-param"><span class="n">expT</span></em>, <em class="sig-param"><span class="n">expP</span></em>, <em class="sig-param"><span class="n">expComposition</span></em>, <em class="sig-param"><span class="n">deviationType</span></em>, <em class="sig-param"><span class="n">Tini</span><span class="o">=</span><span class="default_value">400</span></em><span class="sig-paren">)</span><a class="headerlink" href="#functions.comparisonFcn.TBubble_comparison" title="Permalink to this definition">¶</a></dt>
+<dd><p>deviation = PBubble_comparison(expT,expP,expMoles,deviationType)
+Inputs:
+expT: Experimental bubble temperature (K)
+expP: Experimental pressure (bar)
+expComposition: Experimental feed composition (mole)
+deviationType: Type of deviation. Must be a string. Either “AD” (absolute deviation) or “ARD” (absolute relative deviation)
+Absolute deviation = abs(model - exp_data)
+Absolute relative deviation = abs( (model - exp_data) / exp_data)</p>
+<p>Outputs:
+deviation: Deviation in either (%) (if deviationType == “ARD”) or (K) (if deviationType == “AD”)</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="functions.comparisonFcn.TDew_comparison">
+<code class="sig-prename descclassname">functions.comparisonFcn.</code><code class="sig-name descname">TDew_comparison</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">Case</span></em>, <em class="sig-param"><span class="n">expT</span></em>, <em class="sig-param"><span class="n">expP</span></em>, <em class="sig-param"><span class="n">expComposition</span></em>, <em class="sig-param"><span class="n">deviationType</span></em>, <em class="sig-param"><span class="n">Tini</span><span class="o">=</span><span class="default_value">400</span></em><span class="sig-paren">)</span><a class="headerlink" href="#functions.comparisonFcn.TDew_comparison" title="Permalink to this definition">¶</a></dt>
+<dd><p>deviation = TDew_comparison(expT,expP,expMoles,deviationType)
+Inputs:
+expT: Experimental dew temperature (K)
+expP: Experimental pressure (bar)
+expComposition: Experimental feed composition (mole)
+deviationType: Type of deviation. Must be a string. Either “AD” (absolute deviation) or “ARD” (absolute relative deviation)
+Absolute deviation = abs(model - exp_data)
+Absolute relative deviation = abs( (model - exp_data) / exp_data)</p>
+<p>Outputs:
+deviation: Deviation in either (%) (if deviationType == “ARD”) or (K) (if deviationType == “AD”)</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="functions.comparisonFcn.deviation_func">
+<code class="sig-prename descclassname">functions.comparisonFcn.</code><code class="sig-name descname">deviation_func</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">exp</span></em>, <em class="sig-param"><span class="n">model</span></em>, <em class="sig-param"><span class="n">deviationType</span></em>, <em class="sig-param"><span class="n">moleFrac</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="headerlink" href="#functions.comparisonFcn.deviation_func" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-functions">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-functions" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">PyTherm</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2021, Daniel Qvistgaard and Xiaodong Liang.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.1.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../_sources/rst/functions.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
