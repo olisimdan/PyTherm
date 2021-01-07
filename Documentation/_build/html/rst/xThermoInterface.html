@@ -38,52 +38,53 @@
 <dt id="xThermoInterface.CPA_Optimizer">
 <em class="property">class </em><code class="sig-prename descclassname">xThermoInterface.</code><code class="sig-name descname">CPA_Optimizer</code><a class="headerlink" href="#xThermoInterface.CPA_Optimizer" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Object responsible for running pure component parameterization for CPA model.</p>
 <dl class="py method">
 <dt id="xThermoInterface.CPA_Optimizer.AddExp">
 <code class="sig-name descname">AddExp</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">exp_data</span></em><span class="sig-paren">)</span><a class="headerlink" href="#xThermoInterface.CPA_Optimizer.AddExp" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="xThermoInterface.CPA_Optimizer.AddThermo">
-<code class="sig-name descname">AddThermo</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">Thermo</span></em><span class="sig-paren">)</span><a class="headerlink" href="#xThermoInterface.CPA_Optimizer.AddThermo" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="xThermoInterface.CPA_Optimizer.Calculation">
-<code class="sig-name descname">Calculation</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#xThermoInterface.CPA_Optimizer.Calculation" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="xThermoInterface.CPA_Optimizer.residual">
-<code class="sig-name descname">residual</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">variables</span></em><span class="sig-paren">)</span><a class="headerlink" href="#xThermoInterface.CPA_Optimizer.residual" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt id="xThermoInterface.CPA_UncertaintyAnalysis">
-<em class="property">class </em><code class="sig-prename descclassname">xThermoInterface.</code><code class="sig-name descname">CPA_UncertaintyAnalysis</code><a class="headerlink" href="#xThermoInterface.CPA_UncertaintyAnalysis" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>This is a test</p>
-<dl class="py method">
-<dt id="xThermoInterface.CPA_UncertaintyAnalysis.AddExp">
-<code class="sig-name descname">AddExp</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">exp_data</span></em><span class="sig-paren">)</span><a class="headerlink" href="#xThermoInterface.CPA_UncertaintyAnalysis.AddExp" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="xThermoInterface.CPA_UncertaintyAnalysis.AddThermo">
-<code class="sig-name descname">AddThermo</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">Thermo</span></em><span class="sig-paren">)</span><a class="headerlink" href="#xThermoInterface.CPA_UncertaintyAnalysis.AddThermo" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="field-list simple">
+<dd><p>Adds experimental data to the optimizer object.</p>
+<dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>Thermo</strong> – Variable of type xThermoInterface</p>
+<dd class="field-odd"><p><strong>exp_data</strong> – Class of type ExpDataModule</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py method">
-<dt id="xThermoInterface.CPA_UncertaintyAnalysis.Sensitivity_Analysis">
-<code class="sig-name descname">Sensitivity_Analysis</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#xThermoInterface.CPA_UncertaintyAnalysis.Sensitivity_Analysis" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dt id="xThermoInterface.CPA_Optimizer.AddThermo">
+<code class="sig-name descname">AddThermo</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">Thermo</span></em><span class="sig-paren">)</span><a class="headerlink" href="#xThermoInterface.CPA_Optimizer.AddThermo" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds a thermodynamic model to the optimizer object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>Thermo</strong> – Class of type xThermoInterface</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="xThermoInterface.CPA_Optimizer.Calculation">
+<code class="sig-name descname">Calculation</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#xThermoInterface.CPA_Optimizer.Calculation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Performs the actual parameterization, cannot be run until AddExp and AddThermo have been run.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>list[5] of doubles [b0, Gamma, c1, AsssocVol, AssocEng]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="xThermoInterface.CPA_Optimizer.Residual">
+<code class="sig-name descname">Residual</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">variables</span></em><span class="sig-paren">)</span><a class="headerlink" href="#xThermoInterface.CPA_Optimizer.Residual" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculates the residuals between model and experimental data</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>variables</strong> – list[5] of doubles [b0, Gamma, c1, AssocVol, AssocEng]</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>list of residuals</p>
+</dd>
+</dl>
+</dd></dl>
 
 </dd></dl>
 
@@ -154,7 +155,7 @@
 <dt id="xThermoInterface.xThermoInterface">
 <em class="property">class </em><code class="sig-prename descclassname">xThermoInterface.</code><code class="sig-name descname">xThermoInterface</code><a class="headerlink" href="#xThermoInterface.xThermoInterface" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>This is a test</p>
+<p>Thermodynamic calculations are contained in this class.</p>
 <dl class="py method">
 <dt id="xThermoInterface.xThermoInterface.AssocParams">
 <code class="sig-name descname">AssocParams</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">idx</span></em>, <em class="sig-param"><span class="n">AssocSch</span></em>, <em class="sig-param"><span class="n">AssocVol</span></em>, <em class="sig-param"><span class="n">AssocEng</span></em><span class="sig-paren">)</span><a class="headerlink" href="#xThermoInterface.xThermoInterface.AssocParams" title="Permalink to this definition">¶</a></dt>
@@ -179,7 +180,12 @@ c2, c3: coefficients in MC Alpha function alpha(T) = 1+c1*(1-sqrt(T/Tc))+c2*(1-s
 <dl class="py method">
 <dt id="xThermoInterface.xThermoInterface.ChooseAModel">
 <code class="sig-name descname">ChooseAModel</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">ieos</span></em><span class="sig-paren">)</span><a class="headerlink" href="#xThermoInterface.xThermoInterface.ChooseAModel" title="Permalink to this definition">¶</a></dt>
-<dd><p>1 - CPA
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>ieos</strong> – integer</p>
+</dd>
+</dl>
+<p>1 - CPA
 2 - SRK
 3 - PR
 4 - PC-SAFT  (400, org UC + simplified 2), 401 (org UC + simplified 1), 402 (org UC + org HC)</p>

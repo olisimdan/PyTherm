@@ -19,7 +19,7 @@ c_double_1dim_p = np.ctypeslib.ndpointer(ct.c_double)
 
 class xThermoInterface(object):
    """
-      This is a test
+      Thermodynamic calculations are contained in this class.
    """
    def __init__(self):
       self.dll = ct.CDLL(os.path.dirname(__file__) + "\\dll_files\\xThermo.dll")
@@ -106,6 +106,7 @@ class xThermoInterface(object):
 
    def ChooseAModel(self, ieos):
       """
+      :param ieos: integer
       1 - CPA
       2 - SRK
       3 - PR
@@ -1102,11 +1103,18 @@ class ExpDataModule(object):
 
 
 class CPA_Optimizer(object):
+   """
+      Object responsible for running pure component parameterization for CPA model.
+   """
    def __init__(self):
       self.Thermo = None
       self.exp_data = None
 
-   def AddThermo(self,Thermo): 
+   def AddThermo(self,Thermo):
+      """
+         Adds a thermodynamic model to the optimizer object.\n
+         :param Thermo: Class of type xThermoInterface
+      """ 
       if not isinstance(Thermo, xThermoInterface):
          raise SyntaxError("AddThermo() requires an xThermoInterface object as input")
       else:
@@ -1129,6 +1137,10 @@ class CPA_Optimizer(object):
          
 
    def AddExp(self,exp_data):
+      """
+         Adds experimental data to the optimizer object.\n
+         :param exp_data: Class of type ExpDataModule
+      """
       if not isinstance(exp_data, ExpDataModule):
          raise SyntaxError("AddExp() requires an ExpDataModule object as input")
       else:
@@ -1150,6 +1162,10 @@ class CPA_Optimizer(object):
 
 
    def Calculation(self):
+      """
+         Performs the actual parameterization, cannot be run until AddExp and AddThermo have been run.\n
+         :return: list[5] of doubles [b0, Gamma, c1, AsssocVol, AssocEng]
+      """
       if self.Thermo == None:
          raise SyntaxError("The optimizer has not been set up, use AddThermo to add an xThermoInterface object")
       if self.exp_data == None:
@@ -1160,12 +1176,14 @@ class CPA_Optimizer(object):
 
       variables = [b0, Gamma, c1, AssocVol, AssocEng]
 
-      print("Before:")
+      #print("Before:")
 
-      out = leastsq(self.residual, variables, args = ())
-      print("\nAfter:")
-      for output in out[0]:
-         print( "%.3f" % output)
+      out = leastsq(self.Residual, variables, args = ())
+      
+      
+      #print("\nAfter:")
+      #for output in out[0]:
+      #   print( "%.3f" % output)
       
       b0 = out[0][0]
       Gamma = out[0][1]
@@ -1177,12 +1195,13 @@ class CPA_Optimizer(object):
 
 
 
-   def residual(self,variables):
+   def Residual(self,variables):
+      """
+         Calculates the residuals between model and experimental data\n
+         :param variables: list[5] of doubles [b0, Gamma, c1, AssocVol, AssocEng]
+         :return: list of residuals
+      """
       exp_data = self.exp_data
-
-
-      
-
       #pars = params.valuesdict()
       #b0 = pars['b0']
       #Gamma = params['Gamma']
@@ -1232,19 +1251,14 @@ class CPA_Optimizer(object):
       #Thermo_Optimizer.Finishup_Thermo()
       return deviation
 
-
+"""
 class CPA_UncertaintyAnalysis:
-   """
       This is a test
-   """
    def __init__(self):
       self.Thermo = None
       self.exp_data = None
 
    def AddThermo(self,Thermo): 
-      """
-         :param Thermo: Variable of type xThermoInterface
-      """
       if not isinstance(Thermo, xThermoInterface):
          raise SyntaxError("AddThermo() requires an xThermoInterface object as input")
       else:
@@ -1285,7 +1299,7 @@ class CPA_UncertaintyAnalysis:
 
          self.exp_data = exp_data
 
-   def Sensitivity_Analysis(self):
+    def Sensitivity_Analysis(self):
       if self.Thermo == None:
          raise SyntaxError("The module has not been set up, use AddThermo to add an xThermoInterface object")
       if self.exp_data == None:
@@ -1310,9 +1324,10 @@ class CPA_UncertaintyAnalysis:
       psat_deviations = np.zeros((n_points,5))
       rho_deviations = np.zeros((n_points,5))
       for i in range(0, n_points):
-         
          deviation_psat = PBubble_comparison(Thermo_Uncertainty, expT_psat, expPsat, composition, deviationType)
          deviation_rho = LiqRho_comparison(Thermo_Uncertainty, expT_rho.tolist(), expRho.tolist(), composition, deviationType)
 
 
-      return matrix
+      return matrix 
+"""
+
