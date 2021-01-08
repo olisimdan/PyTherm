@@ -215,6 +215,28 @@
 </dd></dl>
 
 <dl class="py class">
+<dt id="xThermoInterface.CPA_UncertaintyAnalysis">
+<em class="property">class </em><code class="sig-prename descclassname">xThermoInterface.</code><code class="sig-name descname">CPA_UncertaintyAnalysis</code><a class="headerlink" href="#xThermoInterface.CPA_UncertaintyAnalysis" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Class dedicated to CPA uncertainty analysis</p>
+<dl class="py method">
+<dt id="xThermoInterface.CPA_UncertaintyAnalysis.AddExp">
+<code class="sig-name descname">AddExp</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">exp_data</span></em><span class="sig-paren">)</span><a class="headerlink" href="#xThermoInterface.CPA_UncertaintyAnalysis.AddExp" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="xThermoInterface.CPA_UncertaintyAnalysis.AddThermo">
+<code class="sig-name descname">AddThermo</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">Thermo</span></em><span class="sig-paren">)</span><a class="headerlink" href="#xThermoInterface.CPA_UncertaintyAnalysis.AddThermo" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="xThermoInterface.CPA_UncertaintyAnalysis.Sensitivity_Analysis">
+<code class="sig-name descname">Sensitivity_Analysis</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#xThermoInterface.CPA_UncertaintyAnalysis.Sensitivity_Analysis" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
 <dt id="xThermoInterface.ComparisonFuncs">
 <em class="property">class </em><code class="sig-prename descclassname">xThermoInterface.</code><code class="sig-name descname">ComparisonFuncs</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">Thermo</span></em>, <em class="sig-param"><span class="n">deviationType</span></em><span class="sig-paren">)</span><a class="headerlink" href="#xThermoInterface.ComparisonFuncs" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
@@ -1093,6 +1115,8 @@ crstyp: set type of cross-association</p>
 </tbody>
 </table>
 <p>ATTENTION: In the last cases, the association volume has to be scalled by m when setting up the assoication parameters.</p>
+<p>Usage:</p>
+<p>SpecCrossAssoc(idx, i, j, crstyp, crsbeta, crseps, crse_b=0, crse_c=0)</p>
 </dd></dl>
 
 <dl class="py method">

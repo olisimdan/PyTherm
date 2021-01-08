@@ -810,7 +810,6 @@ class xThermoInterface(object):
       R = 0.083145  # Gas constant, L * bar * K^-1 * mol^-1
       [P, LnK, ierr] = self.PBubble(T, Moles, Pini)
       [Z, ic] = self.FugacityCoeff(T, P, Moles, 1, 0)
-      
       rho = P / (Z * R * T)
       
       return rho
@@ -1426,9 +1425,12 @@ class CPA_Optimizer(object):
       #Thermo_Optimizer.Finishup_Thermo()
       return deviation
 
-"""
+
+
 class CPA_UncertaintyAnalysis:
-      This is a test
+   """
+      Class dedicated to CPA uncertainty analysis
+   """
    def __init__(self):
       self.Thermo = None
       self.exp_data = None
@@ -1474,37 +1476,82 @@ class CPA_UncertaintyAnalysis:
 
          self.exp_data = exp_data
 
-    def Sensitivity_Analysis(self):
+   def Sensitivity_Analysis(self):
       if self.Thermo == None:
          raise SyntaxError("The module has not been set up, use AddThermo to add an xThermoInterface object")
       if self.exp_data == None:
          raise SyntaxError("The module has not been set up, use AddExp to add an ExpDataModule object")
-
+      
+      n_points = 50
+      
+      Tc, Pc, om = self.Thermo.Get_CritProps(1)
       b0, Gamma, c1, c2, c3 = self.Thermo.Get_CPAParams(1)
       AssocSch, AssocVol, AssocEng = self.Thermo.Get_AssocParams(1)
       low = -0.05
       high = 0.05
-      deviationtype = "ARD"
-      n_points = 50
-      deltas = np.linspace(-0.05,0.05,n_points)
+      deviationType = "ARD"
+      deltas = np.linspace(low,high,n_points)
       variables = [b0, Gamma, c1, AssocVol, AssocEng]
+
       matrix = np.zeros((n_points,5))
+
+      composition = [1]
+
+      psat_deviation_matrix = np.zeros((n_points,5))
+      rho_deviation_matrix = np.zeros((n_points,5))
+
       matrix[:,0] = np.linspace((1+low) * b0,(1+high) * b0, n_points)
       matrix[:,1] = np.linspace((1+low) * Gamma,(1+high) * Gamma, n_points)
       matrix[:,2] = np.linspace((1+low) * c1,(1+high) * c1, n_points)
-      matrix[:,3] = np.linspace((1+low) * AssocVol,(1+high) * AssocEng, n_points)
+      matrix[:,3] = np.linspace((1+low) * AssocVol,(1+high) * AssocVol, n_points)
       matrix[:,4] = np.linspace((1+low) * AssocEng,(1+high) * AssocEng, n_points)
 
 
-      psat_deviations = np.zeros((n_points,5))
-      rho_deviations = np.zeros((n_points,5))
-      for i in range(0, n_points):
-         deviation_psat = PBubble_comparison(Thermo_Uncertainty, expT_psat, expPsat, composition, deviationType)
-         deviation_rho = LiqRho_comparison(Thermo_Uncertainty, expT_rho.tolist(), expRho.tolist(), composition, deviationType)
+      exp_data = self.exp_data
+      expT_psat = np.array([])
+      expT_rho = np.array([])
+      expPsat = np.array([])
+      expRho = np.array([])
 
 
-      return matrix 
-"""
+      for data_set in exp_data.data_sets:
+         if (data_set[1] == 'PSat'):
+            expT_psat = np.append(expT_psat,data_set[0][:,0])
+            expPsat = np.append(expPsat,data_set[0][:,1])
+         if (data_set[1] == 'rho'):
+            expT_rho = np.append(expT_rho,data_set[0][:,0])
+            expRho = np.append(expRho,data_set[0][:,1])
+
+
+      for i in range(0,n_points):
+         for j in range(0,5):
+            tm = np.zeros((n_points,5))
+            tm[:,:] = matrix[:,:] #tm = temporary matrix
+            for k in range(0,5):
+               if k != j:
+                  tm[:,k] = np.mean(matrix[:,k])
+
+
+            Thermo_Uncertainty = xThermoInterface()
+            Thermo_Uncertainty.ChooseAModel(1)
+            Thermo_Uncertainty.NoPureComp(1)
+            Thermo_Uncertainty.CritProps(1, Tc, Pc, om)
+            Thermo_Uncertainty.CPAParams(1, tm[i,0], tm[i,1], tm[i,2])
+            Thermo_Uncertainty.AssocParams(1, AssocSch, tm[i,3], tm[i,4])
+
+
+            Thermo_Uncertainty.Setup_Thermo()
+            
+            CompObject = ComparisonFuncs(Thermo_Uncertainty, deviationType)
+
+            psat_deviation_matrix[i,j] = np.mean( CompObject.PBubble_comparison(expT_psat, expPsat, composition) )
+            rho_deviation_matrix[i,j] = np.mean( CompObject.LiqRho_comparison(expT_rho, expRho, composition) )
+
+            Thermo_Uncertainty.Finishup_Thermo()
+
+
+      return (psat_deviation_matrix, rho_deviation_matrix, deltas)
+
 
 
 class ComparisonFuncs:
