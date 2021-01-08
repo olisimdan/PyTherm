@@ -1,7 +1,0 @@
-Opening Jupyter Notebook files may be done in several ways, but the simplest is to follow the following procedure (beginner friendly)
-1. Download and install Anaconda
-2. Open Anaconda
-3. Type "jupyter notebook" and hit enter
-4. Select browser of choice
-5. Using the interface popping up, find this folder
-6. Click any Jupyter files you wish to open.
