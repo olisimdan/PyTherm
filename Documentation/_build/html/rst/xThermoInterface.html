@@ -220,6 +220,14 @@
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>This class is dedicated to comparing a model with experimental data by calculating
 a residual/deviation between model and experimental data</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>Thermo</strong> – </p></li>
+<li><p><strong>deviationType</strong> – </p></li>
+</ul>
+</dd>
+</dl>
 <dl class="py method">
 <dt id="xThermoInterface.ComparisonFuncs.BinaryVLE_Comparison">
 <code class="sig-name descname">BinaryVLE_Comparison</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">expT</span></em>, <em class="sig-param"><span class="n">expP</span></em>, <em class="sig-param"><span class="n">expX</span></em>, <em class="sig-param"><span class="n">expY</span></em>, <em class="sig-param"><span class="n">expComposition</span><span class="o">=</span><span class="default_value">1</span></em><span class="sig-paren">)</span><a class="headerlink" href="#xThermoInterface.ComparisonFuncs.BinaryVLE_Comparison" title="Permalink to this definition">¶</a></dt>
@@ -402,13 +410,21 @@ a residual/deviation between model and experimental data</p>
 <dl class="py method">
 <dt id="xThermoInterface.xThermoInterface.AssocParams">
 <code class="sig-name descname">AssocParams</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">idx</span></em>, <em class="sig-param"><span class="n">AssocSch</span></em>, <em class="sig-param"><span class="n">AssocVol</span></em>, <em class="sig-param"><span class="n">AssocEng</span></em><span class="sig-paren">)</span><a class="headerlink" href="#xThermoInterface.xThermoInterface.AssocParams" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="simple">
-<dt>AssocSch: association scheme, (maximum) three integers:</dt><dd><p>1st is no of glue sites, 2nd is no of positive sites, 3rd is no of negative sites
-e.g. 022 = 4C, 011 = 2B, 100 = 1A, 001 = solvation with one negative site</p>
+<dd><p>Sets the specified association parameters</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>idx</strong> – integer - Index of component in component list</p></li>
+<li><p><strong>AssocSch</strong> – integer - Association scheme (maximum) three integers</p></li>
+<li><p><strong>AssocVol</strong> – double - Reduced self-association energy (K)</p></li>
+<li><p><strong>AssocEng</strong> – double - Self-association volume (1000*beta for CPA)</p></li>
+</ul>
 </dd>
 </dl>
-<p>AssocEng: reduced self-association energy (K)
-AssocVol: self-association volume (-), for CPA, AssocVol = 1000*beta</p>
+<p>AssocSch: 1st integer is no. of glue sites, 2nd integer is no of positive sites, 3rd integer is no of negative sites e.g. 022 = 4C, 011 = 2B, 100 = 1A, 001 = solvation with one negative site</p>
+<p>For more information on association schemes, see the “Association Schemes” in table of contents.</p>
+<p>Usage:</p>
+<p>AssocParams(self, idx)</p>
 </dd></dl>
 
 <dl class="py method">
@@ -503,23 +519,56 @@ DPDT: T/P*DPDT</p>
 <dl class="py method">
 <dt id="xThermoInterface.xThermoInterface.FugacityCoeff">
 <code class="sig-name descname">FugacityCoeff</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">T</span></em>, <em class="sig-param"><span class="n">P</span></em>, <em class="sig-param"><span class="n">Moles</span></em>, <em class="sig-param"><span class="n">iph</span><span class="o">=</span><span class="default_value">0</span></em>, <em class="sig-param"><span class="n">job</span><span class="o">=</span><span class="default_value">0</span></em><span class="sig-paren">)</span><a class="headerlink" href="#xThermoInterface.xThermoInterface.FugacityCoeff" title="Permalink to this definition">¶</a></dt>
-<dd><p>T: temperature (K)
-P: pressure (bar)
-iph: properties of which phase is required
-job: which level of properties are needed</p>
-<blockquote>
-<div><p>0: only compressibility factor
-1: 0 + log(fugacity coefficient)
-2: 1 + nT * d_ln(Phi) / d_ni
-3: 2 + d_ln(Phi) / d_ln(P)
-4: 3 + d_ln(Phi) / d_ln(T)
-the return phase type is always given at the end</p>
-</div></blockquote>
+<dd><p>Calculates the fugacity coeffiecient and related properties.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>T</strong> – double - Temperature (K)</p></li>
+<li><p><strong>P</strong> – double - Pressure (bar)</p></li>
+<li><p><strong>Moles</strong> – list of double -</p></li>
+<li><p><strong>iph</strong> – integer - Properties of which phase is required</p></li>
+<li><p><strong>job</strong> – integer - Which level of properties are needed</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return ZFact</dt>
+<dd class="field-even"><p>double - Compressibility factor</p>
+</dd>
+<dt class="field-odd">Return lnPhi</dt>
+<dd class="field-odd"><p>double - Returned if job &gt;= 1</p>
+</dd>
+<dt class="field-even">Return ntdlnPhidn</dt>
+<dd class="field-even"><p>double - Returned if job &gt;= 2</p>
+</dd>
+<dt class="field-odd">Return dlnPhidlPP</dt>
+<dd class="field-odd"><p>double - Returned if job &gt;= 3</p>
+</dd>
+<dt class="field-even">Return dlnPhidlTT</dt>
+<dd class="field-even"><p>double - Returned if job == 4</p>
+</dd>
+<dt class="field-odd">Return ic</dt>
+<dd class="field-odd"><p>integer</p>
+</dd>
+</dl>
+<p>Information regarding job:</p>
+<ul class="simple">
+<li><p>0: only compressibility factor</p></li>
+<li><p>1: 0 + log(fugacity coefficient)</p></li>
+<li><p>2: 1 + nT * d_ln(Phi) / d_ni</p></li>
+<li><p>3: 2 + d_ln(Phi) / d_ln(P)</p></li>
+<li><p>4: 3 + d_ln(Phi) / d_ln(T)</p></li>
+</ul>
+<p>The return phase type is always given at the end</p>
+<p>Usage:</p>
+<p>(ZFact, ic) = FugacityCoeff(self, T, P, Moles, iph=0, job=0) If job = 0</p>
+<p>(ZFact, lnPhi, ic) = FugacityCoeff(self, T, P, Moles, iph=0, job=0) -  If job = 1</p>
+<p>(ZFact, lnPhi, lnPhi, ic) = FugacityCoeff(self, T, P, Moles, iph=0, job=0) -  If job = 2</p>
+<p>(ZFact, lnPhi, lnPhi, dlnPhidlPP, ic) = FugacityCoeff(self, T, P, Moles, iph=0, job=0) -  If job = 3</p>
+<p>(ZFact, lnPhi, lnPhi, dlnPhidlPP, dlnPhidlPP, ic) = FugacityCoeff(self, T, P, Moles, iph=0, job=0) -  If job = 4</p>
 </dd></dl>
 
 <dl class="py method">
 <dt id="xThermoInterface.xThermoInterface.Get_AssocParams">
-<code class="sig-name descname">Get_AssocParams</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">AssocSch</span></em>, <em class="sig-param"><span class="n">AssocVol</span></em>, <em class="sig-param"><span class="n">AssocEng</span></em><span class="sig-paren">)</span><a class="headerlink" href="#xThermoInterface.xThermoInterface.Get_AssocParams" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">Get_AssocParams</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">idx</span></em><span class="sig-paren">)</span><a class="headerlink" href="#xThermoInterface.xThermoInterface.Get_AssocParams" title="Permalink to this definition">¶</a></dt>
 <dd><p>Gets the specified association parameters</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -661,23 +710,28 @@ the return phase type is always given at the end</p>
 <dl class="py method">
 <dt id="xThermoInterface.xThermoInterface.HBondInfo">
 <code class="sig-name descname">HBondInfo</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">idx</span></em>, <em class="sig-param"><span class="n">htype</span><span class="o">=</span><span class="default_value">- 1</span></em>, <em class="sig-param"><span class="n">CoordNo</span><span class="o">=</span><span class="default_value">- 1</span></em>, <em class="sig-param"><span class="n">muOH</span><span class="o">=</span><span class="default_value">- 1</span></em>, <em class="sig-param"><span class="n">phi</span><span class="o">=</span><span class="default_value">- 1</span></em>, <em class="sig-param"><span class="n">theta</span><span class="o">=</span><span class="default_value">- 1</span></em>, <em class="sig-param"><span class="n">gamma</span><span class="o">=</span><span class="default_value">- 1</span></em><span class="sig-paren">)</span><a class="headerlink" href="#xThermoInterface.xThermoInterface.HBondInfo" title="Permalink to this definition">¶</a></dt>
-<dd><dl>
-<dt>htype: hydrogen bond network</dt><dd><blockquote>
-<div><p>0: tetrahedral
-1: planar
-2: linear
-3: no shell
-4: cancel mu0 of associated compounds</p>
-</div></blockquote>
-<p>-1: calculate from association</p>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>idx</strong> – integer - Index of component in component list</p></li>
+<li><p><strong>htype</strong> – integer - Hydrogen bond network</p></li>
+<li><p><strong>CoordNo</strong> – integer - Coordination no.</p></li>
+<li><p><strong>muOH</strong> – double - Dipole moment in direction of H-bond (Debye)</p></li>
+<li><p><strong>phi</strong> – double - Internal H-O-R angle (radian)</p></li>
+<li><p><strong>theta</strong> – double - Rotation angle between shells (radian)</p></li>
+<li><p><strong>gamma</strong> – double - Average angle between dipole moment and H-bond (radian)</p></li>
+</ul>
 </dd>
 </dl>
-<p>Z: coordination no.
-muOH: Dipole moment in direction of H-bond [Debye]
-phi: internal H-O-R angle (radian)
-theta: rotation angle between shells (radian)
-gamma: average angle between dipole moment and H-bond (radian)
-if the value is negative, it will be calculated inside.</p>
+<p>Information regarding bond network (htype):</p>
+<ul class="simple">
+<li><p>0: tetrahedral</p></li>
+<li><p>1: planar</p></li>
+<li><p>2: linear</p></li>
+<li><p>3: no shell</p></li>
+<li><p>4: cancel mu0 of associated compounds</p></li>
+<li><p>-1: calculate from association</p></li>
+</ul>
 </dd></dl>
 
 <dl class="py method">
@@ -816,52 +870,78 @@ ierr: successful or not (ierr=0 means successful)</p>
 <dl class="py method">
 <dt id="xThermoInterface.xThermoInterface.PXYdiagram">
 <code class="sig-name descname">PXYdiagram</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">T</span><span class="o">=</span><span class="default_value">298.15</span></em>, <em class="sig-param"><span class="n">npoint_max</span><span class="o">=</span><span class="default_value">100</span></em>, <em class="sig-param"><span class="n">step_max</span><span class="o">=</span><span class="default_value">0.5</span></em><span class="sig-paren">)</span><a class="headerlink" href="#xThermoInterface.xThermoInterface.PXYdiagram" title="Permalink to this definition">¶</a></dt>
-<dd><p>inputs:
-T: temperature (K, by default P=1bar)
-step_max: max step of tracing from one point to the next, if lines are unsmooth enough, it can be decreased (by default smax=0.5)
-npoint_max: max number of point allowed for each line (by default 100)</p>
-<p>outputs:
-First vapor-liquid curve:</p>
-<blockquote>
-<div><p>np_vl1: number of points
-vl1Txy consist of three columns</p>
-<blockquote>
-<div><p>vl1x: Composition points
-vl1w: Composition points
-vl1p: pressure [bar]</p>
-</div></blockquote>
-</div></blockquote>
-<dl>
-<dt>Liquid-liquid curve (if exists):</dt><dd><p>np_ll: number of points
-llTxy consist of three columns</p>
-<blockquote>
-<div><p>llx: Composition points
-llw: Composition points
-llp: pressure [bar]</p>
-</div></blockquote>
-</dd>
-<dt>Second vapor-liquid curve (if exists):</dt><dd><p>np_vl2: number of points
-vl2Txy consist of three columns</p>
-<blockquote>
-<div><p>vl2x: Composition points
-vl2w: Composition points
-vl2p: pressure [bar]</p>
-</div></blockquote>
-</dd>
-<dt>Critical point (if exists):</dt><dd><dl class="simple">
-<dt>critpoint consists of</dt><dd><p>x3: Critical point composition (first)
-w3: Critical point composition (second)
-p3: Critical point pressure [bar]</p>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>T</strong> – double - Temperature (K)</p></li>
+<li><p><strong>npoint_max</strong> – integer - max number of point allowed for each line (by default 100)</p></li>
+<li><p><strong>step_max</strong> – double - Max step of tracing from one point to the next, if lines are unsmooth enough, it can be decreased (by default smax=0.5)</p></li>
+</ul>
 </dd>
 </dl>
+<p><strong>First vapor-liquid curve</strong></p>
+<dl class="field-list simple">
+<dt class="field-odd">Return np_vl1</dt>
+<dd class="field-odd"><p>integer - Number of points in first vapor-liquid curve</p>
 </dd>
-<dt>nscrit: No. of subcritical components</dt><dd><p>0: Both supercritical
-1: Component 1 subcritical
-2: Component 1 subcritical
-3: Both subcritical</p>
+<dt class="field-even">Return vl1Txy</dt>
+<dd class="field-even"><p>list - Consist of three columns: vl1x, vl1w, vl1p</p>
 </dd>
 </dl>
-<p>ierr: successful or not (ierr=0 means successful)</p>
+<ul class="simple">
+<li><p>vl1x: Composition points</p></li>
+<li><p>vl1w: Composition points</p></li>
+<li><p>vl1p: Pressure (bar)</p></li>
+</ul>
+<p><strong>Liquid-liquid curve</strong></p>
+<dl class="field-list simple">
+<dt class="field-odd">Return np_ll</dt>
+<dd class="field-odd"><p>integer - Number of points in liquid-liquid curve</p>
+</dd>
+<dt class="field-even">Return llTxy</dt>
+<dd class="field-even"><p>list - Consist of three columns: llx, llw, llp</p>
+</dd>
+</dl>
+<ul class="simple">
+<li><p>llx: Composition points</p></li>
+<li><p>llw: Composition points</p></li>
+<li><p>llp: Pressure (bar)</p></li>
+</ul>
+<p><strong>Second vapor-liquid curve</strong></p>
+<dl class="field-list simple">
+<dt class="field-odd">Return np_vl2</dt>
+<dd class="field-odd"><p>integer - Number of points in second vapor-liquid curve</p>
+</dd>
+<dt class="field-even">Return vl2Txy</dt>
+<dd class="field-even"><p>list - Consist of three columns: vl2x, vl2w, vl2p</p>
+</dd>
+</dl>
+<ul class="simple">
+<li><p>vl1x: Composition points</p></li>
+<li><p>vl1w: Composition points</p></li>
+<li><p>vl1p: Pressure (bar)</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Return critpoint</dt>
+<dd class="field-odd"><p>list - Consist of x3 (Critical point composition (first)), w3 (Critical point composition (second)) and p3 (Critical point pressure (bar))</p>
+</dd>
+<dt class="field-even">Return nscrit</dt>
+<dd class="field-even"><p>integer - No. of subcritical comopnents</p>
+</dd>
+</dl>
+<ul class="simple">
+<li><p>0: both supercritical</p></li>
+<li><p>1: Component 1 subcritical</p></li>
+<li><p>2: Component 2 subcritical</p></li>
+<li><p>3: Both subcritical</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Return ierr</dt>
+<dd class="field-odd"><p>integer - Successful or not (ierr=0 means successful)</p>
+</dd>
+</dl>
+<p>Usage:</p>
+<p>(np_vl1, vl1Pxy, np_ll, llPxy, np_vl2, vl2Pxy, critpoint, nscrit.value, ierr) = PXYdiagram(T=298.15, npoint_max=100, step_max=0.5)</p>
 </dd></dl>
 
 <dl class="py method">
@@ -887,7 +967,7 @@ ierr: successful or not (ierr=0 means successful)</p>
 
 <dl class="py method">
 <dt id="xThermoInterface.xThermoInterface.PolarProps">
-<code class="sig-name descname">PolarProps</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">mu</span></em>, <em class="sig-param"><span class="n">a0</span></em><span class="sig-paren">)</span><a class="headerlink" href="#xThermoInterface.xThermoInterface.PolarProps" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">PolarProps</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">idx</span></em>, <em class="sig-param"><span class="n">mu</span></em>, <em class="sig-param"><span class="n">a0</span></em><span class="sig-paren">)</span><a class="headerlink" href="#xThermoInterface.xThermoInterface.PolarProps" title="Permalink to this definition">¶</a></dt>
 <dd><p>mu: dipole moment (Debye)
 a0: molecular polarizability (10^40*C^2*m^2/J)</p>
 </dd></dl>
@@ -926,58 +1006,121 @@ SPECAPPCOMPSTOICH(3,[2 4],[1 1]);</p>
 <dl class="py method">
 <dt id="xThermoInterface.xThermoInterface.SpecCrossAssoc">
 <code class="sig-name descname">SpecCrossAssoc</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">idx</span></em>, <em class="sig-param"><span class="n">i</span></em>, <em class="sig-param"><span class="n">j</span></em>, <em class="sig-param"><span class="n">crstyp</span></em>, <em class="sig-param"><span class="n">crsbeta</span></em>, <em class="sig-param"><span class="n">crseps</span></em>, <em class="sig-param"><span class="n">crse_b</span><span class="o">=</span><span class="default_value">0</span></em>, <em class="sig-param"><span class="n">crse_c</span><span class="o">=</span><span class="default_value">0</span></em><span class="sig-paren">)</span><a class="headerlink" href="#xThermoInterface.xThermoInterface.SpecCrossAssoc" title="Permalink to this definition">¶</a></dt>
-<dd><blockquote>
-<div><p>i, j: indices in component list
+<dd><p>Sets the cross association between component i and component j</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>idx</strong> – integer - Index of specified cross association</p></li>
+<li><p><strong>i</strong> – integer - Index of component i in component list</p></li>
+<li><p><strong>j</strong> – integer - Index of component j in component list</p></li>
+<li><p><strong>crstyp</strong> – double - Type of cross-association</p></li>
+<li><p><strong>crsbeta</strong> – double - Cross-association volume (<a href="#id1"><span class="problematic" id="id2">*</span></a>1000 for CPA)</p></li>
+<li><p><strong>crseps</strong> – double - Reduced cross-association energy (K)</p></li>
+<li><p><strong>crse_b</strong> – double - Parameter b</p></li>
+<li><p><strong>crse_c</strong> – double - Parameter c</p></li>
+</ul>
+</dd>
+</dl>
+<p><strong>Information about crstyp (type of cross-association)</strong></p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 28%" />
+<col style="width: 46%" />
+<col style="width: 26%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>crstyp</p></th>
+<th class="head"><p>crs_vol</p></th>
+<th class="head"><p>crs_eng</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>0 default, (near Elliott)</p></td>
+<td><p>crs_vol=sqrt((av_1*av_2)*(b0_1*b0_2))</p></td>
+<td><p>crs_eng=0.5*(ae_1+ae_2)</p></td>
+</tr>
+<tr class="row-odd"><td><p>1 CR-1,</p></td>
+<td><p>crs_vol=sqrt(av_1*av_2)*0.5*(b0_1+b0_2)</p></td>
+<td><p>crs_eng=0.5*(ae_1+ae_2)</p></td>
+</tr>
+<tr class="row-even"><td><p>2 modified CR-1,</p></td>
+<td><p>crs_vol=beta*0.5*(b0_1+b0_2)</p></td>
+<td><p>crs_eng=0.5*(ae_1+ae_2)</p></td>
+</tr>
+<tr class="row-odd"><td><p>3 modified Elliott</p></td>
+<td><p>crs_vol=beta*sqrt((av_1*av_2)*(b0_1*b0_2))</p></td>
+<td><p>crs_eng=0.5*(ae_1+ae_2)</p></td>
+</tr>
+<tr class="row-even"><td><p>4 custom CR-1</p></td>
+<td><p>crs_vol=beta*0.5*(b0_1+b0_2)</p></td>
+<td><p>crs_eng=epsR</p></td>
+</tr>
+</tbody>
+</table>
+<p>crs_eng = crs_eng + b*T + c/T</p>
+<p>For PC-SAFT, the following inputs are also possible
 crstyp: set type of cross-association</p>
-<blockquote>
-<div><p>0: default, (near Elliott)   crs_vol=sqrt((av_1*av_2)*(b0_1*b0_2));       crs_eng=0.5*(ae_1+ae_2)
-1: CR-1,                     crs_vol=sqrt(av_1*av_2)*0.5*(b0_1+b0_2);     crs_eng=0.5*(ae_1+ae_2)
-2: modified CR-1,            crs_vol=beta*0.5*(b0_1+b0_2);                crs_eng=0.5*(ae_1+ae_2)
-3: modified Elliott          crs_vol=beta*sqrt((av_1*av_2)*(b0_1*b0_2));  crs_eng=0.5*(ae_1+ae_2)
-4: custom CR-1               crs_vol=beta*0.5*(b0_1+b0_2);                crs_eng=epsR</p>
-</div></blockquote>
-<p>beta: cross-assocation volume (<a href="#id1"><span class="problematic" id="id2">*</span></a>1000 for CPA)
-epsR: reduced cross-assocation energy (K)
-crs_eng = crs_eng + b*T + c/T</p>
-</div></blockquote>
-<dl>
-<dt>“);</dt><dd><dl>
-<dt>for PC-SAFT, the following inputs are also possible</dt><dd><dl class="simple">
-<dt>crstyp: set type of cross-association</dt><dd><p>11/21: CR-1
-12/22: modified CR-1 (req. specification of beta)
-14/24: custom CR-1 (specification of both beta &amp; eps)</p>
-</dd>
-</dl>
-<p>In the case of (crstyp=1, 2 and 4), it is the Segment-Volume combining rule:
-sigma_ij^3 = 0.5*(sigma_i^3 + sigma_j^3)
-In the case of (crstyp=11, 12 and 14), it is the traditional SAFT-Sigma combining rule:
-sigma_ij^3 = (0.5*(sigma_i+sigma_j))^3
-In the case of (crstyp=21, 22 and 24), it is the Molecule-Volume combining rule:
-(m*sigma)_ij^3 = 0.5*((m*sigma_i)^3 + (m*sigma_j)^3)
-ATTENTION: In the last cases, the association volume has to be scalled by m when setting up the assoication parameters.</p>
-</dd>
-</dl>
-</dd>
-</dl>
+<ul class="simple">
+<li><p>11/21: CR-1</p></li>
+<li><p>12/22: modified CR-1 (req. specification of beta)</p></li>
+<li><p>14/24: custom CR-1 (specification of both beta &amp; eps)</p></li>
+</ul>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 13%" />
+<col style="width: 37%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>crstyp</p></th>
+<th class="head"><p>Combining Rule</p></th>
+<th class="head"><p>Equation</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>1, 2 and 4</p></td>
+<td><p>Segment-Volume</p></td>
+<td><p>sigma_ij^3 = 0.5*(sigma_i^3 + sigma_j^3)</p></td>
+</tr>
+<tr class="row-odd"><td><p>11, 12 and 4</p></td>
+<td><p>Traditional SAFT-Sigma</p></td>
+<td><p>sigma_ij^3 = (0.5*(sigma_i+sigma_j))^3</p></td>
+</tr>
+<tr class="row-even"><td><p>21, 22 and 24</p></td>
+<td><p>Molecule-Volume</p></td>
+<td><p>(m*sigma)_ij^3 = 0.5*((m*sigma_i)^3 + (m*sigma_j)^3)</p></td>
+</tr>
+</tbody>
+</table>
+<p>ATTENTION: In the last cases, the association volume has to be scalled by m when setting up the assoication parameters.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt id="xThermoInterface.xThermoInterface.SpecCrossHBond">
 <code class="sig-name descname">SpecCrossHBond</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">idx</span></em>, <em class="sig-param"><span class="n">i</span></em>, <em class="sig-param"><span class="n">j</span></em>, <em class="sig-param"><span class="n">htij</span></em>, <em class="sig-param"><span class="n">htji</span></em>, <em class="sig-param"><span class="n">zij</span></em>, <em class="sig-param"><span class="n">zji</span></em>, <em class="sig-param"><span class="n">theta</span></em>, <em class="sig-param"><span class="n">gamma</span></em><span class="sig-paren">)</span><a class="headerlink" href="#xThermoInterface.xThermoInterface.SpecCrossHBond" title="Permalink to this definition">¶</a></dt>
-<dd><p>i, j: indices in component list
-htij: hydrogen-bond type of i to j
-htji: hydrogen-bond type of j to i</p>
-<blockquote>
-<div><p>0: TETRAHEDRAL     % A tetrahedral H - bond network(e.g.water)
-1: PLANAR          % A planer H - bond network(e.g.alcohols)
-2: LINEAR          % A linear H - bond network
-3: NOSHELL         % A network with only the inner shell(no 2nd, 3rd, etc.)
-4: CANCEL          % As NOSHELL, but also includes cancellation of the dipole moment(e.g.around ions)</p>
-</div></blockquote>
-<p>zij: Coordination no. of i around j
-zji: Coordination no. of j around i
-theta: Rotation angle in hydrogen bond (radian)
-gamma: Projection angle of dipole moment in H-bond direction (radian)</p>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>idx</strong> – integer - Index of specifiec cross HBond</p></li>
+<li><p><strong>i</strong> – integer - Index of component i in component list</p></li>
+<li><p><strong>j</strong> – integer - Index of component j in component list</p></li>
+<li><p><strong>htij</strong> – integer - Hydrogen-bond type of i to j</p></li>
+<li><p><strong>htji</strong> – integer - Hydrogen-bond type of j to i</p></li>
+<li><p><strong>zij</strong> – integer - Coordination no. of i around j</p></li>
+<li><p><strong>zji</strong> – integer - Coordination no. of j around i</p></li>
+<li><p><strong>theta</strong> – double - Rotation angle inhydrogen bond (radian)</p></li>
+<li><p><strong>gamma</strong> – double - Projection of angle of dipole moment in H-bond direction (radian)</p></li>
+</ul>
+</dd>
+</dl>
+<p><strong>Information about hydrogen-bond type</strong></p>
+<ul class="simple">
+<li><p>0: TETRAHEDRAL - A tetrahedral H - bond network(e.g.water)</p></li>
+<li><p>1: PLANAR - A planer H - bond network(e.g.alcohols)</p></li>
+<li><p>2: LINEAR - A linear H - bond network</p></li>
+<li><p>3: NOSHELL - A network with only the inner shell(no 2nd, 3rd, etc.)</p></li>
+<li><p>4: CANCEL - As NOSHELL, but also includes cancellation of the dipole moment(e.g.around ions)</p></li>
+</ul>
 </dd></dl>
 
 <dl class="py method">
@@ -1093,52 +1236,78 @@ nsq: squared refractive index (n^2)</p>
 <dl class="py method">
 <dt id="xThermoInterface.xThermoInterface.TXYdiagram">
 <code class="sig-name descname">TXYdiagram</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">P</span><span class="o">=</span><span class="default_value">1.0</span></em>, <em class="sig-param"><span class="n">npoint_max</span><span class="o">=</span><span class="default_value">100</span></em>, <em class="sig-param"><span class="n">step_max</span><span class="o">=</span><span class="default_value">0.5</span></em><span class="sig-paren">)</span><a class="headerlink" href="#xThermoInterface.xThermoInterface.TXYdiagram" title="Permalink to this definition">¶</a></dt>
-<dd><p>inputs:
-P: pressure (bar, by default P=1bar)
-step_max: max step of tracing from one point to the next, if lines are unsmooth enough, it can be decreased (by default smax=0.5)
-npoint_max: max number of point allowed for each line (by default 100)</p>
-<p>outputs:
-First vapor-liquid curve:</p>
-<blockquote>
-<div><p>np_vl1: number of points
-vl1Txy consist of three columns</p>
-<blockquote>
-<div><p>vl1x: Composition points
-vl1w: Composition points
-vl1t: Temperature [K]</p>
-</div></blockquote>
-</div></blockquote>
-<dl>
-<dt>Liquid-liquid curve (if exists):</dt><dd><p>np_ll: number of points
-llTxy consist of three columns</p>
-<blockquote>
-<div><p>llx: Composition points
-llw: Composition points
-llt: Temperature [K]</p>
-</div></blockquote>
-</dd>
-<dt>Second vapor-liquid curve (if exists):</dt><dd><p>np_vl2: number of points
-vl2Txy consist of three columns</p>
-<blockquote>
-<div><p>vl2x: Composition points
-vl2w: Composition points
-vl2t: Temperature [K]</p>
-</div></blockquote>
-</dd>
-<dt>Critical point (if exists):</dt><dd><dl class="simple">
-<dt>critpoint consists of</dt><dd><p>x3: Critical point composition (first)
-w3: Critical point composition (second)
-t3: Critical point temperature [K]</p>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>T</strong> – double - Pressure (bar, by default P=1bar)</p></li>
+<li><p><strong>npoint_max</strong> – integer - max number of point allowed for each line (by default 100)</p></li>
+<li><p><strong>step_max</strong> – double - Max step of tracing from one point to the next, if lines are unsmooth enough, it can be decreased (by default smax=0.5)</p></li>
+</ul>
 </dd>
 </dl>
+<p><strong>First vapor-liquid curve</strong></p>
+<dl class="field-list simple">
+<dt class="field-odd">Return np_vl1</dt>
+<dd class="field-odd"><p>integer - Number of points in first vapor-liquid curve</p>
 </dd>
-<dt>nscrit: No. of subcritical components</dt><dd><p>0: Both supercritical
-1: Component 1 subcritical
-2: Component 1 subcritical
-3: Both subcritical</p>
+<dt class="field-even">Return vl1Txy</dt>
+<dd class="field-even"><p>list - Consist of three columns: vl1x, vl1w, vl1p</p>
 </dd>
 </dl>
-<p>ierr: successful or not (ierr=0 means successful)</p>
+<ul class="simple">
+<li><p>vl1x: Composition points</p></li>
+<li><p>vl1w: Composition points</p></li>
+<li><p>vl1p: Pressure (bar)</p></li>
+</ul>
+<p><strong>Liquid-liquid curve</strong></p>
+<dl class="field-list simple">
+<dt class="field-odd">Return np_ll</dt>
+<dd class="field-odd"><p>integer - Number of points in liquid-liquid curve</p>
+</dd>
+<dt class="field-even">Return llTxy</dt>
+<dd class="field-even"><p>list - Consist of three columns: llx, llw, llp</p>
+</dd>
+</dl>
+<ul class="simple">
+<li><p>llx: Composition points</p></li>
+<li><p>llw: Composition points</p></li>
+<li><p>llp: Pressure (bar)</p></li>
+</ul>
+<p><strong>Second vapor-liquid curve</strong></p>
+<dl class="field-list simple">
+<dt class="field-odd">Return np_vl2</dt>
+<dd class="field-odd"><p>integer - Number of points in second vapor-liquid curve</p>
+</dd>
+<dt class="field-even">Return vl2Txy</dt>
+<dd class="field-even"><p>list - Consist of three columns: vl2x, vl2w, vl2p</p>
+</dd>
+</dl>
+<ul class="simple">
+<li><p>vl1x: Composition points</p></li>
+<li><p>vl1w: Composition points</p></li>
+<li><p>vl1p: Pressure (bar)</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Return critpoint</dt>
+<dd class="field-odd"><p>list - Consist of x3 (Critical point composition (first)), w3 (Critical point composition (second)) and p3 (Critical point pressure (bar))</p>
+</dd>
+<dt class="field-even">Return nscrit</dt>
+<dd class="field-even"><p>integer - No. of subcritical comopnents</p>
+</dd>
+</dl>
+<ul class="simple">
+<li><p>0: both supercritical</p></li>
+<li><p>1: Component 1 subcritical</p></li>
+<li><p>2: Component 2 subcritical</p></li>
+<li><p>3: Both subcritical</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Return ierr</dt>
+<dd class="field-odd"><p>integer - Successful or not (ierr=0 means successful)</p>
+</dd>
+</dl>
+<p>Usage:</p>
+<p>(np_vl1, vl1Pxy, np_ll, llPxy, np_vl2, vl2Pxy, critpoint, nscrit.value, ierr) = TXYdiagram(T=298.15, npoint_max=100, step_max=0.5)</p>
 </dd></dl>
 
 <dl class="py method">

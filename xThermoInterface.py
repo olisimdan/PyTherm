@@ -265,13 +265,6 @@ class xThermoInterface(object):
 
    def AssocParams(self, idx, AssocSch, AssocVol, AssocEng):
       """
-      AssocSch: association scheme, (maximum) three integers:
-               1st is no of glue sites, 2nd is no of positive sites, 3rd is no of negative sites
-               e.g. 022 = 4C, 011 = 2B, 100 = 1A, 001 = solvation with one negative site
-      AssocEng: reduced self-association energy (K)
-      AssocVol: self-association volume (-), for CPA, AssocVol = 1000*beta
-      """
-      """
          Sets the specified association parameters\n
          :param idx: integer - Index of component in component list
          :param AssocSch: integer - Association scheme (maximum) three integers
@@ -329,19 +322,23 @@ class xThermoInterface(object):
 
    def HBondInfo(self, idx, htype=-1, CoordNo=-1, muOH=-1, phi=-1, theta=-1, gamma=-1):
       """
-      htype: hydrogen bond network
-          0: tetrahedral
-          1: planar
-          2: linear
-          3: no shell
-          4: cancel mu0 of associated compounds
-         -1: calculate from association
-      Z: coordination no.
-      muOH: Dipole moment in direction of H-bond [Debye]
-      phi: internal H-O-R angle (radian)
-      theta: rotation angle between shells (radian)
-      gamma: average angle between dipole moment and H-bond (radian)
-      if the value is negative, it will be calculated inside.
+      :param idx: integer - Index of component in component list
+      :param htype: integer - Hydrogen bond network
+      :param CoordNo: integer - Coordination no.
+      :param muOH: double - Dipole moment in direction of H-bond (Debye)
+      :param phi: double - Internal H-O-R angle (radian)
+      :param theta: double - Rotation angle between shells (radian)
+      :param gamma: double - Average angle between dipole moment and H-bond (radian)
+
+      Information regarding bond network (htype):
+
+      - 0: tetrahedral
+      - 1: planar
+      - 2: linear
+      - 3: no shell
+      - 4: cancel mu0 of associated compounds
+      - -1: calculate from association
+
       """
       self.__setvalue(IP_HTYPE, htype, idx)
       self.__setvalue(IP_CORDNO, CoordNo, idx)
@@ -448,28 +445,50 @@ class xThermoInterface(object):
 
    def SpecCrossAssoc(self, idx, i, j, crstyp, crsbeta, crseps, crse_b=0, crse_c=0):
       """
-      i, j: indices in component list
-      crstyp: set type of cross-association
-           0: default, (near Elliott)   crs_vol=sqrt((av_1*av_2)*(b0_1*b0_2));       crs_eng=0.5*(ae_1+ae_2)
-           1: CR-1,                     crs_vol=sqrt(av_1*av_2)*0.5*(b0_1+b0_2);     crs_eng=0.5*(ae_1+ae_2)
-           2: modified CR-1,            crs_vol=beta*0.5*(b0_1+b0_2);                crs_eng=0.5*(ae_1+ae_2)
-           3: modified Elliott          crs_vol=beta*sqrt((av_1*av_2)*(b0_1*b0_2));  crs_eng=0.5*(ae_1+ae_2)
-           4: custom CR-1               crs_vol=beta*0.5*(b0_1+b0_2);                crs_eng=epsR
-      beta: cross-assocation volume (*1000 for CPA)
-      epsR: reduced cross-assocation energy (K)
-      crs_eng = crs_eng + b*T + c/T\n");
-      for PC-SAFT, the following inputs are also possible
+         Sets the cross association between component i and component j
+
+         :param idx: integer - Index of specified cross association
+         :param i: integer - Index of component i in component list
+         :param j: integer - Index of component j in component list
+         :param crstyp: double - Type of cross-association
+         :param crsbeta: double - Cross-association volume (*1000 for CPA)
+         :param crseps: double - Reduced cross-association energy (K)
+         :param crse_b: double - Parameter b
+         :param crse_c: double - Parameter c
+
+         **Information about crstyp (type of cross-association)**
+
+         ==========================  ===========================================  ========================
+         crstyp                      crs_vol                                      crs_eng
+         ==========================  ===========================================  ========================
+         0 default, (near Elliott)   crs_vol=sqrt((av_1*av_2)*(b0_1*b0_2))        crs_eng=0.5*(ae_1+ae_2)
+         1 CR-1,                     crs_vol=sqrt(av_1*av_2)*0.5*(b0_1+b0_2)      crs_eng=0.5*(ae_1+ae_2)
+         2 modified CR-1,            crs_vol=beta*0.5*(b0_1+b0_2)                 crs_eng=0.5*(ae_1+ae_2)
+         3 modified Elliott          crs_vol=beta*sqrt((av_1*av_2)*(b0_1*b0_2))   crs_eng=0.5*(ae_1+ae_2)
+         4 custom CR-1               crs_vol=beta*0.5*(b0_1+b0_2)                 crs_eng=epsR
+         ==========================  ===========================================  ========================
+
+         crs_eng = crs_eng + b*T + c/T
+      
+         For PC-SAFT, the following inputs are also possible
          crstyp: set type of cross-association
-          11/21: CR-1
-          12/22: modified CR-1 (req. specification of beta)
-          14/24: custom CR-1 (specification of both beta & eps)
-         In the case of (crstyp=1, 2 and 4), it is the Segment-Volume combining rule:
-         sigma_ij^3 = 0.5*(sigma_i^3 + sigma_j^3)
-         In the case of (crstyp=11, 12 and 14), it is the traditional SAFT-Sigma combining rule:
-         sigma_ij^3 = (0.5*(sigma_i+sigma_j))^3
-         In the case of (crstyp=21, 22 and 24), it is the Molecule-Volume combining rule:
-         (m*sigma)_ij^3 = 0.5*((m*sigma_i)^3 + (m*sigma_j)^3)
+
+         - 11/21: CR-1
+         - 12/22: modified CR-1 (req. specification of beta)
+         - 14/24: custom CR-1 (specification of both beta & eps)
+
+         ==============  ========================================  =====================================================
+         crstyp          Combining Rule                            Equation                               
+         ==============  ========================================  =====================================================
+         1, 2 and 4      Segment-Volume                            sigma_ij^3 = 0.5*(sigma_i^3 + sigma_j^3)
+         11, 12 and 4    Traditional SAFT-Sigma                    sigma_ij^3 = (0.5*(sigma_i+sigma_j))^3     
+         21, 22 and 24   Molecule-Volume                           (m*sigma)_ij^3 = 0.5*((m*sigma_i)^3 + (m*sigma_j)^3)           
+         ==============  ========================================  =====================================================
+
          ATTENTION: In the last cases, the association volume has to be scalled by m when setting up the assoication parameters.
+
+         Usage:\n
+         SpecCrossAssoc(idx, i, j, crstyp, crsbeta, crseps, crse_b=0, crse_c=0)
       """
       self.__setvalue(IP_CRSASS_I, i, idx)
       self.__setvalue(IP_CRSASS_J, j, idx)
@@ -488,18 +507,23 @@ class xThermoInterface(object):
 
    def SpecCrossHBond(self, idx, i, j, htij, htji, zij, zji, theta, gamma):
       """
-      i, j: indices in component list
-      htij: hydrogen-bond type of i to j
-      htji: hydrogen-bond type of j to i
-         0: TETRAHEDRAL     % A tetrahedral H - bond network(e.g.water)
-         1: PLANAR          % A planer H - bond network(e.g.alcohols)
-         2: LINEAR          % A linear H - bond network
-         3: NOSHELL         % A network with only the inner shell(no 2nd, 3rd, etc.)
-         4: CANCEL          % As NOSHELL, but also includes cancellation of the dipole moment(e.g.around ions)
-      zij: Coordination no. of i around j
-      zji: Coordination no. of j around i
-      theta: Rotation angle in hydrogen bond (radian)
-      gamma: Projection angle of dipole moment in H-bond direction (radian)
+         :param idx: integer - Index of specifiec cross HBond
+         :param i: integer - Index of component i in component list
+         :param j: integer - Index of component j in component list
+         :param htij: integer - Hydrogen-bond type of i to j
+         :param htji: integer - Hydrogen-bond type of j to i
+         :param zij: integer - Coordination no. of i around j
+         :param zji: integer - Coordination no. of j around i
+         :param theta: double - Rotation angle inhydrogen bond (radian)
+         :param gamma: double - Projection of angle of dipole moment in H-bond direction (radian)
+
+         **Information about hydrogen-bond type**
+         
+         - 0: TETRAHEDRAL - A tetrahedral H - bond network(e.g.water)
+         - 1: PLANAR - A planer H - bond network(e.g.alcohols)
+         - 2: LINEAR - A linear H - bond network
+         - 3: NOSHELL - A network with only the inner shell(no 2nd, 3rd, etc.)
+         - 4: CANCEL - As NOSHELL, but also includes cancellation of the dipole moment(e.g.around ions)
       """
       self.__setvalue(IP_CRSHBOND_I, i, idx)
       self.__setvalue(IP_CRSHBOND_J, j, idx)
@@ -561,16 +585,40 @@ class xThermoInterface(object):
    """
    def FugacityCoeff(self, T, P, Moles, iph=0, job=0):
       """
-      T: temperature (K)
-      P: pressure (bar)
-      iph: properties of which phase is required
-      job: which level of properties are needed
-        0: only compressibility factor
-        1: 0 + log(fugacity coefficient)
-        2: 1 + nT * d_ln(Phi) / d_ni
-        3: 2 + d_ln(Phi) / d_ln(P)
-        4: 3 + d_ln(Phi) / d_ln(T)
-        the return phase type is always given at the end
+         Calculates the fugacity coeffiecient and related properties.
+
+         :param T: double - Temperature (K)
+         :param P: double - Pressure (bar)
+         :param Moles: list of double -
+         :param iph: integer - Properties of which phase is required
+         :param job: integer - Which level of properties are needed
+         :return ZFact: double - Compressibility factor
+         :return lnPhi: double - Returned if job >= 1
+         :return ntdlnPhidn: double - Returned if job >= 2
+         :return dlnPhidlPP: double - Returned if job >= 3
+         :return dlnPhidlTT: double - Returned if job == 4
+         :return ic: integer
+
+         Information regarding job:
+
+         - 0: only compressibility factor
+         - 1: 0 + log(fugacity coefficient)
+         - 2: 1 + nT * d_ln(Phi) / d_ni
+         - 3: 2 + d_ln(Phi) / d_ln(P)
+         - 4: 3 + d_ln(Phi) / d_ln(T)
+
+         The return phase type is always given at the end    
+
+         Usage:\n
+         (ZFact, ic) = FugacityCoeff(self, T, P, Moles, iph=0, job=0) If job = 0
+
+         (ZFact, lnPhi, ic) = FugacityCoeff(self, T, P, Moles, iph=0, job=0) -  If job = 1
+
+         (ZFact, lnPhi, lnPhi, ic) = FugacityCoeff(self, T, P, Moles, iph=0, job=0) -  If job = 2
+
+         (ZFact, lnPhi, lnPhi, dlnPhidlPP, ic) = FugacityCoeff(self, T, P, Moles, iph=0, job=0) -  If job = 3
+
+         (ZFact, lnPhi, lnPhi, dlnPhidlPP, dlnPhidlPP, ic) = FugacityCoeff(self, T, P, Moles, iph=0, job=0) -  If job = 4
       """
       nc = self.Get_NoPureComp()
       iph = iph
@@ -909,41 +957,50 @@ class xThermoInterface(object):
 
    def TXYdiagram(self, P=1.0, npoint_max=100, step_max=0.5):
       """
-      inputs:
-      P: pressure (bar, by default P=1bar)
-      step_max: max step of tracing from one point to the next, if lines are unsmooth enough, it can be decreased (by default smax=0.5)
-      npoint_max: max number of point allowed for each line (by default 100)
+         :param T: double - Pressure (bar, by default P=1bar)
+         :param npoint_max: integer - max number of point allowed for each line (by default 100)
+         :param step_max: double - Max step of tracing from one point to the next, if lines are unsmooth enough, it can be decreased (by default smax=0.5)
 
-      outputs:
-      First vapor-liquid curve:
-         np_vl1: number of points
-         vl1Txy consist of three columns
-            vl1x: Composition points
-            vl1w: Composition points
-            vl1t: Temperature [K]
-      Liquid-liquid curve (if exists):
-         np_ll: number of points
-         llTxy consist of three columns
-            llx: Composition points
-            llw: Composition points
-            llt: Temperature [K]
-      Second vapor-liquid curve (if exists):
-         np_vl2: number of points
-         vl2Txy consist of three columns
-            vl2x: Composition points
-            vl2w: Composition points
-            vl2t: Temperature [K]
-      Critical point (if exists):
-         critpoint consists of
-            x3: Critical point composition (first)
-            w3: Critical point composition (second)
-            t3: Critical point temperature [K]
-      nscrit: No. of subcritical components
-         0: Both supercritical
-         1: Component 1 subcritical
-         2: Component 1 subcritical
-         3: Both subcritical
-      ierr: successful or not (ierr=0 means successful)
+         **First vapor-liquid curve**
+
+         :return np_vl1: integer - Number of points in first vapor-liquid curve
+         :return vl1Txy: list - Consist of three columns: vl1x, vl1w, vl1p
+
+         - vl1x: Composition points
+         - vl1w: Composition points
+         - vl1p: Pressure (bar)
+
+         **Liquid-liquid curve**
+
+         :return np_ll: integer - Number of points in liquid-liquid curve
+         :return llTxy: list - Consist of three columns: llx, llw, llp
+
+         - llx: Composition points
+         - llw: Composition points
+         - llp: Pressure (bar)
+
+         **Second vapor-liquid curve**
+
+         :return np_vl2: integer - Number of points in second vapor-liquid curve
+         :return vl2Txy: list - Consist of three columns: vl2x, vl2w, vl2p
+
+         - vl1x: Composition points
+         - vl1w: Composition points
+         - vl1p: Pressure (bar)
+
+         :return critpoint: list - Consist of x3 (Critical point composition (first)), w3 (Critical point composition (second)) and p3 (Critical point pressure (bar))
+
+         :return nscrit: integer - No. of subcritical comopnents
+
+         - 0: both supercritical
+         - 1: Component 1 subcritical
+         - 2: Component 2 subcritical
+         - 3: Both subcritical
+
+         :return ierr: integer - Successful or not (ierr=0 means successful)
+
+         Usage:\n
+         (np_vl1, vl1Pxy, np_ll, llPxy, np_vl2, vl2Pxy, critpoint, nscrit.value, ierr) = TXYdiagram(T=298.15, npoint_max=100, step_max=0.5)
       """
       vl1 = ct.c_int(0)
       vl1x = np.zeros(npoint_max)
@@ -991,41 +1048,50 @@ class xThermoInterface(object):
 
    def PXYdiagram(self, T=298.15, npoint_max=100, step_max=0.5):
       """
-      inputs:
-      T: temperature (K, by default P=1bar)
-      step_max: max step of tracing from one point to the next, if lines are unsmooth enough, it can be decreased (by default smax=0.5)
-      npoint_max: max number of point allowed for each line (by default 100)
+         :param T: double - Temperature (K)
+         :param npoint_max: integer - max number of point allowed for each line (by default 100)
+         :param step_max: double - Max step of tracing from one point to the next, if lines are unsmooth enough, it can be decreased (by default smax=0.5)
 
-      outputs:
-      First vapor-liquid curve:
-         np_vl1: number of points
-         vl1Txy consist of three columns
-            vl1x: Composition points
-            vl1w: Composition points
-            vl1p: pressure [bar]
-      Liquid-liquid curve (if exists):
-         np_ll: number of points
-         llTxy consist of three columns
-            llx: Composition points
-            llw: Composition points
-            llp: pressure [bar]
-      Second vapor-liquid curve (if exists):
-         np_vl2: number of points
-         vl2Txy consist of three columns
-            vl2x: Composition points
-            vl2w: Composition points
-            vl2p: pressure [bar]
-      Critical point (if exists):
-         critpoint consists of
-            x3: Critical point composition (first)
-            w3: Critical point composition (second)
-            p3: Critical point pressure [bar]
-      nscrit: No. of subcritical components
-         0: Both supercritical
-         1: Component 1 subcritical
-         2: Component 1 subcritical
-         3: Both subcritical
-      ierr: successful or not (ierr=0 means successful)
+         **First vapor-liquid curve**
+
+         :return np_vl1: integer - Number of points in first vapor-liquid curve
+         :return vl1Txy: list - Consist of three columns: vl1x, vl1w, vl1p
+
+         - vl1x: Composition points
+         - vl1w: Composition points
+         - vl1p: Pressure (bar)
+
+         **Liquid-liquid curve**
+
+         :return np_ll: integer - Number of points in liquid-liquid curve
+         :return llTxy: list - Consist of three columns: llx, llw, llp
+
+         - llx: Composition points
+         - llw: Composition points
+         - llp: Pressure (bar)
+
+         **Second vapor-liquid curve**
+
+         :return np_vl2: integer - Number of points in second vapor-liquid curve
+         :return vl2Txy: list - Consist of three columns: vl2x, vl2w, vl2p
+
+         - vl1x: Composition points
+         - vl1w: Composition points
+         - vl1p: Pressure (bar)
+
+         :return critpoint: list - Consist of x3 (Critical point composition (first)), w3 (Critical point composition (second)) and p3 (Critical point pressure (bar))
+
+         :return nscrit: integer - No. of subcritical comopnents
+
+         - 0: both supercritical
+         - 1: Component 1 subcritical
+         - 2: Component 2 subcritical
+         - 3: Both subcritical
+
+         :return ierr: integer - Successful or not (ierr=0 means successful)
+
+         Usage:\n
+         (np_vl1, vl1Pxy, np_ll, llPxy, np_vl2, vl2Pxy, critpoint, nscrit.value, ierr) = PXYdiagram(T=298.15, npoint_max=100, step_max=0.5)
       """
       vl1 = ct.c_int(0)
       vl1x = np.zeros(npoint_max)
@@ -1445,6 +1511,9 @@ class ComparisonFuncs:
    """
       This class is dedicated to comparing a model with experimental data by calculating 
       a residual/deviation between model and experimental data
+
+      :param Thermo:
+      :param deviationType:
    """
    def __init__(self,Thermo,deviationType):
       self.Thermo = Thermo
