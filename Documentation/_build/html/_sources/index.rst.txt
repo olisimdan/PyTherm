@@ -3,18 +3,22 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to PyTherm's documentation!
+PyTherm Syntax Documentation
 ===================================
+
+Use the table of contents on the left to find more information about a specific module.
+
+Otherwise, feel free to use the index page on the following link.
 
 
 .. toctree::
    :maxdepth: 2
+   :hidden:
    :caption: Contents:
 
+   rst/xThermoInterface
+   rst/xThermoIPs
+   rst/AssociationSchemes
 
-Indices and tables
-==================
 
 * :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`

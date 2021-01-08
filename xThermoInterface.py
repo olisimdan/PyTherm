@@ -107,19 +107,24 @@ class xThermoInterface(object):
 
    def ChooseAModel(self, ieos):
       """
-      :param ieos: integer
-      1 - CPA
-      2 - SRK
-      3 - PR
-      4 - PC-SAFT  (400, org UC + simplified 2), 401 (org UC + simplified 1), 402 (org UC + org HC)
-                    410 (new UC + simplified 2), 411 (new UC + simplified 1), 412 (new UC + org HC)
-      6 - ePC-SAFT (600, org UC + simplified 2), 601 (org UC + simplified 1), 602 (org UC + org HC)
-                    610 (new UC + simplified 2), 611 (new UC + simplified 1), 612 (new UC + org HC)
-      11 - eCPA
+      This function allows the user to pick a model to use\n
+      :param ieos: integer\n
+        1 - CPA\n
+        2 - SRK\n
+        3 - PR\n
+        4 - PC-SAFT  (400, org UC + simplified 2), 401 (org UC + simplified 1), 402 (org UC + org HC)
+                  410 (new UC + simplified 2), 411 (new UC + simplified 1), 412 (new UC + org HC)\n
+        6 - ePC-SAFT (600, org UC + simplified 2), 601 (org UC + simplified 1), 602 (org UC + org HC)
+                  610 (new UC + simplified 2), 611 (new UC + simplified 1), 612 (new UC + org HC)\n
+        11 - eCPA
       """
       self.__setvalue(IP_EOSOPT, ieos)
 
    def WhichModelIsUsed(self):
+      """
+         Returns used model\n
+         :return sEOS: string
+      """
       val = int(self.__getvalue(IP_EOSOPT))
       # if (val == EOSOPTION_CPA):
       sEOS = "CPA"
@@ -137,17 +142,36 @@ class xThermoInterface(object):
       return sEOS
 
    def NoPureComp(self, nComp):
+      """
+         Set the number of pure components in the system\n
+         :param nComp: integer - number of components
+
+         Usage:\n
+         NoPureComp(n)
+      """
       self.__setvalue(IP_NC, nComp)
 
    def Get_NoPureComp(self):
+      """
+         Get the number of pure components in the system\n
+         :return: integer - number of components
+
+         Usage:\n
+         n = Get_NoPureComp()
+      """
       val = self.__getvalue(IP_NC)
       return (int(val))
 
    def CritProps(self, idx, Tc, Pc, Om):
       """
-      Tc: Critical temperature (K)
-      Pc: Critical pressure (bar)
-      Om: Acentric factor (-)
+         Sets the critical properties of component idx\n
+         :param idx: integer - Component number/id
+         :param Tc: double - Critical temperature (K)
+         :param Pc: double - Critical pressure (bar)
+         :param Om: double -  Acentric factor (-)
+
+         Usage:\n
+         CritProps(idx, Tc, Pc, Om)
       """
       self.__setvalue(IP_TC, Tc, idx)
       self.__setvalue(IP_PC, Pc, idx)
@@ -155,9 +179,14 @@ class xThermoInterface(object):
 
    def Get_CritProps(self, idx):
       """
-      Tc: Critical temperature (K)
-      Pc: Critical pressure (bar)
-      Om: Acentric factor (-)
+         Gets the critical properties of component idx\n
+         :param idx: integer - Component number/id
+         :return Tc: double - Critical temperature (K)
+         :return Pc: double - Critical pressure (bar)
+         :return Om: double -  Acentric factor (-)
+
+         Usage:\n
+         (Tc, Pc, Om) = Get_CritProps(idx)
       """
       Tc = self.__getvalue(IP_TC, idx)
       Pc = self.__getvalue(IP_PC, idx)
@@ -182,10 +211,16 @@ class xThermoInterface(object):
 
    def CPAParams(self, idx, b0, Gamma, c1, c2=0, c3=0):
       """
-      b0: co-volume (cm3/mol)
-      Gamma: reduced energy parameter = a/Rb (K)
-      c1: alpha function T-dependence (-)
-      c2, c3: coefficients in MC Alpha function alpha(T) = 1+c1*(1-sqrt(T/Tc))+c2*(1-sqrt(T/Tc))^2+c3*(1-sqrt(T/Tc))^3
+         Sets the CPA parameters of component idx\n
+         :param idx: integer - Component number/id
+         :param b0: double - co-volume (cm3/mol)
+         :param Gamma: double - reduced energy parameter = a/Rb (K)
+         :param c1: double - alpha function T-dependence (-)
+         :param c2: double - coefficients in MC Alpha function alpha(T) = 1+c1*(1-sqrt(T/Tc))+c2*(1-sqrt(T/Tc))^2+c3*(1-sqrt(T/Tc))^3
+         :param c3: double - coefficients in MC Alpha function alpha(T) = 1+c1*(1-sqrt(T/Tc))+c2*(1-sqrt(T/Tc))^2+c3*(1-sqrt(T/Tc))^3
+
+         Usage:\n
+         CPAParams(idx, b0, Gamma, c1, c2=0, c3=0)
       """
       self.__setvalue(IP_CPAB0, b0, idx)
       self.__setvalue(IP_CPAGAM, Gamma, idx)
@@ -195,10 +230,11 @@ class xThermoInterface(object):
 
    def Get_CPAParams(self, idx):
       """
-      b0: co-volume (cm3/mol)
-      Gamma: reduced energy parameter = a/Rb (K)
-      c1: alpha function T-dependence (-)
-      c2, c3: coefficients in MC Alpha function alpha(T) = 1+c1*(1-sqrt(T/Tc))+c2*(1-sqrt(T/Tc))^2+c3*(1-sqrt(T/Tc))^3
+         Gets the CPA parameters of component idx\n
+         :param idx: integer - Component number/id
+
+         Usage:\n
+         (b0, Gamma, c1, c2, c3) = Get_CPAParams(idx)
       """
       b0 = self.__getvalue(IP_CPAB0, idx)
       Gamma = self.__getvalue(IP_CPAGAM, idx)
@@ -209,9 +245,14 @@ class xThermoInterface(object):
 
    def SAFTParams(self, idx, m, sig, eps):
       """
-      m: number of segement (-)
-      sig: size of segement (Å)
-      eps: reduced self-interaction parameter /K)
+         Sets the SAFT parameters of component idx
+         :param idx: integer - Component number/id
+         :param m: integer - number of segement (-)
+         :param sig: double - size of segement (Å)
+         :param eps: double - reduced self-interaction parameter /K)
+
+         Usage:\n
+         SAFTParams(self, idx, m, sig, eps)
       """
       sig = sig*1e-8
       self.__setvalue(IP_SAFTSEM, m, idx)
@@ -230,24 +271,45 @@ class xThermoInterface(object):
       AssocEng: reduced self-association energy (K)
       AssocVol: self-association volume (-), for CPA, AssocVol = 1000*beta
       """
+      """
+         Sets the specified association parameters\n
+         :param idx: integer - Index of component in component list
+         :param AssocSch: integer - Association scheme (maximum) three integers
+         :param AssocVol: double - Reduced self-association energy (K)
+         :param AssocEng: double - Self-association volume (1000*beta for CPA)
+         
+         AssocSch: 1st integer is no. of glue sites, 2nd integer is no of positive sites, 3rd integer is no of negative sites e.g. 022 = 4C, 011 = 2B, 100 = 1A, 001 = solvation with one negative site
+
+         For more information on association schemes, see the "Association Schemes" in table of contents.
+
+         Usage:\n
+         AssocParams(self, idx)
+      """
       self.__setvalue(IP_SITETYP, AssocSch, idx)
       self.__setvalue(IP_SITEVOL, AssocVol, idx)
       self.__setvalue(IP_SITEENG, AssocEng, idx)
 
-   def Get_AssocParams(self, idx):
+   def Get_AssocParams(self,idx):
       """
-      AssocSch: association scheme, (maximum) three integers:
-               1st is no of glue sites, 2nd is no of positive sites, 3rd is no of negative sites
-               e.g. 022 = 4C, 011 = 2B, 100 = 1A, 001 = solvation with one negative site
-      AssocEng: reduced self-association energy (K)
-      AssocVol: self-association volume (-), for CPA, AssocVol = 1000*beta
+         Gets the specified association parameters\n
+         :param idx: integer - Index of component in component list
+         :return AssocSch: integer - Association scheme (maximum) three integers
+         :return AssocVol: double - Reduced self-association energy (K)
+         :return AssocEng: double - Self-association volume (1000*beta for CPA)
+         
+         AssocSch: 1st integer is no. of glue sites, 2nd integer is no of positive sites, 3rd integer is no of negative sites e.g. 022 = 4C, 011 = 2B, 100 = 1A, 001 = solvation with one negative site
+
+         For more information on association schemes, see the "Association Schemes" in table of contents.
+
+         Usage:\n
+         (AssocSch, AssocEng, AssocVol) = Get_AssocParams(self, idx)
       """
       AssocSch = self.__getvalue(IP_SITETYP, idx)
       AssocVol = self.__getvalue(IP_SITEVOL, idx)
       AssocEng = self.__getvalue(IP_SITEENG, idx)
       return (AssocSch, AssocVol, AssocEng)
 
-   def PolarProps(self, idx, mu, a0):
+   def PolarProps(self,idx, mu, a0):
       """
       mu: dipole moment (Debye)
       a0: molecular polarizability (10^40*C^2*m^2/J)
@@ -304,21 +366,37 @@ class xThermoInterface(object):
       for i in range(0, n):
          self.__setvalue(IP_DGTVIPC0+i, ipc[i], idx)
 
-   """
-   Start the binary interaction parameter setction
-   """
+
    def NoSpecKij(self, nkij):
       self.__setvalue(IP_NKIJ, nkij)
 
    def Get_NoSpecKij(self):
+      """
+         Gets the number of specified binary interaction parameters\n
+         :return: integer - Number of specified binary interaction parameters
+
+         Usage:\n
+         n = Get_NoSpecKij()
+      """
       val = self.__getvalue(IP_NKIJ)
       return (int(val))
 
    def SpecKij(self, idx, i, j, kija, kijb=0.0, kijc=0.0, kijd=0.0):
       """
-      idx: index of the list of the specified binary interaction parameters
-      i, j: indices in component list
-      kij(i,j) = kija + kijb*T + kijc/T + kijd*lnT
+         Specifies the kij between compont i and component j\n
+         :param idx: integer - index of the list of the specified binary interaction parameters
+         :param i: integer - index of component i in component list
+         :param j: integer - index of component j in component list
+         :param kija: double - see formula below
+         :param kijb: double - see formula below
+         :param kijc: double - see formula below
+         :param kijd: double - see formula below
+
+         kij expression:\n
+         kij(i,j) = kija + kijb*T + kijc/T + kijd*lnT
+
+         Usage:\n
+         SpecKij(self, idx, i, j, kija, kijb=0.0, kijc=0.0, kijd=0.0)
       """
       self.__setvalue(IP_KIJ_I, i, idx)
       self.__setvalue(IP_KIJ_J, j, idx)
@@ -331,6 +409,13 @@ class xThermoInterface(object):
       self.__setvalue(IP_NHV, nhv)
 
    def Get_NoSpecHVNRTL(self):
+      """
+         Gets the number of specified HVNRTL\n
+         :return: integer - Number of HVNRTL
+
+         Usage:\n
+         n = Get_NoSpecHVNRTL()
+      """
       val = self.__getvalue(IP_NHV)
       return (int(val))
 
@@ -351,6 +436,13 @@ class xThermoInterface(object):
       self.__setvalue(IP_NCRSASS, ncrs)
 
    def Get_NoSpecCrossAssoc(self):
+      """
+         Gets the number of specified cross association parameters\n
+         :return: integer - Number of cross association parameters
+
+         Usage:\n
+         n = Get_NoSpecCrossAssoc()
+      """
       val = self.__getvalue(IP_NCRSASS)
       return (int(val))
 
@@ -450,10 +542,16 @@ class xThermoInterface(object):
    Setup and Finishup functions
    """
    def Setup_Thermo(self):
+      """
+         Run this after a model has been set up and before running any calculations. No inputs and no outputs.
+      """
       self.dll.SETUP_THERMO()
       #xtf._setup_thermo()
 
    def Finishup_Thermo(self):
+      """
+         Run this after thermodynamic calculations have concluded.
+      """
       self.dll.FINISHUP()
       del self.dll
       #xtf._finishup_thermo()
@@ -623,14 +721,16 @@ class xThermoInterface(object):
 
    def PBubble(self, T, Moles, Pini=1.0):
       """
-      inputs:
-      T: temperature (K)
-      Moles: Feed composition (mole)
+         Calculate the bubble pressure of the given system\n
+         :param T: double - Temperature (K)
+         :param Moles: list of doubles - Feed composition (mole)
+         :param Pini: double - Initial guess (bar)
+         :return P: double - Bubble point pressure (bar)
+         :return LnK: double - Logarithm of K-factors
+         :return ierr: integer - successful or not (ierr=0 means successful)
 
-      outputs:
-      P: bubble point pressure (bar)
-      LnK: logarithm of K-factors
-      ierr: successful or not (ierr=0 means successful)
+         Usage:\n
+         (P, LnK, ierr) = PBubble(self, T, Moles, Pini=1.0)
       """
       nc = self.Get_NoPureComp()
       if isinstance(Moles, list): 
@@ -647,15 +747,16 @@ class xThermoInterface(object):
 
       return P.value, LnK, ierr.value
 
-   def LiqRho(self, T, Moles, Pini=1.0): #Made by Daniel Qvistgaard
+   def LiqRho(self, T, Moles, Pini=1.0):
       """
-      inputs:
-      T: temperature (K)
-      Moles: Feed composition (mole)
-      Pini: Initial pressure guess (bar)
-      
-      outputs:
-      rho: Liquid density (mol/L)
+         Calculate the saturated liquid density of the given system\n
+         :param T: double - Temperature (K)
+         :param Moles: list of doubles - Feed composition (mole)
+         :param Pini: double - Initial guess (bar)
+         :return rho: double - Liquid density (mol/L)
+
+         Usage:\n
+         rho = LiqRho(self, T, Moles, Pini=1.0)
       """
 
       R = 0.083145  # Gas constant, L * bar * K^-1 * mol^-1
@@ -669,14 +770,16 @@ class xThermoInterface(object):
 
    def TBubble(self, P, Moles, Tini=300.0):
       """
-      inputs:
-      P: pressure (bar)
-      Moles: Feed composition (mole)
+         Calculate the bubble temperature of the given system\n
+         :param P: double - Pressure (bar)
+         :param Moles: list of doubles - Feed composition (mole)
+         :param Tini: double - Initial guess (K)
+         :return T: double - Bubble point temperature (mol/L)
+         :return LnK: double - Logarithm of K-factors
+         :return ierr: integer - successful or not (ierr=0 means successful)
 
-      outputs:
-      T: bubble point temperature (K)
-      LnK: logarithm of K-factors
-      ierr: successful or not (ierr=0 means successful)
+         Usage:\n
+         (T, LnK, ierr) = TBubble(self, T, Moles, Tini=1.0)
       """
       nc = self.Get_NoPureComp()
       pMoles = np.atleast_1d(Moles)
@@ -690,14 +793,16 @@ class xThermoInterface(object):
 
    def PDew(self, T, Moles, Pini=1.0):
       """
-      inputs:
-      T: temperature (K)
-      Moles: Feed composition (mole)
+         Calculate the dew point pessure of the given system\n
+         :param T: double - Temperature (K)
+         :param Moles: list of doubles - Feed composition (mole)
+         :param Pini: double - Initial guess (bar)
+         :return P: double - Dew point pressure (bar)
+         :return LnK: double - Logarithm of K-factors
+         :return ierr: integer - successful or not (ierr=0 means successful)
 
-      outputs:
-      P: dew point pressure (bar)
-      LnK: logarithm of K-factors
-      ierr: successful or not (ierr=0 means successful)
+         Usage:\n
+         (P, LnK, ierr) = PDew(self, T, Moles, Pini=1.0)
       """
       nc = self.Get_NoPureComp()
       pMoles = np.atleast_1d(Moles)
@@ -711,14 +816,16 @@ class xThermoInterface(object):
 
    def TDew(self, P, Moles, Tini=300.0):
       """
-      inputs:
-      P: pressure (bar)
-      Moles: Feed composition (mole)
+         Calculate the bubble temperature of the given system\n
+         :param P: double - Pressure (bar)
+         :param Moles: list of doubles - Feed composition (mole)
+         :param Tini: double - Initial guess (K)
+         :return T: double - Bubble point temperature (mol/L)
+         :return LnK: double - Logarithm of K-factors
+         :return ierr: integer - successful or not (ierr=0 means successful)
 
-      outputs:
-      T: dew point temperature (K)
-      LnK: logarithm of K-factors
-      ierr: successful or not (ierr=0 means successful)
+         Usage:\n
+         (T, LnK, ierr) = TDew(self, T, Moles, Tini=1.0)
       """
       nc = self.Get_NoPureComp()
       pMoles = np.atleast_1d(Moles)
@@ -1335,363 +1442,327 @@ class CPA_UncertaintyAnalysis:
 
 
 class ComparisonFuncs:
-    """
-        This class is dedicated to comparing a model with experimental data by calculating 
-        a residual/deviation between model and experimental data
-    """
-    def __init__(self,Thermo,deviationType):
-        self.Thermo = Thermo
-        
-        if not isinstance(deviationType,str):
-            raise SyntaxError('deviationType must be a string')   
-        self.deviationType = deviationType
+   """
+      This class is dedicated to comparing a model with experimental data by calculating 
+      a residual/deviation between model and experimental data
+   """
+   def __init__(self,Thermo,deviationType):
+      self.Thermo = Thermo
+      
+      if not isinstance(deviationType,str):
+         raise SyntaxError('deviationType must be a string')   
+      self.deviationType = deviationType
 
-        
-    def __deviation_func(self,exp,model,moleFrac = False):
-        deviationType = self.deviationType
-        if moleFrac and exp > 0.5:
-            exp = 1 - exp
-            model = 1 - model
-        if deviationType == 'ARD':
-                deviation = np.abs((model - exp) / exp) * 100
-        if deviationType == 'RD':
-                deviation = (model - exp) / exp * 100
-        elif deviationType == 'AD':
-            deviation = np.abs(model - exp)
-            
-        return deviation
-
-
-    def PBubble_comparison(self,expT,expP,expComposition,Pini = 1.0):
-        """
-        deviation = PBubble_comparison(expT,expP,expMoles,deviationType)
-        Inputs:
-        expT: Experimental temperature (K)
-        expP: Experimental bubble pressure (bar)
-        expComposition: Experimental feed composition (mole)
-        deviationType: Type of deviation. Must be a string. Either "AD" (absolute deviation) or "ARD" (absolute relative deviation)
-        Absolute deviation = abs(model - exp_data)
-        Absolute relative deviation = abs( (model - exp_data) / exp_data)
-        
-        Outputs:
-        deviation: Deviation in either (%) (if deviationType == "ARD") or (bar) (if deviationType == "AD")
-        """
+      
+   def __deviation_func(self,exp,model,moleFrac = False):
+      deviationType = self.deviationType
+      if moleFrac and exp > 0.5:
+         exp = 1 - exp
+         model = 1 - model
+      if deviationType == 'ARD':
+               deviation = np.abs((model - exp) / exp) * 100
+      if deviationType == 'RD':
+               deviation = (model - exp) / exp * 100
+      elif deviationType == 'AD':
+         deviation = np.abs(model - exp)
          
-
-        Thermo = self.Thermo
-        deviationType = self.deviationType
-    
-        if not isinstance(expT,(int,float,list,np.ndarray)):
-            raise SyntaxError('expT must be numeric')
-            
-        if not isinstance(expP,(int,float,list,np.ndarray)):
-            raise SyntaxError('expP must be numeric')
-            
-        if isinstance(expT,(float,int)):
-            expT = [expT]
-            
-        if isinstance(expP,(float,int)):
-            expP = [expP]
-        
-        for element in expT:
-            if not isinstance(element,(float,int)):
-                raise SyntaxError('Each element of expT must be numeric')
-        
-        for element in expP:
-            if not isinstance(element,(float,int)):
-                raise SyntaxError('Each element of expP must be numeric')
-        
-        if len(expP) != len(expT):
-            raise SyntaxError('expT and expP must be of same length')
-        
-        deviation = np.zeros(len(expP))
-        P = np.zeros(len(expP))
-        
-        for i in range(0,len(expT)):
-            [P[i], LnK, ierr] = Thermo.PBubble(expT[i], expComposition, Pini)
-            deviation[i] = self.__deviation_func(expP[i],P[i],deviationType)
-        
-        if len(deviation) == 1:
-            deviation = deviation[0]
-        return deviation
-
-    def TBubble_comparison(self,expT,expP,expComposition,Tini = 400):
-        """
-        deviation = PBubble_comparison(expT,expP,expMoles,deviationType)
-        Inputs:
-        expT: Experimental bubble temperature (K)
-        expP: Experimental pressure (bar)
-        expComposition: Experimental feed composition (mole)
-        deviationType: Type of deviation. Must be a string. Either "AD" (absolute deviation) or "ARD" (absolute relative deviation)
-        Absolute deviation = abs(model - exp_data)
-        Absolute relative deviation = abs( (model - exp_data) / exp_data)
-        
-        Outputs:
-        deviation: Deviation in either (%) (if deviationType == "ARD") or (K) (if deviationType == "AD")
-        """
-        Thermo = self.Thermo
-        deviationType = self.deviationType  
-    
-        if not isinstance(expT,(int,float,list,np.ndarray)):
-            raise SyntaxError('expT must be numeric')
-            
-        if not isinstance(expP,(int,float,list,np.ndarray)):
-            raise SyntaxError('expP must be numeric')
-            
-        if isinstance(expT,(float,int)):
-            expT = [expT]
-            
-        if isinstance(expP,(float,int)):
-            expP = [expP]
-        
-        for element in expT:
-            if not isinstance(element,(float,int)):
-                raise SyntaxError('Each element of expT must be numeric')
-        
-        for element in expP:
-            if not isinstance(element,(float,int)):
-                raise SyntaxError('Each element of expP must be numeric')
-        
-        if len(expP) != len(expT):
-            raise SyntaxError('expT and expP must be of same length')
-        
-        deviation = np.zeros(len(expP))
-        T = np.zeros(len(expP))
-        
-        for i in range(0,len(expT)):
-            [T[i], LnK, ierr] = Thermo.TBubble(expP[i], expComposition, Tini)
-            deviation[i] = self.__deviation_func(expT[i],T[i],deviationType)
-        
-        if len(deviation) == 1:
-            deviation = deviation[0]
-        
-        return deviation
+      return deviation
 
 
-    def LiqRho_comparison(self, expT, expRho, expComposition, Pini=1):
-        """
-        deviation = LiqRho_comparison(expT,expP,expMoles,deviationType)
-        Inputs:
-        expT: Experimental temperature (K)
-        expRho: Experimental liquid density (mol/L)
-        expComposition: Experimental feed composition (mole)
-        deviationType: Type of deviation. Must be a string. Either "AD" (absolute deviation) or "ARD" (absolute relative deviation)
-        Absolute deviation = abs(model - exp_data)
-        Absolute relative deviation = abs( (model - exp_data) / exp_data)
+   def PBubble_comparison(self,expT,expP,expComposition,Pini = 1.0):
+      """
+         :param expT: double or list of doubles - Experimental temperature (K)
+         :param expP: double or list of doubles - Experimental bubble pressure (bar)
+         :param expComposition: List of doubles - Experimental feed composition (mole)
+         :param Pini: double - Initial guess in bars, default = 1
+         :return: List of doubles - Deviations in desired units
+      """
+      Thermo = self.Thermo
+   
+      if not isinstance(expT,(int,float,list,np.ndarray)):
+         raise SyntaxError('expT must be numeric')
+         
+      if not isinstance(expP,(int,float,list,np.ndarray)):
+         raise SyntaxError('expP must be numeric')
+         
+      if isinstance(expT,(float,int)):
+         expT = [expT]
+         
+      if isinstance(expP,(float,int)):
+         expP = [expP]
+      
+      for element in expT:
+         if not isinstance(element,(float,int)):
+               raise SyntaxError('Each element of expT must be numeric')
+      
+      for element in expP:
+         if not isinstance(element,(float,int)):
+               raise SyntaxError('Each element of expP must be numeric')
+      
+      if len(expP) != len(expT):
+         raise SyntaxError('expT and expP must be of same length')
+      
+      deviation = np.zeros(len(expP))
+      P = np.zeros(len(expP))
+      
+      for i in range(0,len(expT)):
+         [P[i], LnK, ierr] = Thermo.PBubble(expT[i], expComposition, Pini)
+         deviation[i] = self.__deviation_func(expP[i],P[i])
+      
+      if len(deviation) == 1:
+         deviation = deviation[0]
+      return deviation
 
-        Outputs:
-        deviation: Deviation in either (%) (if deviationType == "ARD") or (K) (if deviationType == "AD")
-        """
-        Thermo = self.Thermo
-        deviationType = self.deviationType  
-        if not isinstance(deviationType, str):
-            raise SyntaxError('deviationType must be a string')
+   def TBubble_comparison(self,expT,expP,expComposition,Tini = 400):
+      """
+         :param expT: double or list of doubles - Experimental bubble temperature (K)
+         :param expP: double or list of doubles - Experimental pressure (bar)
+         :param expComposition: List of doubles - Experimental feed composition (mole)
+         :param Tini: double - Initial guess in kelvin, default = 400
+         :return: List of doubles - Deviations in desired units
+      """
+      Thermo = self.Thermo
+   
+      if not isinstance(expT,(int,float,list,np.ndarray)):
+         raise SyntaxError('expT must be numeric')
+         
+      if not isinstance(expP,(int,float,list,np.ndarray)):
+         raise SyntaxError('expP must be numeric')
+         
+      if isinstance(expT,(float,int)):
+         expT = [expT]
+         
+      if isinstance(expP,(float,int)):
+         expP = [expP]
+      
+      for element in expT:
+         if not isinstance(element,(float,int)):
+               raise SyntaxError('Each element of expT must be numeric')
+      
+      for element in expP:
+         if not isinstance(element,(float,int)):
+               raise SyntaxError('Each element of expP must be numeric')
+      
+      if len(expP) != len(expT):
+         raise SyntaxError('expT and expP must be of same length')
+      
+      deviation = np.zeros(len(expP))
+      T = np.zeros(len(expP))
+      
+      for i in range(0,len(expT)):
+         [T[i], LnK, ierr] = Thermo.TBubble(expP[i], expComposition, Tini)
+         deviation[i] = self.__deviation_func(expT[i],T[i])
+      
+      if len(deviation) == 1:
+         deviation = deviation[0]
+      
+      return deviation
 
-        if not isinstance(expT, (int, float, list,np.ndarray)):
-            raise SyntaxError('expT must be numeric')
 
-        if not isinstance(expRho, (int, float, list,np.ndarray)):
-            raise SyntaxError('expRho must be numeric')
+   def LiqRho_comparison(self, expT, expRho, expComposition, Pini=1):
+      """
+         :param expT: double or list of doubles - Experimental temperature (K)
+         :param expRho: double or list of doubles - Experimental liquid density (mol/L)
+         :param expComposition: List of doubles - Experimental feed composition (mole)
+         :param Pini: double - Initial guess in bars, default = 1
+         :return: List of doubles - Deviations in desired units
+      """
+      Thermo = self.Thermo
 
-        if isinstance(expT, (float, int)):
-            expT = [expT]
+      if not isinstance(expT, (int, float, list,np.ndarray)):
+         raise SyntaxError('expT must be numeric')
 
-        if isinstance(expRho, (float, int)):
-            expRho = [expRho]
+      if not isinstance(expRho, (int, float, list,np.ndarray)):
+         raise SyntaxError('expRho must be numeric')
 
-        for element in expT:
-            if not isinstance(element, (float, int)):
-                raise SyntaxError('Each element of expT must be numeric')
+      if isinstance(expT, (float, int)):
+         expT = [expT]
 
-        for element in expRho:
-            if not isinstance(element, (float, int)):
-                raise SyntaxError('Each element of expRho must be numeric')
+      if isinstance(expRho, (float, int)):
+         expRho = [expRho]
 
-        if len(expRho) != len(expT):
-            raise SyntaxError('expT and expRho must be of same length')
+      for element in expT:
+         if not isinstance(element, (float, int)):
+               raise SyntaxError('Each element of expT must be numeric')
 
-        deviation = np.zeros(len(expRho))
-        Rho = np.zeros(len(expRho))
+      for element in expRho:
+         if not isinstance(element, (float, int)):
+               raise SyntaxError('Each element of expRho must be numeric')
 
-        for i in range(0, len(expT)):
-            Rho[i] = Thermo.LiqRho(expT[i], expComposition, Pini)
-            deviation[i] = self.__deviation_func(expRho[i], Rho[i], deviationType)
+      if len(expRho) != len(expT):
+         raise SyntaxError('expT and expRho must be of same length')
 
-        if len(deviation) == 1:
-            deviation = deviation[0]
+      deviation = np.zeros(len(expRho))
+      Rho = np.zeros(len(expRho))
 
-        return deviation
+      for i in range(0, len(expT)):
+         Rho[i] = Thermo.LiqRho(expT[i], expComposition, Pini)
+         deviation[i] = self.__deviation_func(expRho[i], Rho[i])
+
+      if len(deviation) == 1:
+         deviation = deviation[0]
+
+      return deviation
 
 
-    def PDew_comparison(self,expT,expP,expComposition,Pini = 1.0):
-        """
-        deviation = PDew_comparison(expT,expP,expMoles,deviationType)
-        Inputs:
-        expT: Experimental temperature (K)
-        expP: Experimental dew pressure (bar)
-        expComposition: Experimental feed composition (mole)
-        deviationType: Type of deviation. Must be a string. Either "AD" (absolute deviation) or "ARD" (absolute relative deviation)
-        Absolute deviation = abs(model - exp_data)
-        Absolute relative deviation = abs( (model - exp_data) / exp_data)
-        
-        Outputs:
-        deviation: Deviation in either (%) (if deviationType == "ARD") or (bar) (if deviationType == "AD")
-        """
-        Thermo = self.Thermo
-        deviationType = self.deviationType  
-        if not isinstance(deviationType,str):
-            raise SyntaxError('deviationType must be a string')    
-    
-        if not isinstance(expT,(int,float,list,np.ndarray)):
-            raise SyntaxError('expT must be numeric')
-            
-        if not isinstance(expP,(int,float,list,np.ndarray)):
-            raise SyntaxError('expP must be numeric')
-            
-        if isinstance(expT,(float,int)):
-            expT = [expT]
-            
-        if isinstance(expP,(float,int)):
-            expP = [expP]
-        
-        for element in expT:
-            if not isinstance(element,(float,int)):
-                raise SyntaxError('Each element of expT must be numeric')
-        
-        for element in expP:
-            if not isinstance(element,(float,int)):
-                raise SyntaxError('Each element of expP must be numeric')
-        
-        if len(expP) != len(expT):
-            raise SyntaxError('expT and expP must be of same length')
-        
-        deviation = np.zeros(len(expP))
-        P = np.zeros(len(expP))
-        
-        for i in range(0,len(expT)):
-            [P[i], LnK, ierr] = Thermo.PDew(expT[i], expComposition, Pini)
-            deviation[i] = self.__deviation_func(expP[i],P[i],deviationType)
-        
-        if len(deviation) == 1:
-            deviation = deviation[0]
-        
-        return deviation
+   def PDew_comparison(self,expT,expP,expComposition,Pini = 1.0):
+      """
+         :param expT: double or list of doubles - Experimental temperature (K)
+         :param expP: double or list of doubles - Experimental dew pressure (bar)
+         :param expComposition: List of doubles - Experimental feed composition (mole)
+         :param Pini: double - Initial guess in bars, default = 1
+         :return: List of doubles - Deviations in desired units
+      """
+      Thermo = self.Thermo
+   
+      if not isinstance(expT,(int,float,list,np.ndarray)):
+         raise SyntaxError('expT must be numeric')
+         
+      if not isinstance(expP,(int,float,list,np.ndarray)):
+         raise SyntaxError('expP must be numeric')
+         
+      if isinstance(expT,(float,int)):
+         expT = [expT]
+         
+      if isinstance(expP,(float,int)):
+         expP = [expP]
+      
+      for element in expT:
+         if not isinstance(element,(float,int)):
+               raise SyntaxError('Each element of expT must be numeric')
+      
+      for element in expP:
+         if not isinstance(element,(float,int)):
+               raise SyntaxError('Each element of expP must be numeric')
+      
+      if len(expP) != len(expT):
+         raise SyntaxError('expT and expP must be of same length')
+      
+      deviation = np.zeros(len(expP))
+      P = np.zeros(len(expP))
+      
+      for i in range(0,len(expT)):
+         [P[i], LnK, ierr] = Thermo.PDew(expT[i], expComposition, Pini)
+         deviation[i] = self.__deviation_func(expP[i],P[i])
+      
+      if len(deviation) == 1:
+         deviation = deviation[0]
+      
+      return deviation
 
-    def TDew_comparison(self,expT,expP,expComposition,Tini = 400):
-        """
-        deviation = TDew_comparison(expT,expP,expMoles,deviationType)
-        Inputs:
-        expT: Experimental dew temperature (K)
-        expP: Experimental pressure (bar)
-        expComposition: Experimental feed composition (mole)
-        deviationType: Type of deviation. Must be a string. Either "AD" (absolute deviation) or "ARD" (absolute relative deviation)
-        Absolute deviation = abs(model - exp_data)
-        Absolute relative deviation = abs( (model - exp_data) / exp_data)
-        
-        Outputs:
-        deviation: Deviation in either (%) (if deviationType == "ARD") or (K) (if deviationType == "AD")
-        """
-        Thermo = self.Thermo
-        deviationType = self.deviationType  
-        if not isinstance(deviationType,str):
-            raise SyntaxError('deviationType must be a string')    
-    
-        if not isinstance(expT,(int,float,list,np.ndarray)):
-            raise SyntaxError('expT must be numeric')
-            
-        if not isinstance(expP,(int,float,list,np.ndarray)):
-            raise SyntaxError('expP must be numeric')
-            
-        if isinstance(expT,(float,int)):
-            expT = [expT]
-            
-        if isinstance(expP,(float,int)):
-            expP = [expP]
-        
-        for element in expT:
-            if not isinstance(element,(float,int)):
-                raise SyntaxError('Each element of expT must be numeric')
-        
-        for element in expP:
-            if not isinstance(element,(float,int)):
-                raise SyntaxError('Each element of expP must be numeric')
-        
-        if len(expP) != len(expT):
-            raise SyntaxError('expT and expP must be of same length')
-        
-        deviation = np.zeros(len(expP))
-        T = np.zeros(len(expP))
-        
-        for i in range(0,len(expT)):
-            [T[i], LnK, ierr] = Thermo.TDew(expP[i], expComposition, Tini)
-            deviation[i] = self.__deviation_func(expT[i],T[i],deviationType)
-        
-        if len(deviation) == 1:
-            deviation = deviation[0]
-        
-        return deviation
+   def TDew_comparison(self,expT,expP,expComposition,Tini = 400):
+      """
+         :param expT: double or list of doubles - Experimental dew temperature (K)
+         :param expP: double or list of doubles - Experimental pressure (bar)
+         :param expComposition: List of doubles - Experimental feed composition (mole)
+         :param Tini: double - Initial guess in kelvin, default = 400
+         :return: List of doubles - Deviations in desired units
+      """
+      Thermo = self.Thermo 
+   
+      if not isinstance(expT,(int,float,list,np.ndarray)):
+         raise SyntaxError('expT must be numeric')
+         
+      if not isinstance(expP,(int,float,list,np.ndarray)):
+         raise SyntaxError('expP must be numeric')
+         
+      if isinstance(expT,(float,int)):
+         expT = [expT]
+         
+      if isinstance(expP,(float,int)):
+         expP = [expP]
+      
+      for element in expT:
+         if not isinstance(element,(float,int)):
+               raise SyntaxError('Each element of expT must be numeric')
+      
+      for element in expP:
+         if not isinstance(element,(float,int)):
+               raise SyntaxError('Each element of expP must be numeric')
+      
+      if len(expP) != len(expT):
+         raise SyntaxError('expT and expP must be of same length')
+      
+      deviation = np.zeros(len(expP))
+      T = np.zeros(len(expP))
+      
+      for i in range(0,len(expT)):
+         [T[i], LnK, ierr] = Thermo.TDew(expP[i], expComposition, Tini)
+         deviation[i] = self.__deviation_func(expT[i],T[i])
+      
+      if len(deviation) == 1:
+         deviation = deviation[0]
+      
+      return deviation
 
-    def BinaryVLE_Comparison(self, expT, expP, expX, expY, expZ = 1):
-        Thermo = self.Thermo
-        deviationType = self.deviationType  
-        N = len(expT)
-        
-        if isinstance(expZ, (list)):
-            automaticFeedComp = False
-        else:
-            automaticFeedComp = True
+   def BinaryVLE_Comparison(self, expT, expP, expX, expY, expComposition = 1):
+      """
+         :param expT: double or list of doubles - Experimental dew temperature (K)
+         :param expP: double or list of doubles - Experimental pressure (bar)
+         :param expX: double or list of doubles - Experimental liquid phase mole fraction of component 1
+         :param expY: double or list of doubles - Experimental vapor phase mole fraction of component 1
+         :param expComposition: List of doubles - Experimental feed composition (mole)
+         :return: List of doubles - Deviations in desired units
+      """
+      Thermo = self.Thermo
+      N = len(expT)
+      
+      if isinstance(expComposition, (list)):
+         automaticFeedComp = False
+      else:
+         automaticFeedComp = True
 
-        deviation_x = []
-        deviation_y = []
+      deviation_x = []
+      deviation_y = []
 
-        for n in range(0, N):
-            T = expT[n]
-            P = expP[n]
-            y = expY[n]
-            x = expX[n]
+      for n in range(0, N):
+         T = expT[n]
+         P = expP[n]
+         y = expY[n]
+         x = expX[n]
 
-            if automaticFeedComp == False:
-                z = expZ[n]
-                nfas, PhaseFrac, PhaseComp, PhaseType, ierr = Thermo.PTFlash(T,P,z)
-                if nfas != 2:
-                    deviation_x.append(None)
-                    deviation_y.append(None)
-                elif not ((PhaseType[0] == -1 and PhaseType[1] == 1) or (PhaseType[0] == 1 and PhaseType[1] == -1)):
-                    deviation_x.append(None)
-                    deviation_y.append(None)
-                else:
-                    if PhaseType[0] == 1:
-                        deviation_x.append(self.__deviation_func(x,PhaseComp[0][0],True))
-                        deviation_y.append(self.__deviation_func(y,PhaseComp[1][0],True))
-                    else:
-                        deviation_x.append(self.__deviation_func(x,PhaseComp[1][0],True))
-                        deviation_y.append(self.__deviation_func(y,PhaseComp[0][0],True))
-            else:
-                k = 0.5
-                noScenario = True
-                for i in range(0,100):
-                    z = [k,1-k]
-                    k = random.random()
-                    nfas, PhaseFrac, PhaseComp, PhaseType, ierr = Thermo.PTFlash(T,P,z)
-                    if nfas == 2:
-                        noScenario = False
-                        break
-                if not noScenario:
-                    if not ((PhaseType[0] == -1 and PhaseType[1] == 1) or (PhaseType[0] == 1 and PhaseType[1] == -1)):
-                        deviation_x.append(None)
-                        deviation_y.append(None)
-                    else:
-                        if PhaseType[0] == 1:
-                            deviation_x.append(self.__deviation_func(x,PhaseComp[0][0],True))
-                            deviation_y.append(self.__deviation_func(y,PhaseComp[1][0],True))
-                        else:
-                            deviation_x.append(self.__deviation_func(x,PhaseComp[1][0],True))
-                            deviation_y.append(self.__deviation_func(y,PhaseComp[0][0],True))
-                else:
-                    deviation_x.append(None)
-                    deviation_y.append(None)
+         if automaticFeedComp == False:
+               z = expComposition[n]
+               nfas, PhaseFrac, PhaseComp, PhaseType, ierr = Thermo.PTFlash(T,P,z)
+               if nfas != 2:
+                  deviation_x.append(None)
+                  deviation_y.append(None)
+               elif not ((PhaseType[0] == -1 and PhaseType[1] == 1) or (PhaseType[0] == 1 and PhaseType[1] == -1)):
+                  deviation_x.append(None)
+                  deviation_y.append(None)
+               else:
+                  if PhaseType[0] == 1:
+                     deviation_x.append(self.__deviation_func(x,PhaseComp[0][0],True))
+                     deviation_y.append(self.__deviation_func(y,PhaseComp[1][0],True))
+                  else:
+                     deviation_x.append(self.__deviation_func(x,PhaseComp[1][0],True))
+                     deviation_y.append(self.__deviation_func(y,PhaseComp[0][0],True))
+         else:
+               k = 0.5
+               noScenario = True
+               for i in range(0,100):
+                  z = [k,1-k]
+                  k = random.random()
+                  nfas, PhaseFrac, PhaseComp, PhaseType, ierr = Thermo.PTFlash(T,P,z)
+                  if nfas == 2:
+                     noScenario = False
+                     break
+               if not noScenario:
+                  if not ((PhaseType[0] == -1 and PhaseType[1] == 1) or (PhaseType[0] == 1 and PhaseType[1] == -1)):
+                     deviation_x.append(None)
+                     deviation_y.append(None)
+                  else:
+                     if PhaseType[0] == 1:
+                           deviation_x.append(self.__deviation_func(x,PhaseComp[0][0],True))
+                           deviation_y.append(self.__deviation_func(y,PhaseComp[1][0],True))
+                     else:
+                           deviation_x.append(self.__deviation_func(x,PhaseComp[1][0],True))
+                           deviation_y.append(self.__deviation_func(y,PhaseComp[0][0],True))
+               else:
+                  deviation_x.append(None)
+                  deviation_y.append(None)
 
-        return np.array(deviation_x), np.array(deviation_y)
+      return np.array(deviation_x), np.array(deviation_y)
         
 
 

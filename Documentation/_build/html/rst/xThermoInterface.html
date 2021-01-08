@@ -1,35 +1,161 @@
 
-<!DOCTYPE html>
 
-<html>
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>xThermoInterface module &#8212; PyTherm 2021 documentation</title>
-    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
-    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
-    <script src="../_static/jquery.js"></script>
-    <script src="../_static/underscore.js"></script>
-    <script src="../_static/doctools.js"></script>
-    <script src="../_static/language_data.js"></script>
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>xThermoInterface module &mdash; PyTherm 2021 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="xThermoIPs module" href="xThermoIPs.html" />
+    <link rel="prev" title="PyTherm Syntax Documentation" href="../index.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
    
-  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
-  
-  
-  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
-
-  </head><body>
-  
-
-    <div class="document">
-      <div class="documentwrapper">
-        <div class="bodywrapper">
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
           
 
-          <div class="body" role="main">
+          
+            <a href="../index.html" class="icon icon-home"> PyTherm
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">xThermoInterface module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="xThermoIPs.html">xThermoIPs module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="AssociationSchemes.html">Association Schemes</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">PyTherm</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>xThermoInterface module</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/rst/xThermoInterface.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
             
   <div class="section" id="module-xThermoInterface">
 <span id="xthermointerface-module"></span><h1>xThermoInterface module<a class="headerlink" href="#module-xThermoInterface" title="Permalink to this headline">¶</a></h1>
@@ -82,6 +208,123 @@
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>list of residuals</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="xThermoInterface.ComparisonFuncs">
+<em class="property">class </em><code class="sig-prename descclassname">xThermoInterface.</code><code class="sig-name descname">ComparisonFuncs</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">Thermo</span></em>, <em class="sig-param"><span class="n">deviationType</span></em><span class="sig-paren">)</span><a class="headerlink" href="#xThermoInterface.ComparisonFuncs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>This class is dedicated to comparing a model with experimental data by calculating
+a residual/deviation between model and experimental data</p>
+<dl class="py method">
+<dt id="xThermoInterface.ComparisonFuncs.BinaryVLE_Comparison">
+<code class="sig-name descname">BinaryVLE_Comparison</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">expT</span></em>, <em class="sig-param"><span class="n">expP</span></em>, <em class="sig-param"><span class="n">expX</span></em>, <em class="sig-param"><span class="n">expY</span></em>, <em class="sig-param"><span class="n">expComposition</span><span class="o">=</span><span class="default_value">1</span></em><span class="sig-paren">)</span><a class="headerlink" href="#xThermoInterface.ComparisonFuncs.BinaryVLE_Comparison" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>expT</strong> – double or list of doubles - Experimental dew temperature (K)</p></li>
+<li><p><strong>expP</strong> – double or list of doubles - Experimental pressure (bar)</p></li>
+<li><p><strong>expX</strong> – double or list of doubles - Experimental liquid phase mole fraction of component 1</p></li>
+<li><p><strong>expY</strong> – double or list of doubles - Experimental vapor phase mole fraction of component 1</p></li>
+<li><p><strong>expComposition</strong> – List of doubles - Experimental feed composition (mole)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>List of doubles - Deviations in desired units</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="xThermoInterface.ComparisonFuncs.LiqRho_comparison">
+<code class="sig-name descname">LiqRho_comparison</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">expT</span></em>, <em class="sig-param"><span class="n">expRho</span></em>, <em class="sig-param"><span class="n">expComposition</span></em>, <em class="sig-param"><span class="n">Pini</span><span class="o">=</span><span class="default_value">1</span></em><span class="sig-paren">)</span><a class="headerlink" href="#xThermoInterface.ComparisonFuncs.LiqRho_comparison" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>expT</strong> – double or list of doubles - Experimental temperature (K)</p></li>
+<li><p><strong>expRho</strong> – double or list of doubles - Experimental liquid density (mol/L)</p></li>
+<li><p><strong>expComposition</strong> – List of doubles - Experimental feed composition (mole)</p></li>
+<li><p><strong>Pini</strong> – double - Initial guess in bars, default = 1</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>List of doubles - Deviations in desired units</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="xThermoInterface.ComparisonFuncs.PBubble_comparison">
+<code class="sig-name descname">PBubble_comparison</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">expT</span></em>, <em class="sig-param"><span class="n">expP</span></em>, <em class="sig-param"><span class="n">expComposition</span></em>, <em class="sig-param"><span class="n">Pini</span><span class="o">=</span><span class="default_value">1.0</span></em><span class="sig-paren">)</span><a class="headerlink" href="#xThermoInterface.ComparisonFuncs.PBubble_comparison" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>expT</strong> – double or list of doubles - Experimental temperature (K)</p></li>
+<li><p><strong>expP</strong> – double or list of doubles - Experimental bubble pressure (bar)</p></li>
+<li><p><strong>expComposition</strong> – List of doubles - Experimental feed composition (mole)</p></li>
+<li><p><strong>Pini</strong> – double - Initial guess in bars, default = 1</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>List of doubles - Deviations in desired units</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="xThermoInterface.ComparisonFuncs.PDew_comparison">
+<code class="sig-name descname">PDew_comparison</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">expT</span></em>, <em class="sig-param"><span class="n">expP</span></em>, <em class="sig-param"><span class="n">expComposition</span></em>, <em class="sig-param"><span class="n">Pini</span><span class="o">=</span><span class="default_value">1.0</span></em><span class="sig-paren">)</span><a class="headerlink" href="#xThermoInterface.ComparisonFuncs.PDew_comparison" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>expT</strong> – double or list of doubles - Experimental temperature (K)</p></li>
+<li><p><strong>expP</strong> – double or list of doubles - Experimental dew pressure (bar)</p></li>
+<li><p><strong>expComposition</strong> – List of doubles - Experimental feed composition (mole)</p></li>
+<li><p><strong>Pini</strong> – double - Initial guess in bars, default = 1</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>List of doubles - Deviations in desired units</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="xThermoInterface.ComparisonFuncs.TBubble_comparison">
+<code class="sig-name descname">TBubble_comparison</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">expT</span></em>, <em class="sig-param"><span class="n">expP</span></em>, <em class="sig-param"><span class="n">expComposition</span></em>, <em class="sig-param"><span class="n">Tini</span><span class="o">=</span><span class="default_value">400</span></em><span class="sig-paren">)</span><a class="headerlink" href="#xThermoInterface.ComparisonFuncs.TBubble_comparison" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>expT</strong> – double or list of doubles - Experimental bubble temperature (K)</p></li>
+<li><p><strong>expP</strong> – double or list of doubles - Experimental pressure (bar)</p></li>
+<li><p><strong>expComposition</strong> – List of doubles - Experimental feed composition (mole)</p></li>
+<li><p><strong>Tini</strong> – double - Initial guess in kelvin, default = 400</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>List of doubles - Deviations in desired units</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="xThermoInterface.ComparisonFuncs.TDew_comparison">
+<code class="sig-name descname">TDew_comparison</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">expT</span></em>, <em class="sig-param"><span class="n">expP</span></em>, <em class="sig-param"><span class="n">expComposition</span></em>, <em class="sig-param"><span class="n">Tini</span><span class="o">=</span><span class="default_value">400</span></em><span class="sig-paren">)</span><a class="headerlink" href="#xThermoInterface.ComparisonFuncs.TDew_comparison" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>expT</strong> – double or list of doubles - Experimental dew temperature (K)</p></li>
+<li><p><strong>expP</strong> – double or list of doubles - Experimental pressure (bar)</p></li>
+<li><p><strong>expComposition</strong> – List of doubles - Experimental feed composition (mole)</p></li>
+<li><p><strong>Tini</strong> – double - Initial guess in kelvin, default = 400</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>List of doubles - Deviations in desired units</p>
 </dd>
 </dl>
 </dd></dl>
@@ -171,40 +414,61 @@ AssocVol: self-association volume (-), for CPA, AssocVol = 1000*beta</p>
 <dl class="py method">
 <dt id="xThermoInterface.xThermoInterface.CPAParams">
 <code class="sig-name descname">CPAParams</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">idx</span></em>, <em class="sig-param"><span class="n">b0</span></em>, <em class="sig-param"><span class="n">Gamma</span></em>, <em class="sig-param"><span class="n">c1</span></em>, <em class="sig-param"><span class="n">c2</span><span class="o">=</span><span class="default_value">0</span></em>, <em class="sig-param"><span class="n">c3</span><span class="o">=</span><span class="default_value">0</span></em><span class="sig-paren">)</span><a class="headerlink" href="#xThermoInterface.xThermoInterface.CPAParams" title="Permalink to this definition">¶</a></dt>
-<dd><p>b0: co-volume (cm3/mol)
-Gamma: reduced energy parameter = a/Rb (K)
-c1: alpha function T-dependence (-)
-c2, c3: coefficients in MC Alpha function alpha(T) = 1+c1*(1-sqrt(T/Tc))+c2*(1-sqrt(T/Tc))^2+c3*(1-sqrt(T/Tc))^3</p>
+<dd><p>Sets the CPA parameters of component idx</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>idx</strong> – integer - Component number/id</p></li>
+<li><p><strong>b0</strong> – double - co-volume (cm3/mol)</p></li>
+<li><p><strong>Gamma</strong> – double - reduced energy parameter = a/Rb (K)</p></li>
+<li><p><strong>c1</strong> – double - alpha function T-dependence (-)</p></li>
+<li><p><strong>c2</strong> – double - coefficients in MC Alpha function alpha(T) = 1+c1*(1-sqrt(T/Tc))+c2*(1-sqrt(T/Tc))^2+c3*(1-sqrt(T/Tc))^3</p></li>
+<li><p><strong>c3</strong> – double - coefficients in MC Alpha function alpha(T) = 1+c1*(1-sqrt(T/Tc))+c2*(1-sqrt(T/Tc))^2+c3*(1-sqrt(T/Tc))^3</p></li>
+</ul>
+</dd>
+</dl>
+<p>Usage:</p>
+<p>CPAParams(idx, b0, Gamma, c1, c2=0, c3=0)</p>
 </dd></dl>
 
 <dl class="py method">
 <dt id="xThermoInterface.xThermoInterface.ChooseAModel">
 <code class="sig-name descname">ChooseAModel</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">ieos</span></em><span class="sig-paren">)</span><a class="headerlink" href="#xThermoInterface.xThermoInterface.ChooseAModel" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="field-list simple">
+<dd><p>This function allows the user to pick a model to use</p>
+<dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>ieos</strong> – integer</p>
-</dd>
-</dl>
-<p>1 - CPA
-2 - SRK
-3 - PR
-4 - PC-SAFT  (400, org UC + simplified 2), 401 (org UC + simplified 1), 402 (org UC + org HC)</p>
-<blockquote>
-<div><p>410 (new UC + simplified 2), 411 (new UC + simplified 1), 412 (new UC + org HC)</p>
-</div></blockquote>
+<dd class="field-odd"><p><strong>ieos</strong> – <p>integer</p>
+<p>1 - CPA</p>
+<p>2 - SRK</p>
+<p>3 - PR</p>
 <dl class="simple">
+<dt>4 - PC-SAFT  (400, org UC + simplified 2), 401 (org UC + simplified 1), 402 (org UC + org HC)</dt><dd><p>410 (new UC + simplified 2), 411 (new UC + simplified 1), 412 (new UC + org HC)</p>
+</dd>
 <dt>6 - ePC-SAFT (600, org UC + simplified 2), 601 (org UC + simplified 1), 602 (org UC + org HC)</dt><dd><p>610 (new UC + simplified 2), 611 (new UC + simplified 1), 612 (new UC + org HC)</p>
 </dd>
 </dl>
 <p>11 - eCPA</p>
+</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
 <dt id="xThermoInterface.xThermoInterface.CritProps">
 <code class="sig-name descname">CritProps</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">idx</span></em>, <em class="sig-param"><span class="n">Tc</span></em>, <em class="sig-param"><span class="n">Pc</span></em>, <em class="sig-param"><span class="n">Om</span></em><span class="sig-paren">)</span><a class="headerlink" href="#xThermoInterface.xThermoInterface.CritProps" title="Permalink to this definition">¶</a></dt>
-<dd><p>Tc: Critical temperature (K)
-Pc: Critical pressure (bar)
-Om: Acentric factor (-)</p>
+<dd><p>Sets the critical properties of component idx</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>idx</strong> – integer - Component number/id</p></li>
+<li><p><strong>Tc</strong> – double - Critical temperature (K)</p></li>
+<li><p><strong>Pc</strong> – double - Critical pressure (bar)</p></li>
+<li><p><strong>Om</strong> – double -  Acentric factor (-)</p></li>
+</ul>
+</dd>
+</dl>
+<p>Usage:</p>
+<p>CritProps(idx, Tc, Pc, Om)</p>
 </dd></dl>
 
 <dl class="py method">
@@ -233,7 +497,8 @@ DPDT: T/P*DPDT</p>
 <dl class="py method">
 <dt id="xThermoInterface.xThermoInterface.Finishup_Thermo">
 <code class="sig-name descname">Finishup_Thermo</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#xThermoInterface.xThermoInterface.Finishup_Thermo" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Run this after thermodynamic calculations have concluded.</p>
+</dd></dl>
 
 <dl class="py method">
 <dt id="xThermoInterface.xThermoInterface.FugacityCoeff">
@@ -254,31 +519,61 @@ the return phase type is always given at the end</p>
 
 <dl class="py method">
 <dt id="xThermoInterface.xThermoInterface.Get_AssocParams">
-<code class="sig-name descname">Get_AssocParams</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">idx</span></em><span class="sig-paren">)</span><a class="headerlink" href="#xThermoInterface.xThermoInterface.Get_AssocParams" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="simple">
-<dt>AssocSch: association scheme, (maximum) three integers:</dt><dd><p>1st is no of glue sites, 2nd is no of positive sites, 3rd is no of negative sites
-e.g. 022 = 4C, 011 = 2B, 100 = 1A, 001 = solvation with one negative site</p>
+<code class="sig-name descname">Get_AssocParams</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">AssocSch</span></em>, <em class="sig-param"><span class="n">AssocVol</span></em>, <em class="sig-param"><span class="n">AssocEng</span></em><span class="sig-paren">)</span><a class="headerlink" href="#xThermoInterface.xThermoInterface.Get_AssocParams" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the specified association parameters</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>idx</strong> – integer - Index of component in component list</p>
+</dd>
+<dt class="field-even">Return AssocSch</dt>
+<dd class="field-even"><p>integer - Association scheme (maximum) three integers</p>
+</dd>
+<dt class="field-odd">Return AssocVol</dt>
+<dd class="field-odd"><p>double - Reduced self-association energy (K)</p>
+</dd>
+<dt class="field-even">Return AssocEng</dt>
+<dd class="field-even"><p>double - Self-association volume (1000*beta for CPA)</p>
 </dd>
 </dl>
-<p>AssocEng: reduced self-association energy (K)
-AssocVol: self-association volume (-), for CPA, AssocVol = 1000*beta</p>
+<p>AssocSch: 1st integer is no. of glue sites, 2nd integer is no of positive sites, 3rd integer is no of negative sites e.g. 022 = 4C, 011 = 2B, 100 = 1A, 001 = solvation with one negative site</p>
+<p>For more information on association schemes, see the “Association Schemes” in table of contents.</p>
+<p>Usage:</p>
+<p>(AssocSch, AssocEng, AssocVol) = Get_AssocParams(self, idx)</p>
 </dd></dl>
 
 <dl class="py method">
 <dt id="xThermoInterface.xThermoInterface.Get_CPAParams">
 <code class="sig-name descname">Get_CPAParams</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">idx</span></em><span class="sig-paren">)</span><a class="headerlink" href="#xThermoInterface.xThermoInterface.Get_CPAParams" title="Permalink to this definition">¶</a></dt>
-<dd><p>b0: co-volume (cm3/mol)
-Gamma: reduced energy parameter = a/Rb (K)
-c1: alpha function T-dependence (-)
-c2, c3: coefficients in MC Alpha function alpha(T) = 1+c1*(1-sqrt(T/Tc))+c2*(1-sqrt(T/Tc))^2+c3*(1-sqrt(T/Tc))^3</p>
+<dd><p>Gets the CPA parameters of component idx</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>idx</strong> – integer - Component number/id</p>
+</dd>
+</dl>
+<p>Usage:</p>
+<p>(b0, Gamma, c1, c2, c3) = Get_CPAParams(idx)</p>
 </dd></dl>
 
 <dl class="py method">
 <dt id="xThermoInterface.xThermoInterface.Get_CritProps">
 <code class="sig-name descname">Get_CritProps</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">idx</span></em><span class="sig-paren">)</span><a class="headerlink" href="#xThermoInterface.xThermoInterface.Get_CritProps" title="Permalink to this definition">¶</a></dt>
-<dd><p>Tc: Critical temperature (K)
-Pc: Critical pressure (bar)
-Om: Acentric factor (-)</p>
+<dd><p>Gets the critical properties of component idx</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>idx</strong> – integer - Component number/id</p>
+</dd>
+<dt class="field-even">Return Tc</dt>
+<dd class="field-even"><p>double - Critical temperature (K)</p>
+</dd>
+<dt class="field-odd">Return Pc</dt>
+<dd class="field-odd"><p>double - Critical pressure (bar)</p>
+</dd>
+<dt class="field-even">Return Om</dt>
+<dd class="field-even"><p>double -  Acentric factor (-)</p>
+</dd>
+</dl>
+<p>Usage:</p>
+<p>(Tc, Pc, Om) = Get_CritProps(idx)</p>
 </dd></dl>
 
 <dl class="py method">
@@ -294,12 +589,28 @@ Om: Acentric factor (-)</p>
 <dl class="py method">
 <dt id="xThermoInterface.xThermoInterface.Get_NoPureComp">
 <code class="sig-name descname">Get_NoPureComp</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#xThermoInterface.xThermoInterface.Get_NoPureComp" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Get the number of pure components in the system</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>integer - number of components</p>
+</dd>
+</dl>
+<p>Usage:</p>
+<p>n = Get_NoPureComp()</p>
+</dd></dl>
 
 <dl class="py method">
 <dt id="xThermoInterface.xThermoInterface.Get_NoSpecCrossAssoc">
 <code class="sig-name descname">Get_NoSpecCrossAssoc</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#xThermoInterface.xThermoInterface.Get_NoSpecCrossAssoc" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Gets the number of specified cross association parameters</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>integer - Number of cross association parameters</p>
+</dd>
+</dl>
+<p>Usage:</p>
+<p>n = Get_NoSpecCrossAssoc()</p>
+</dd></dl>
 
 <dl class="py method">
 <dt id="xThermoInterface.xThermoInterface.Get_NoSpecCrossHBond">
@@ -309,12 +620,28 @@ Om: Acentric factor (-)</p>
 <dl class="py method">
 <dt id="xThermoInterface.xThermoInterface.Get_NoSpecHVNRTL">
 <code class="sig-name descname">Get_NoSpecHVNRTL</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#xThermoInterface.xThermoInterface.Get_NoSpecHVNRTL" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Gets the number of specified HVNRTL</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>integer - Number of HVNRTL</p>
+</dd>
+</dl>
+<p>Usage:</p>
+<p>n = Get_NoSpecHVNRTL()</p>
+</dd></dl>
 
 <dl class="py method">
 <dt id="xThermoInterface.xThermoInterface.Get_NoSpecKij">
 <code class="sig-name descname">Get_NoSpecKij</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#xThermoInterface.xThermoInterface.Get_NoSpecKij" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Gets the number of specified binary interaction parameters</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>integer - Number of specified binary interaction parameters</p>
+</dd>
+</dl>
+<p>Usage:</p>
+<p>n = Get_NoSpecKij()</p>
+</dd></dl>
 
 <dl class="py method">
 <dt id="xThermoInterface.xThermoInterface.Get_Omega">
@@ -364,12 +691,21 @@ bornR: Born radius (Å)</p>
 <dl class="py method">
 <dt id="xThermoInterface.xThermoInterface.LiqRho">
 <code class="sig-name descname">LiqRho</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">T</span></em>, <em class="sig-param"><span class="n">Moles</span></em>, <em class="sig-param"><span class="n">Pini</span><span class="o">=</span><span class="default_value">1.0</span></em><span class="sig-paren">)</span><a class="headerlink" href="#xThermoInterface.xThermoInterface.LiqRho" title="Permalink to this definition">¶</a></dt>
-<dd><p>inputs:
-T: temperature (K)
-Moles: Feed composition (mole)
-Pini: Initial pressure guess (bar)</p>
-<p>outputs:
-rho: Liquid density (mol/L)</p>
+<dd><p>Calculate the saturated liquid density of the given system</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>T</strong> – double - Temperature (K)</p></li>
+<li><p><strong>Moles</strong> – list of doubles - Feed composition (mole)</p></li>
+<li><p><strong>Pini</strong> – double - Initial guess (bar)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return rho</dt>
+<dd class="field-even"><p>double - Liquid density (mol/L)</p>
+</dd>
+</dl>
+<p>Usage:</p>
+<p>rho = LiqRho(self, T, Moles, Pini=1.0)</p>
 </dd></dl>
 
 <dl class="py method">
@@ -380,7 +716,15 @@ rho: Liquid density (mol/L)</p>
 <dl class="py method">
 <dt id="xThermoInterface.xThermoInterface.NoPureComp">
 <code class="sig-name descname">NoPureComp</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">nComp</span></em><span class="sig-paren">)</span><a class="headerlink" href="#xThermoInterface.xThermoInterface.NoPureComp" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Set the number of pure components in the system</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>nComp</strong> – integer - number of components</p>
+</dd>
+</dl>
+<p>Usage:</p>
+<p>NoPureComp(n)</p>
+</dd></dl>
 
 <dl class="py method">
 <dt id="xThermoInterface.xThermoInterface.NoSpecCrossAssoc">
@@ -405,25 +749,53 @@ rho: Liquid density (mol/L)</p>
 <dl class="py method">
 <dt id="xThermoInterface.xThermoInterface.PBubble">
 <code class="sig-name descname">PBubble</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">T</span></em>, <em class="sig-param"><span class="n">Moles</span></em>, <em class="sig-param"><span class="n">Pini</span><span class="o">=</span><span class="default_value">1.0</span></em><span class="sig-paren">)</span><a class="headerlink" href="#xThermoInterface.xThermoInterface.PBubble" title="Permalink to this definition">¶</a></dt>
-<dd><p>inputs:
-T: temperature (K)
-Moles: Feed composition (mole)</p>
-<p>outputs:
-P: bubble point pressure (bar)
-LnK: logarithm of K-factors
-ierr: successful or not (ierr=0 means successful)</p>
+<dd><p>Calculate the bubble pressure of the given system</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>T</strong> – double - Temperature (K)</p></li>
+<li><p><strong>Moles</strong> – list of doubles - Feed composition (mole)</p></li>
+<li><p><strong>Pini</strong> – double - Initial guess (bar)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return P</dt>
+<dd class="field-even"><p>double - Bubble point pressure (bar)</p>
+</dd>
+<dt class="field-odd">Return LnK</dt>
+<dd class="field-odd"><p>double - Logarithm of K-factors</p>
+</dd>
+<dt class="field-even">Return ierr</dt>
+<dd class="field-even"><p>integer - successful or not (ierr=0 means successful)</p>
+</dd>
+</dl>
+<p>Usage:</p>
+<p>(P, LnK, ierr) = PBubble(self, T, Moles, Pini=1.0)</p>
 </dd></dl>
 
 <dl class="py method">
 <dt id="xThermoInterface.xThermoInterface.PDew">
 <code class="sig-name descname">PDew</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">T</span></em>, <em class="sig-param"><span class="n">Moles</span></em>, <em class="sig-param"><span class="n">Pini</span><span class="o">=</span><span class="default_value">1.0</span></em><span class="sig-paren">)</span><a class="headerlink" href="#xThermoInterface.xThermoInterface.PDew" title="Permalink to this definition">¶</a></dt>
-<dd><p>inputs:
-T: temperature (K)
-Moles: Feed composition (mole)</p>
-<p>outputs:
-P: dew point pressure (bar)
-LnK: logarithm of K-factors
-ierr: successful or not (ierr=0 means successful)</p>
+<dd><p>Calculate the dew point pessure of the given system</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>T</strong> – double - Temperature (K)</p></li>
+<li><p><strong>Moles</strong> – list of doubles - Feed composition (mole)</p></li>
+<li><p><strong>Pini</strong> – double - Initial guess (bar)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return P</dt>
+<dd class="field-even"><p>double - Dew point pressure (bar)</p>
+</dd>
+<dt class="field-odd">Return LnK</dt>
+<dd class="field-odd"><p>double - Logarithm of K-factors</p>
+</dd>
+<dt class="field-even">Return ierr</dt>
+<dd class="field-even"><p>integer - successful or not (ierr=0 means successful)</p>
+</dd>
+</dl>
+<p>Usage:</p>
+<p>(P, LnK, ierr) = PDew(self, T, Moles, Pini=1.0)</p>
 </dd></dl>
 
 <dl class="py method">
@@ -515,7 +887,7 @@ ierr: successful or not (ierr=0 means successful)</p>
 
 <dl class="py method">
 <dt id="xThermoInterface.xThermoInterface.PolarProps">
-<code class="sig-name descname">PolarProps</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">idx</span></em>, <em class="sig-param"><span class="n">mu</span></em>, <em class="sig-param"><span class="n">a0</span></em><span class="sig-paren">)</span><a class="headerlink" href="#xThermoInterface.xThermoInterface.PolarProps" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">PolarProps</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">mu</span></em>, <em class="sig-param"><span class="n">a0</span></em><span class="sig-paren">)</span><a class="headerlink" href="#xThermoInterface.xThermoInterface.PolarProps" title="Permalink to this definition">¶</a></dt>
 <dd><p>mu: dipole moment (Debye)
 a0: molecular polarizability (10^40*C^2*m^2/J)</p>
 </dd></dl>
@@ -523,15 +895,20 @@ a0: molecular polarizability (10^40*C^2*m^2/J)</p>
 <dl class="py method">
 <dt id="xThermoInterface.xThermoInterface.SAFTParams">
 <code class="sig-name descname">SAFTParams</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">idx</span></em>, <em class="sig-param"><span class="n">m</span></em>, <em class="sig-param"><span class="n">sig</span></em>, <em class="sig-param"><span class="n">eps</span></em><span class="sig-paren">)</span><a class="headerlink" href="#xThermoInterface.xThermoInterface.SAFTParams" title="Permalink to this definition">¶</a></dt>
-<dd><p>m: number of segement (-)
-sig: size of segement (Å)
-eps: reduced self-interaction parameter /K)</p>
+<dd><p>Sets the SAFT parameters of component idx
+:param idx: integer - Component number/id
+:param m: integer - number of segement (-)
+:param sig: double - size of segement (Å)
+:param eps: double - reduced self-interaction parameter /K)</p>
+<p>Usage:</p>
+<p>SAFTParams(self, idx, m, sig, eps)</p>
 </dd></dl>
 
 <dl class="py method">
 <dt id="xThermoInterface.xThermoInterface.Setup_Thermo">
 <code class="sig-name descname">Setup_Thermo</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#xThermoInterface.xThermoInterface.Setup_Thermo" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Run this after a model has been set up and before running any calculations. No inputs and no outputs.</p>
+</dd></dl>
 
 <dl class="py method">
 <dt id="xThermoInterface.xThermoInterface.SpecAppCompStoich">
@@ -611,9 +988,24 @@ gamma: Projection angle of dipole moment in H-bond direction (radian)</p>
 <dl class="py method">
 <dt id="xThermoInterface.xThermoInterface.SpecKij">
 <code class="sig-name descname">SpecKij</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">idx</span></em>, <em class="sig-param"><span class="n">i</span></em>, <em class="sig-param"><span class="n">j</span></em>, <em class="sig-param"><span class="n">kija</span></em>, <em class="sig-param"><span class="n">kijb</span><span class="o">=</span><span class="default_value">0.0</span></em>, <em class="sig-param"><span class="n">kijc</span><span class="o">=</span><span class="default_value">0.0</span></em>, <em class="sig-param"><span class="n">kijd</span><span class="o">=</span><span class="default_value">0.0</span></em><span class="sig-paren">)</span><a class="headerlink" href="#xThermoInterface.xThermoInterface.SpecKij" title="Permalink to this definition">¶</a></dt>
-<dd><p>idx: index of the list of the specified binary interaction parameters
-i, j: indices in component list
-kij(i,j) = kija + kijb*T + kijc/T + kijd*lnT</p>
+<dd><p>Specifies the kij between compont i and component j</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>idx</strong> – integer - index of the list of the specified binary interaction parameters</p></li>
+<li><p><strong>i</strong> – integer - index of component i in component list</p></li>
+<li><p><strong>j</strong> – integer - index of component j in component list</p></li>
+<li><p><strong>kija</strong> – double - see formula below</p></li>
+<li><p><strong>kijb</strong> – double - see formula below</p></li>
+<li><p><strong>kijc</strong> – double - see formula below</p></li>
+<li><p><strong>kijd</strong> – double - see formula below</p></li>
+</ul>
+</dd>
+</dl>
+<p>kij expression:</p>
+<p>kij(i,j) = kija + kijb*T + kijc/T + kijd*lnT</p>
+<p>Usage:</p>
+<p>SpecKij(self, idx, i, j, kija, kijb=0.0, kijc=0.0, kijd=0.0)</p>
 </dd></dl>
 
 <dl class="py method">
@@ -649,25 +1041,53 @@ nsq: squared refractive index (n^2)</p>
 <dl class="py method">
 <dt id="xThermoInterface.xThermoInterface.TBubble">
 <code class="sig-name descname">TBubble</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">P</span></em>, <em class="sig-param"><span class="n">Moles</span></em>, <em class="sig-param"><span class="n">Tini</span><span class="o">=</span><span class="default_value">300.0</span></em><span class="sig-paren">)</span><a class="headerlink" href="#xThermoInterface.xThermoInterface.TBubble" title="Permalink to this definition">¶</a></dt>
-<dd><p>inputs:
-P: pressure (bar)
-Moles: Feed composition (mole)</p>
-<p>outputs:
-T: bubble point temperature (K)
-LnK: logarithm of K-factors
-ierr: successful or not (ierr=0 means successful)</p>
+<dd><p>Calculate the bubble temperature of the given system</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>P</strong> – double - Pressure (bar)</p></li>
+<li><p><strong>Moles</strong> – list of doubles - Feed composition (mole)</p></li>
+<li><p><strong>Tini</strong> – double - Initial guess (K)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return T</dt>
+<dd class="field-even"><p>double - Bubble point temperature (mol/L)</p>
+</dd>
+<dt class="field-odd">Return LnK</dt>
+<dd class="field-odd"><p>double - Logarithm of K-factors</p>
+</dd>
+<dt class="field-even">Return ierr</dt>
+<dd class="field-even"><p>integer - successful or not (ierr=0 means successful)</p>
+</dd>
+</dl>
+<p>Usage:</p>
+<p>(T, LnK, ierr) = TBubble(self, T, Moles, Tini=1.0)</p>
 </dd></dl>
 
 <dl class="py method">
 <dt id="xThermoInterface.xThermoInterface.TDew">
 <code class="sig-name descname">TDew</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">P</span></em>, <em class="sig-param"><span class="n">Moles</span></em>, <em class="sig-param"><span class="n">Tini</span><span class="o">=</span><span class="default_value">300.0</span></em><span class="sig-paren">)</span><a class="headerlink" href="#xThermoInterface.xThermoInterface.TDew" title="Permalink to this definition">¶</a></dt>
-<dd><p>inputs:
-P: pressure (bar)
-Moles: Feed composition (mole)</p>
-<p>outputs:
-T: dew point temperature (K)
-LnK: logarithm of K-factors
-ierr: successful or not (ierr=0 means successful)</p>
+<dd><p>Calculate the bubble temperature of the given system</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>P</strong> – double - Pressure (bar)</p></li>
+<li><p><strong>Moles</strong> – list of doubles - Feed composition (mole)</p></li>
+<li><p><strong>Tini</strong> – double - Initial guess (K)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return T</dt>
+<dd class="field-even"><p>double - Bubble point temperature (mol/L)</p>
+</dd>
+<dt class="field-odd">Return LnK</dt>
+<dd class="field-odd"><p>double - Logarithm of K-factors</p>
+</dd>
+<dt class="field-even">Return ierr</dt>
+<dd class="field-even"><p>integer - successful or not (ierr=0 means successful)</p>
+</dd>
+</dl>
+<p>Usage:</p>
+<p>(T, LnK, ierr) = TDew(self, T, Moles, Tini=1.0)</p>
 </dd></dl>
 
 <dl class="py method">
@@ -744,73 +1164,64 @@ tl_p2: Composition of ‘right point’ of the tie-lines (size=id_tl(np_tl+1)-1,
 <dl class="py method">
 <dt id="xThermoInterface.xThermoInterface.WhichModelIsUsed">
 <code class="sig-name descname">WhichModelIsUsed</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#xThermoInterface.xThermoInterface.WhichModelIsUsed" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Returns used model</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return sEOS</dt>
+<dd class="field-odd"><p>string</p>
+</dd>
+</dl>
+</dd></dl>
 
 </dd></dl>
 
 </div>
 
 
+           </div>
+           
           </div>
-          
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="xThermoIPs.html" class="btn btn-neutral float-right" title="xThermoIPs module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="../index.html" class="btn btn-neutral float-left" title="PyTherm Syntax Documentation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Daniel Qvistgaard and Xiaodong Liang.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
         </div>
       </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
-        <div class="sphinxsidebarwrapper">
-<h1 class="logo"><a href="../index.html">PyTherm</a></h1>
 
+    </section>
 
+  </div>
+  
 
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
 
-
-
-
-
-<h3>Navigation</h3>
-
-<div class="relations">
-<h3>Related Topics</h3>
-<ul>
-  <li><a href="../index.html">Documentation overview</a><ul>
-  </ul></li>
-</ul>
-</div>
-<div id="searchbox" style="display: none" role="search">
-  <h3 id="searchlabel">Quick search</h3>
-    <div class="searchformwrapper">
-    <form class="search" action="../search.html" method="get">
-      <input type="text" name="q" aria-labelledby="searchlabel" />
-      <input type="submit" value="Go" />
-    </form>
-    </div>
-</div>
-<script>$('#searchbox').show(0);</script>
-
-
-
-
-
-
-
-
-        </div>
-      </div>
-      <div class="clearer"></div>
-    </div>
-    <div class="footer">
-      &copy;2021, Daniel Qvistgaard and Xiaodong Liang.
-      
-      |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.1.2</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
-      
-      |
-      <a href="../_sources/rst/xThermoInterface.rst.txt"
-          rel="nofollow">Page source</a>
-    </div>
-
+  
+  
     
+   
 
-    
-  </body>
+</body>
 </html>
