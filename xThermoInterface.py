@@ -6,6 +6,8 @@ PyTherm
 import os
 import ctypes as ct
 import numpy as np
+import copy
+import time
 #from functions.comparisonFcn import *
 import pandas as pd
 from xThermoIPs import *
@@ -1483,6 +1485,7 @@ class CPA_UncertaintyAnalysis:
             raise SyntaxError("ExpDataModule needs liquid density data")
 
          self.exp_data = exp_data
+         self.temporary_exp_data = copy.deepcopy(exp_data)
 
    def Sensitivity_Analysis(self):
       """
@@ -1563,7 +1566,94 @@ class CPA_UncertaintyAnalysis:
 
       return (psat_deviation_matrix, rho_deviation_matrix, deltas)
 
+   def __Data_Sampling(self):
+      exp_data = self.exp_data
 
+      exp_data = self.exp_data
+      exp_psat = np.array([None,None])
+      exp_rho = np.array([None,None])
+
+
+
+      for data_set in exp_data.data_sets:
+         if (data_set[1] == 'PSat'):
+            exp_psat = np.vstack([exp_psat,data_set[0]])
+         if (data_set[1] == 'rho'):
+            exp_rho = np.vstack([exp_rho,data_set[0]])
+
+      exp_psat = np.delete(exp_psat,(0), axis = 0)
+      exp_rho = np.delete(exp_rho,(0), axis = 0)
+
+      
+      seq_psat = np.linspace(0,np.size(exp_psat,0)-1,np.size(exp_psat,0))
+      seq_rho = np.linspace(0,np.size(exp_rho,0)-1,np.size(exp_rho,0))
+
+      seq_psat = np.random.choice(seq_psat, size = np.size(seq_psat,0), replace=True)
+      seq_rho = np.random.choice(seq_rho, size = np.size(seq_rho,0), replace=True)
+
+      
+      sampled_exp_psat = np.zeros((np.size(seq_psat),2))
+      sampled_exp_rho = np.zeros((np.size(seq_rho),2))
+
+      for index in range(0,np.size(seq_psat)):
+         sampled_exp_psat[index,:] = exp_psat[int(seq_psat[index]),:]
+      for index in range(0,np.size(seq_rho)):
+         sampled_exp_rho[index,:] = exp_rho[int(seq_rho[index]),:]
+      
+      for data_set in self.temporary_exp_data.data_sets:
+         if (data_set[1] == 'PSat'):
+            data_set[0] = sampled_exp_psat
+         if (data_set[1] == 'rho'):
+            data_set[0] = sampled_exp_rho
+
+
+
+   def Bootstrapping(self, iterations, enable_counter=False):
+      Thermo = self.Thermo
+
+      
+
+      data_matrix = np.zeros((iterations,5))
+
+      for i in range(0,iterations):
+         Temporary_Thermo = xThermoInterface()
+         Temporary_Thermo.ChooseAModel(1)
+         Temporary_Thermo.NoPureComp(Thermo.Get_NoPureComp())
+         Temporary_Thermo.CritProps(1,*Thermo.Get_CritProps(1))
+         Temporary_Thermo.CPAParams(1,*Thermo.Get_CPAParams(1))
+         Temporary_Thermo.AssocParams(1,*Thermo.Get_AssocParams(1))
+
+         self.__Data_Sampling()
+
+         OptimizerObject = CPA_Optimizer()
+         OptimizerObject.AddThermo(Temporary_Thermo)
+         OptimizerObject.AddExp(self.temporary_exp_data)
+
+         optimized_params = list(OptimizerObject.Calculation())
+         
+
+         data_matrix[i,:] = optimized_params
+         if enable_counter:
+            print("Iteration " + str(i+1) + " of " + str(iterations))
+      
+      return data_matrix
+
+   def Scatter_Plots(self, data_matrix):
+      params = ["b0", "Gamma", "c1", "beta", "eps"]
+      outputs = {}
+      for i in range(0, 4):
+         for j in range(1+i,5):
+            output = np.zeros((np.size(data_matrix,0),2))
+            output[:,1] = data_matrix[:,i]
+            output[:,0] = data_matrix[:,j]
+            dict_string = params[i] + "_vs_" + params[j]
+
+            outputs.update({dict_string : output})
+      return outputs
+            
+
+
+         
 
 class ComparisonFuncs:
    """
