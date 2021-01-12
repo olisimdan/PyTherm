@@ -1436,6 +1436,10 @@ class CPA_UncertaintyAnalysis:
       self.exp_data = None
 
    def AddThermo(self,Thermo): 
+      """
+         Adds a thermodynamic model to the uncertainty analysis object.\n
+         :param Thermo: Class of type xThermoInterface
+      """ 
       if not isinstance(Thermo, xThermoInterface):
          raise SyntaxError("AddThermo() requires an xThermoInterface object as input")
       else:
@@ -1458,6 +1462,10 @@ class CPA_UncertaintyAnalysis:
          
 
    def AddExp(self,exp_data):
+      """
+         Adds experimental data to the uncertainty analysis object.\n
+         :param exp_data: Class of type ExpDataModule
+      """
       if not isinstance(exp_data, ExpDataModule):
          raise SyntaxError("AddExp() requires an ExpDataModule object as input")
       else:
@@ -1477,6 +1485,9 @@ class CPA_UncertaintyAnalysis:
          self.exp_data = exp_data
 
    def Sensitivity_Analysis(self):
+      """
+         Performs sensitivity analysis on pure comopnent parameters by predicting saturated vapor pressure and saturated liquid density.
+      """
       if self.Thermo == None:
          raise SyntaxError("The module has not been set up, use AddThermo to add an xThermoInterface object")
       if self.exp_data == None:
