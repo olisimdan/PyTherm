@@ -16,7 +16,7 @@ Otherwise, feel free to use the index page on the following link.
    :hidden:
    :caption: Contents:
 
-   rst/xThermoInterface
+   rst/pyTherm
    rst/xThermoIPs
    rst/AssociationSchemes
 

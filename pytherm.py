@@ -20,7 +20,7 @@ c_double_p = ct.POINTER(ct.c_double)
 c_int_1dim_p = np.ctypeslib.ndpointer(ct.c_int)
 c_double_1dim_p = np.ctypeslib.ndpointer(ct.c_double)
 
-class xThermoInterface(object):
+class Model(object):
    """
       Thermodynamic calculations are contained in this class.
    """
@@ -126,6 +126,9 @@ class xThermoInterface(object):
       """
          Returns used model\n
          :return sEOS: string
+
+         Usage:\n
+         sEOS = WhichModelIsUsed()
       """
       val = int(self.__getvalue(IP_EOSOPT))
       # if (val == EOSOPTION_CPA):
@@ -183,18 +186,24 @@ class xThermoInterface(object):
       """
          Gets the critical properties of component idx\n
          :param idx: integer - Component number/id
-         :return Tc: double - Critical temperature (K)
-         :return Pc: double - Critical pressure (bar)
-         :return Om: double -  Acentric factor (-)
+         :return: dictionary - Contains critical temperature, critical pressure and acentric factor
+         
+         - Critical temperature (K)
+         - Critical pressure (bar)
+         - Acentric factor (-)
 
          Usage:\n
-         (Tc, Pc, Om) = Get_CritProps(idx)
+         output = Get_CritProps(idx)
       """
       Tc = self.__getvalue(IP_TC, idx)
       Pc = self.__getvalue(IP_PC, idx)
       Om = self.__getvalue(IP_OMEGA, idx)
-      return (Tc, Pc, Om)
+      output = {"Tc" : Tc, "Pc" : Pc, "Om" : Om}
+      return output
 
+
+   #Consider whether these really should exist
+   #----------------------------------------------------------
    def Get_Tc(self, idx):
       val = self.__getvalue(IP_TC, idx)
       return (val)
@@ -206,6 +215,7 @@ class xThermoInterface(object):
    def Get_Omega(self, idx):
       val = self.__getvalue(IP_OMEGA, idx)
       return (val)
+   #----------------------------------------------------------
 
    def PenelouxVol(self, idx, c):
       # c: Peneloux volume correction (cm3/mol)
@@ -234,16 +244,24 @@ class xThermoInterface(object):
       """
          Gets the CPA parameters of component idx\n
          :param idx: integer - Component number/id
+         :return: dictionary - Contains CPA parameters: co-volume, reduced enrgy parameter, alpha function T-dependence
+
+         - b0: co-volume (cm3/mol)
+         - Gamma: reduced energy parameter = a/Rb (K)
+         - c1: alpha function T-dependence (-)
+         - c2: coefficients in MC Alpha function alpha(T) = 1+c1*(1-sqrt(T/Tc))+c2*(1-sqrt(T/Tc))^2+c3*(1-sqrt(T/Tc))^3
+         - c3: coefficients in MC Alpha function alpha(T) = 1+c1*(1-sqrt(T/Tc))+c2*(1-sqrt(T/Tc))^2+c3*(1-sqrt(T/Tc))^3
 
          Usage:\n
-         (b0, Gamma, c1, c2, c3) = Get_CPAParams(idx)
+         output = Get_CPAParams(idx)
       """
       b0 = self.__getvalue(IP_CPAB0, idx)
       Gamma = self.__getvalue(IP_CPAGAM, idx)
       c1 = self.__getvalue(IP_CPAC1, idx)
       c2 = self.__getvalue(IP_CPAC2, idx)
       c3 = self.__getvalue(IP_CPAC3, idx)
-      return (b0, Gamma, c1, c2, c3)
+      output = {"b0":b0,"Gamma" : Gamma, "c1" : c1, "c2" : c2, "c3" : c3}
+      return output
 
    def SAFTParams(self, idx, m, sig, eps):
       """
@@ -288,21 +306,27 @@ class xThermoInterface(object):
       """
          Gets the specified association parameters\n
          :param idx: integer - Index of component in component list
-         :return AssocSch: integer - Association scheme (maximum) three integers
-         :return AssocVol: double - Reduced self-association energy (K)
-         :return AssocEng: double - Self-association volume (1000*beta for CPA)
+         :return: dictionary - Contains Association parameters: Association scheme, Reduced self-association energy, Self-association volume
+         
+         - AssocSch: Association scheme (maximum) three integers
+         - AssocVol: Reduced self-association energy (K)
+         - AssocEng: Self-association volume (1000*beta for CPA)
          
          AssocSch: 1st integer is no. of glue sites, 2nd integer is no of positive sites, 3rd integer is no of negative sites e.g. 022 = 4C, 011 = 2B, 100 = 1A, 001 = solvation with one negative site
 
          For more information on association schemes, see the "Association Schemes" in table of contents.
 
          Usage:\n
-         (AssocSch, AssocEng, AssocVol) = Get_AssocParams(self, idx)
+         output = Get_AssocParams(self, idx)
       """
+
       AssocSch = self.__getvalue(IP_SITETYP, idx)
       AssocVol = self.__getvalue(IP_SITEVOL, idx)
       AssocEng = self.__getvalue(IP_SITEENG, idx)
-      return (AssocSch, AssocVol, AssocEng)
+
+      output = {"AssocSch" : AssocSch, "AssocVol" : AssocVol, "AssocEng" : AssocEng}
+
+      return output
 
    def PolarProps(self,idx, mu, a0):
       """
@@ -545,14 +569,14 @@ class xThermoInterface(object):
 
    def SpecAppCompStoich(self, idx, incides, stoichiometry):
       """
-      idx: index in apparent component list
-      indices: index in component list
-      stoichiometry: stoichiometry of indices
-      for example, the component list is [H2O, Na+, Cl-, Br-]
-      the calling procedure will be:
-      SPECAPPCOMPSTOICH(1,[1],[1]);
-      SPECAPPCOMPSTOICH(2,[2 3],[1 1]);
-      SPECAPPCOMPSTOICH(3,[2 4],[1 1]);
+         idx: index in apparent component list
+         indices: index in component list
+         stoichiometry: stoichiometry of indices
+         for example, the component list is [H2O, Na+, Cl-, Br-]
+         the calling procedure will be:
+         SPECAPPCOMPSTOICH(1,[1],[1]);
+         SPECAPPCOMPSTOICH(2,[2 3],[1 1]);
+         SPECAPPCOMPSTOICH(3,[2 4],[1 1]);
       """
       incides = np.atleast_1d(incides)       # do we need to use another variable? how about the efficiency? X.L. 2018-10-19
       stoichiometry = np.atleast_1d(stoichiometry)
@@ -921,7 +945,7 @@ class xThermoInterface(object):
          return tm.value, TrialComp, zy.value, ie.value
       else:
          return tm.value, TrialComp, zy.value, P.value, ie.value
-
+ 
    def PhaseEnvelope(self, Moles, Pini=0.5, beta=0.0, npoint_max=500):
       """
       inputs:
@@ -1189,7 +1213,7 @@ class xThermoInterface(object):
 
 
 
-class ExpDataModule(object):
+class Experimental_Data(object):
    """
       This class is dedicated to containing experimental data needed for optimization or modelling procedures.
    """
@@ -1217,7 +1241,7 @@ class ExpDataModule(object):
 
    def Show_list(self):
       """
-         Display a list of the contents stored in class ExpDataModule
+         Display a list of the contents stored in class Experimental_Data
       """
       data_sets = self.data_sets
 
@@ -1234,7 +1258,7 @@ class ExpDataModule(object):
       
    def Retrieve_data(self,identifier):
       """
-         Retrieve a set of data from the class ExpDataModule.\n
+         Retrieve a set of data from the class Experimental_Data.\n
          :param identifier: string - containing the library path to a csv file containing the experimental data
          :return: hejt - sdfsdf
       """
@@ -1277,7 +1301,7 @@ class ExpDataModule(object):
       print("\n")
 
 
-class CPA_Optimizer(object):
+class Optimizer:
    """
       Object responsible for running pure component parameterization for CPA model.
    """
@@ -1285,13 +1309,13 @@ class CPA_Optimizer(object):
       self.Thermo = None
       self.exp_data = None
 
-   def AddThermo(self,Thermo):
+   def Add_Model(self,Thermo):
       """
          Adds a thermodynamic model to the optimizer object.\n
-         :param Thermo: Class of type xThermoInterface
+         :param Thermo: Class of type Model
       """ 
-      if not isinstance(Thermo, xThermoInterface):
-         raise SyntaxError("AddThermo() requires an xThermoInterface object as input")
+      if not isinstance(Thermo, Model):
+         raise SyntaxError("Add_Model() requires an Model object as input")
       else:
          self.Thermo = Thermo
          self.__EvaluateThermo()
@@ -1299,25 +1323,27 @@ class CPA_Optimizer(object):
    def __EvaluateThermo(self):
       nc = self.Thermo.Get_NoPureComp()
       if nc < 1:
-         raise SyntaxError("The amount of pure components have not been set in the xThermoInterface object")
+         raise SyntaxError("The amount of pure components have not been set in the Model object")
       if nc > 1:
-         raise SyntaxError("More than one component have been described in the xThermoInterface object")
+         raise SyntaxError("More than one component have been described in the Model object")
       for idx in range(1, nc+1):
-         Tc, Pc, Om = self.Thermo.Get_CritProps(idx)
-         b0, Gamma, c1, c2, c3 = self.Thermo.Get_CPAParams(idx)
-         if (b0 == 0): #If b0 is zero, that means CPA parameters have not been given.
-            raise SyntaxError("CPA parameters have not been given to xThermoInterface object")
-         if (Tc == 0): #If Tc is zero, that means critical properties have not been given.
-            raise SyntaxError("Critical properties have not been given to xThermoInterface object")
+         crits = self.Thermo.Get_CritProps(idx)
+         params = self.Thermo.Get_CPAParams(idx)
+
+         params.update(crits)
+         if (params["b0"] == 0): #If b0 is zero, that means CPA parameters have not been given.
+            raise SyntaxError("CPA parameters have not been given to Model object")
+         if (params["Tc"] == 0): #If Tc is zero, that means critical properties have not been given.
+            raise SyntaxError("Critical properties have not been given to Model object")
          
 
-   def AddExp(self,exp_data):
+   def Add_Experimental_Data(self,exp_data):
       """
          Adds experimental data to the optimizer object.\n
-         :param exp_data: Class of type ExpDataModule
+         :param exp_data: Class of type Experimental_Data
       """
-      if not isinstance(exp_data, ExpDataModule):
-         raise SyntaxError("AddExp() requires an ExpDataModule object as input")
+      if not isinstance(exp_data, Experimental_Data):
+         raise SyntaxError("Add_Experimental_Data() requires an Experimental_Data object as input")
       else:
          pSat_present = False
          rho_present = False
@@ -1328,9 +1354,9 @@ class CPA_Optimizer(object):
                rho_present = True
 
          if pSat_present == False:
-            raise SyntaxError("ExpDataModule needs vapor pressure data")
+            raise SyntaxError("Experimental_Data needs vapor pressure data")
          if rho_present == False:
-            raise SyntaxError("ExpDataModule needs liquid density data")
+            raise SyntaxError("Experimental_Data needs liquid density data")
 
          self.exp_data = exp_data
       
@@ -1338,27 +1364,21 @@ class CPA_Optimizer(object):
 
    def Calculation(self):
       """
-         Performs the actual parameterization, cannot be run until AddExp and AddThermo have been run.\n
-         :return: list[5] of doubles [b0, Gamma, c1, AsssocVol, AssocEng]
+         Performs the actual parameterization, cannot be run until Add_Experimental_Data and Add_Model have been run.\n
+         
+         :return: dictionary of optimized parameters.
       """
       if self.Thermo == None:
-         raise SyntaxError("The optimizer has not been set up, use AddThermo to add an xThermoInterface object")
+         raise SyntaxError("The optimizer has not been set up, use Add_Model to add an Model object")
       if self.exp_data == None:
-         raise SyntaxError("The optimizer has not been set up, use AddExp to add an ExpDataModule object")
+         raise SyntaxError("The optimizer has not been set up, use Add_Experimental_Data to add an Experimental_Data object")
 
-      b0, Gamma, c1, c2, c3 = self.Thermo.Get_CPAParams(1)
-      AssocSch, AssocVol, AssocEng = self.Thermo.Get_AssocParams(1)
+      params = self.Thermo.Get_CPAParams(1)
+      assoc_params = self.Thermo.Get_AssocParams(1)
 
-      variables = [b0, Gamma, c1, AssocVol, AssocEng]
+      variables = [ params["b0"], params["Gamma"], params["c1"], assoc_params["AssocVol"], assoc_params["AssocEng"] ]
 
-      #print("Before:")
-
-      out = leastsq(self.Residual, variables, args = ())
-      
-      
-      #print("\nAfter:")
-      #for output in out[0]:
-      #   print( "%.3f" % output)
+      out = leastsq(self.__Residual, variables, args = ())
       
       b0 = out[0][0]
       Gamma = out[0][1]
@@ -1366,40 +1386,39 @@ class CPA_Optimizer(object):
       AssocVol = out[0][3]
       AssocEng = out[0][4]
 
+      output = {"b0" : b0, "Gamma" : Gamma, "c1": c1, "AssocVol" : AssocVol, "AssocEng" : AssocEng} #Dictionary
+
       return b0, Gamma, c1, AssocVol, AssocEng
 
 
 
-   def Residual(self,variables):
+   def __Residual(self,variables):
       """
          Calculates the residuals between model and experimental data\n
          :param variables: list[5] of doubles [b0, Gamma, c1, AssocVol, AssocEng]
          :return: list of residuals
       """
       exp_data = self.exp_data
-      #pars = params.valuesdict()
-      #b0 = pars['b0']
-      #Gamma = params['Gamma']
-      #c1 = params['c1']
-      #AssocVol = params['AssocVol']
-      #AssocEng = params['AssocEng']
-      Tc = 769.5
-      Pc = 33
-      Om = 0.5
-      AssocSch = 24
 
-      b0 = variables[0]
-      Gamma = variables[1]
-      c1 = variables[2]
-      AssocVol = variables[3]
-      AssocEng = variables[4]
 
-      Thermo_Optimizer = xThermoInterface()
-      Thermo_Optimizer.NoPureComp(1)
+      temp_params = self.Thermo.Get_AssocParams(1) #For the purpose of extracting association scheme
+
+      params = {
+         "b0" : variables[0],
+         "Gamma" : variables[1],
+         "c1" : variables[2],
+         "AssocVol" : variables[3],
+         "AssocEng" : variables[4],
+         "AssocSch" : temp_params["AssocSch"]
+      }
+
+      crits = self.Thermo.Get_CritProps(1)
+      Thermo_Optimizer = Model()
       Thermo_Optimizer.ChooseAModel(1)
-      Thermo_Optimizer.CritProps(1, Tc, Pc, Om)
-      Thermo_Optimizer.CPAParams(1, b0, Gamma, c1)
-      Thermo_Optimizer.AssocParams(1, AssocSch, AssocVol, AssocEng)
+      Thermo_Optimizer.NoPureComp(1)
+      Thermo_Optimizer.CritProps(1, crits["Tc"], crits["Pc"], crits["Om"])
+      Thermo_Optimizer.CPAParams(1, params["b0"], params["Gamma"], params["c1"])
+      Thermo_Optimizer.AssocParams(1, params["AssocSch"], params["AssocVol"], params["AssocEng"])
 
       composition = [1.0]
       deviationType = "ARD"
@@ -1429,7 +1448,7 @@ class CPA_Optimizer(object):
 
 
 
-class CPA_UncertaintyAnalysis:
+class Uncertainty_Analysis:
    """
       Class dedicated to CPA uncertainty analysis
    """
@@ -1437,13 +1456,13 @@ class CPA_UncertaintyAnalysis:
       self.Thermo = None
       self.exp_data = None
 
-   def AddThermo(self,Thermo): 
+   def Add_Model(self,Thermo): 
       """
          Adds a thermodynamic model to the uncertainty analysis object.\n
-         :param Thermo: Class of type xThermoInterface
+         :param Thermo: Class of type Model
       """ 
-      if not isinstance(Thermo, xThermoInterface):
-         raise SyntaxError("AddThermo() requires an xThermoInterface object as input")
+      if not isinstance(Thermo, Model):
+         raise SyntaxError("Add_Model() requires an Model object as input")
       else:
          self.Thermo = Thermo
          self.__EvaluateThermo()
@@ -1451,25 +1470,25 @@ class CPA_UncertaintyAnalysis:
    def __EvaluateThermo(self):
       nc = self.Thermo.Get_NoPureComp()
       if nc < 1:
-         raise SyntaxError("The amount of pure components have not been set in the xThermoInterface object")
+         raise SyntaxError("The amount of pure components have not been set in the Model object")
       if nc > 1:
-         raise SyntaxError("More than one component have been described in the xThermoInterface object")
+         raise SyntaxError("More than one component have been described in the Model object")
       for idx in range(1, nc+1):
          Tc, Pc, Om = self.Thermo.Get_CritProps(idx)
          b0, Gamma, c1, c2, c3 = self.Thermo.Get_CPAParams(idx)
          if (b0 == 0): #If b0 is zero, that means CPA parameters have not been given.
-            raise SyntaxError("CPA parameters have not been given to xThermoInterface object")
+            raise SyntaxError("CPA parameters have not been given to Model object")
          if (Tc == 0): #If Tc is zero, that means critical properties have not been given.
-            raise SyntaxError("Critical properties have not been given to xThermoInterface object")
+            raise SyntaxError("Critical properties have not been given to Model object")
          
 
-   def AddExp(self,exp_data):
+   def Add_Experimental_Data(self,exp_data):
       """
          Adds experimental data to the uncertainty analysis object.\n
-         :param exp_data: Class of type ExpDataModule
+         :param exp_data: Class of type Experimental_Data
       """
-      if not isinstance(exp_data, ExpDataModule):
-         raise SyntaxError("AddExp() requires an ExpDataModule object as input")
+      if not isinstance(exp_data, Experimental_Data):
+         raise SyntaxError("Add_Experimental_Data() requires an Experimental_Data object as input")
       else:
          pSat_present = False
          rho_present = False
@@ -1480,9 +1499,9 @@ class CPA_UncertaintyAnalysis:
                rho_present = True
 
          if pSat_present == False:
-            raise SyntaxError("ExpDataModule needs vapor pressure data")
+            raise SyntaxError("Experimental_Data needs vapor pressure data")
          if rho_present == False:
-            raise SyntaxError("ExpDataModule needs liquid density data")
+            raise SyntaxError("Experimental_Data needs liquid density data")
 
          self.exp_data = exp_data
          self.temporary_exp_data = copy.deepcopy(exp_data)
@@ -1492,20 +1511,25 @@ class CPA_UncertaintyAnalysis:
          Performs sensitivity analysis on pure comopnent parameters by predicting saturated vapor pressure and saturated liquid density.
       """
       if self.Thermo == None:
-         raise SyntaxError("The module has not been set up, use AddThermo to add an xThermoInterface object")
+         raise SyntaxError("The module has not been set up, use Add_Model to add an Model object")
       if self.exp_data == None:
-         raise SyntaxError("The module has not been set up, use AddExp to add an ExpDataModule object")
+         raise SyntaxError("The module has not been set up, use Add_Experimental_Data to add an Experimental_Data object")
       
       n_points = 50
       
-      Tc, Pc, om = self.Thermo.Get_CritProps(1)
-      b0, Gamma, c1, c2, c3 = self.Thermo.Get_CPAParams(1)
-      AssocSch, AssocVol, AssocEng = self.Thermo.Get_AssocParams(1)
+      crits = self.Thermo.Get_CritProps(1)
+      params = self.Thermo.Get_CPAParams(1)
+      assoc_params = self.Thermo.Get_AssocParams(1)
+
+      P = dict() #Contains all parameters and properties
+      P.update(crits)
+      P.update(params)
+      P.update(assoc_params)
+
       low = -0.05
       high = 0.05
       deviationType = "ARD"
       deltas = np.linspace(low,high,n_points)
-      variables = [b0, Gamma, c1, AssocVol, AssocEng]
 
       matrix = np.zeros((n_points,5))
 
@@ -1514,11 +1538,11 @@ class CPA_UncertaintyAnalysis:
       psat_deviation_matrix = np.zeros((n_points,5))
       rho_deviation_matrix = np.zeros((n_points,5))
 
-      matrix[:,0] = np.linspace((1+low) * b0,(1+high) * b0, n_points)
-      matrix[:,1] = np.linspace((1+low) * Gamma,(1+high) * Gamma, n_points)
-      matrix[:,2] = np.linspace((1+low) * c1,(1+high) * c1, n_points)
-      matrix[:,3] = np.linspace((1+low) * AssocVol,(1+high) * AssocVol, n_points)
-      matrix[:,4] = np.linspace((1+low) * AssocEng,(1+high) * AssocEng, n_points)
+      matrix[:,0] = np.linspace((1+low) * P["b0"],(1+high) * P["b0"], n_points)
+      matrix[:,1] = np.linspace((1+low) * P["Gamma"],(1+high) * P["Gamma"], n_points)
+      matrix[:,2] = np.linspace((1+low) * P["c1"],(1+high) * P["c1"], n_points)
+      matrix[:,3] = np.linspace((1+low) * P["AssocVol"],(1+high) * P["AssocVol"], n_points)
+      matrix[:,4] = np.linspace((1+low) * P["AssocEng"],(1+high) * P["AssocEng"], n_points)
 
 
       exp_data = self.exp_data
@@ -1546,12 +1570,12 @@ class CPA_UncertaintyAnalysis:
                   tm[:,k] = np.mean(matrix[:,k])
 
 
-            Thermo_Uncertainty = xThermoInterface()
+            Thermo_Uncertainty = Model()
             Thermo_Uncertainty.ChooseAModel(1)
             Thermo_Uncertainty.NoPureComp(1)
-            Thermo_Uncertainty.CritProps(1, Tc, Pc, om)
+            Thermo_Uncertainty.CritProps(1, P["Tc"], P["Pc"], P["Om"])
             Thermo_Uncertainty.CPAParams(1, tm[i,0], tm[i,1], tm[i,2])
-            Thermo_Uncertainty.AssocParams(1, AssocSch, tm[i,3], tm[i,4])
+            Thermo_Uncertainty.AssocParams(1, P["AssocSch"], tm[i,3], tm[i,4])
 
 
             Thermo_Uncertainty.Setup_Thermo()
@@ -1616,18 +1640,31 @@ class CPA_UncertaintyAnalysis:
       data_matrix = np.zeros((iterations,5))
 
       for i in range(0,iterations):
-         Temporary_Thermo = xThermoInterface()
+
+
+         crits = self.Thermo.Get_CritProps(1)
+         params = self.Thermo.Get_CPAParams(1)
+         assoc_params = self.Thermo.Get_AssocParams(1)
+
+         P = dict() #Contains all parameters and properties
+         P.update(crits)
+         P.update(params)
+         P.update(assoc_params)
+
+         Temporary_Thermo = Model()
+
          Temporary_Thermo.ChooseAModel(1)
          Temporary_Thermo.NoPureComp(Thermo.Get_NoPureComp())
-         Temporary_Thermo.CritProps(1,*Thermo.Get_CritProps(1))
-         Temporary_Thermo.CPAParams(1,*Thermo.Get_CPAParams(1))
-         Temporary_Thermo.AssocParams(1,*Thermo.Get_AssocParams(1))
+         Temporary_Thermo.CritProps(1,P["Tc"], P["Pc"], P["Om"])
+         Temporary_Thermo.CPAParams(1,P["b0"], P["Gamma"], P["c1"])
+         Temporary_Thermo.AssocParams(1,P["AssocSch"], P["AssocVol"], P["AssocEng"])
+
 
          self.__Data_Sampling()
 
-         OptimizerObject = CPA_Optimizer()
-         OptimizerObject.AddThermo(Temporary_Thermo)
-         OptimizerObject.AddExp(self.temporary_exp_data)
+         OptimizerObject = Optimizer()
+         OptimizerObject.Add_Model(Temporary_Thermo)
+         OptimizerObject.Add_Experimental_Data(self.temporary_exp_data)
 
          optimized_params = list(OptimizerObject.Calculation())
          
@@ -1988,3 +2025,31 @@ class ComparisonFuncs:
 
 
 
+class __UnitConversion:
+   def __init__(self):
+      self.SI = {
+         "T" : "K",
+         "P" : "Pa",
+         "rho" : ""
+      }
+      self.temperature = {
+         "K" : [1,0],
+         "C" : [1, -273.15]
+      }
+   def convert(self):
+      a = 5 #fill later
+
+"""
+class __CommonFunctions:
+   def __init__(self):
+      a = 5
+
+   def CopyModel(Thermo):
+      New_Thermo = Model()
+      New_Thermo.ChooseAModel(1)
+      New_Thermo.NoPureComp(Thermo.Get_NoPureComp())
+      crits = Thermo.Get_CritProps(1)
+      New_Thermo.
+
+      return New_Thermo
+"""
