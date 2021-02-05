@@ -14,6 +14,10 @@ from xThermoIPs import *
 from lmfit import minimize, Parameters #This requires a package, isntall it by writing "pip install lmfit" in anaconda prompt
 from scipy.optimize import leastsq
 import random
+from joblib import Parallel, delayed
+import multiprocessing as mp
+import os
+
 
 c_int_p = ct.POINTER(ct.c_int)
 c_double_p = ct.POINTER(ct.c_double)
@@ -977,7 +981,7 @@ class Model(object):
       Tarray_ret = Tarray[0:npoint_ret]
       Parray_ret = Parray[0:npoint_ret]
       TypeofPoint_ret = 4 - TypeofPoint[0:npoint_ret]
-
+      
       return npoint_ret, Tarray_ret, Parray_ret, TypeofPoint_ret, ierr.value
 
    def TXYdiagram(self, P=1.0, npoint_max=100, step_max=0.5):
@@ -1359,8 +1363,12 @@ class Optimizer:
             raise SyntaxError("Experimental_Data needs liquid density data")
 
          self.exp_data = exp_data
-      
-
+   
+   #def AddBounds(self, dict_var):
+   #   """
+   #      Adds bounds to decision variables in optimization process
+   #   """
+   #   for 
 
    def Calculation(self):
       """
@@ -1455,6 +1463,7 @@ class Uncertainty_Analysis:
    def __init__(self):
       self.Thermo = None
       self.exp_data = None
+      self.Delta_Range = [-0.05, 0.05]
 
    def Add_Model(self,Thermo): 
       """
@@ -1506,6 +1515,20 @@ class Uncertainty_Analysis:
          self.exp_data = exp_data
          self.temporary_exp_data = copy.deepcopy(exp_data)
 
+
+   def Set_Delta(self, lb, ub):
+      """
+         Set the bounds of percentage deviation for sensitivity analysis
+
+         :param lb: double - Lower bound deviation used for sensitivity analysis [%]
+         :param yb: double - Ubber bound deviation used for sensitivity analysis [%]
+
+         Usage:\n
+         Set_Delta(lb, ub)
+      """
+      self.Delta_Range[0] = lb * 1e-2
+      self.Delta_Range[1] = ub * 1e-2
+
    def Sensitivity_Analysis(self):
       """
          Performs sensitivity analysis on pure comopnent parameters by predicting saturated vapor pressure and saturated liquid density.
@@ -1526,8 +1549,9 @@ class Uncertainty_Analysis:
       P.update(params)
       P.update(assoc_params)
 
-      low = -0.05
-      high = 0.05
+      low = self.Delta_Range[0]
+      high = self.Delta_Range[1]
+
       deviationType = "ARD"
       deltas = np.linspace(low,high,n_points)
 
@@ -1588,11 +1612,9 @@ class Uncertainty_Analysis:
             Thermo_Uncertainty.Finishup_Thermo()
 
 
-      return (psat_deviation_matrix, rho_deviation_matrix, deltas)
+      return (psat_deviation_matrix, rho_deviation_matrix, deltas*100)
 
    def __Data_Sampling(self):
-      exp_data = self.exp_data
-
       exp_data = self.exp_data
       exp_psat = np.array([None,None])
       exp_rho = np.array([None,None])
@@ -1629,7 +1651,6 @@ class Uncertainty_Analysis:
             data_set[0] = sampled_exp_psat
          if (data_set[1] == 'rho'):
             data_set[0] = sampled_exp_rho
-
 
 
    def Bootstrapping(self, iterations, enable_counter=False):
@@ -2053,3 +2074,32 @@ class __CommonFunctions:
 
       return New_Thermo
 """
+
+
+class MultiThreading:
+   def __init__(self,suppress = False):
+      self.ncores = mp.cpu_count() - 1
+      if not suppress:
+         print("Your computer has a total of " + str(mp.cpu_count()) + " cores (or threads). ")
+         print("This module will by default utilize all available cores minus one.")
+         print("To change this, use the Set_Cores() function")
+   
+   def Set_Cores(self, ncores):
+      """
+         Sets the amount of cores to be used for multithreading
+
+         :param ncores: integer - Number of cores to be used. Must be between 1 and maximum number of CPU cores
+      """
+      if ncores >= 1 and ncores <= mp.cpu_count():
+         self.ncores = ncores
+         print("Amount of cores utilized: " + str(self.ncores))
+      else:
+         print("Entered number of cores not within range, defaulting to " + str(mp.cpu_count() - 1))
+
+   def Pooling(self):
+      inputs = range(10)
+      results = Parallel(n_jobs=self.ncores)(delayed(self.CalcFunc)(n) for n in inputs)
+      print(results)
+
+   def CalcFunc(self,n):
+      return n
