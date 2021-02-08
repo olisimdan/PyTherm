@@ -1,7 +1,7 @@
-xThermoInterface module
+PyTherm
 =======================
 
-.. automodule:: xThermoInterface
+.. automodule:: pytherm
    :members:
    :undoc-members:
    :show-inheritance:

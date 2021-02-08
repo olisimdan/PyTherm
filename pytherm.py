@@ -12,7 +12,7 @@ import time
 import pandas as pd
 from xThermoIPs import *
 from lmfit import minimize, Parameters #This requires a package, isntall it by writing "pip install lmfit" in anaconda prompt
-from scipy.optimize import leastsq
+from scipy.optimize import least_squares
 import random
 from joblib import Parallel, delayed
 import multiprocessing as mp
@@ -1274,6 +1274,21 @@ class Experimental_Data(object):
       if len(output_data) == 0:
          raise SyntaxError("The entered data set name cannot be found. Try running .Show_data_set() to get a list of data sets and their names.")
       return output_data
+   
+   def Retrieve_data_type(self, exp_type):
+      """
+         Retrieve a set of data from the class Experimental_Data.\n
+         :param exp_type: string - containing the library path to a csv file containing the experimental data
+         :return: hejt - sdfsdf
+      """
+      output_data = np.zeros((1,2))
+      for data_set in self.data_sets:
+         if data_set[1] == exp_type:
+            output_data = np.append(output_data, data_set[0], 0)
+      output_data = np.delete(output_data, (0), axis=0)
+      if len(output_data) == 0:
+         raise SyntaxError("The entered data set name cannot be found. Try running .Show_data_set() to get a list of data sets and their names.")
+      return output_data
 
 
    def ReducedTemperature(self,low,high,Tc):
@@ -1312,6 +1327,14 @@ class Optimizer:
    def __init__(self):
       self.Thermo = None
       self.exp_data = None
+      self.algorithm = "trf"
+      self.bounds_var = ([-np.inf,-np.inf,-np.inf,-np.inf,-np.inf],[np.inf,np.inf,np.inf,np.inf,np.inf])
+
+
+      #Multistart variables
+      self.multistart_iterations = None
+      self.multistart_bounds = None
+      self.multistart_setup = False
 
    def Add_Model(self,Thermo):
       """
@@ -1364,40 +1387,170 @@ class Optimizer:
 
          self.exp_data = exp_data
    
-   #def AddBounds(self, dict_var):
-   #   """
-   #      Adds bounds to decision variables in optimization process
-   #   """
-   #   for 
+   def Add_Bounds(self, bounds):
+      """
+         Sets the bounds of variables for the optimization procedure.
 
-   def Calculation(self):
+         This has no effect when using the Levenberg-Marquardt algorithm.
+
+         This function is entirely optional. By default, the variables have no bounds.
+
+         :param bounds: dictionary - A dictionary containing variable names as keys and a 2-element list of lower and upper bound. See example below.
+      
+         Example: Assume we want to set upper and lower bounds for b0 and c1
+
+         bounds = {"b0" : [b0_low, b0_high], "c1" : [c1_low, c1_high]}
+      """
+      locations = {
+         "b0" : 0,
+         "Gamma" : 1,
+         "c1" : 2,
+         "AssocVol" : 3,
+         "AssocEng" : 4
+      }
+
+      for key, value in bounds.items():
+         self.bounds_var[0][locations[key]] = value[0]
+         self.bounds_var[1][locations[key]] = value[1]
+
+
+
+
+   def Set_Optimization_Algorithm(self, algorithm):
+      """
+         Sets the optimization algorithm used. The default algorithm is Trust Region Reflective.
+
+         :param algorithm: string - Selected algorithm
+
+         Available algorithms: 
+
+         - 'trf': Trust Region Reflective algorithm, particularly suitably for large sparse problems with bounds. Generally robust method
+         - 'dogbox': Dogleg algorithm with rectangular trust regions, typical use case is small problems with bounds.
+         - 'lm': Levenberg-Marquardt algorithm,. Doesn't handle bounds and sparse Jacobians. Usually the most efficient method for small unconstrained problems.
+      
+      """
+
+      if not (algorithm == 'trf' or algorithm == 'dogbox' or algorithm == 'lm'):
+         raise Exception("The entered algorithm is not recognized. Try the help function to see the available algorithms")
+
+      self.algorithm = algorithm
+
+   def Setup_Multistart(self, bounds, iterations):
+      """
+      """
+      self.multistart_iterations = iterations
+      
+      self.multistart_setup = True
+      
+      matrix = np.zeros([iterations,5])
+
+
+
+      index = 0
+      for key , value in bounds.items():
+         matrix[:,index] = np.random.uniform(value[0], value[1], [iterations])
+         index = index + 1
+      
+      self.multistart_bounds = matrix
+
+
+
+   def Calculation(self, **kwargs):
       """
          Performs the actual parameterization, cannot be run until Add_Experimental_Data and Add_Model have been run.\n
          
          :return: dictionary of optimized parameters.
       """
+
       if self.Thermo == None:
          raise SyntaxError("The optimizer has not been set up, use Add_Model to add an Model object")
       if self.exp_data == None:
          raise SyntaxError("The optimizer has not been set up, use Add_Experimental_Data to add an Experimental_Data object")
 
-      params = self.Thermo.Get_CPAParams(1)
-      assoc_params = self.Thermo.Get_AssocParams(1)
+      runMultistart = False
+      for key, value in kwargs.items():
+         if key == "MultiStart" and value:
+            if not self.multistart_setup:
+               raise Exception("The multistart procedure has not been set up yet. Use Setup_Multistart()")
+            runMultistart = True
 
-      variables = [ params["b0"], params["Gamma"], params["c1"], assoc_params["AssocVol"], assoc_params["AssocEng"] ]
+         
 
-      out = leastsq(self.__Residual, variables, args = ())
+
+      if runMultistart:
+         param_list = []
+         deviation_list = np.zeros([self.multistart_iterations])
+         for i in range(0,self.multistart_iterations):
+            print("Iteration " + str(i + 1))
+            params = {
+               "b0" : self.multistart_bounds[i,0],
+               "Gamma" : self.multistart_bounds[i,1],
+               "c1" : self.multistart_bounds[i,2]
+            }
+
+            assoc_params = {
+               "AssocVol" : self.multistart_bounds[i,3],
+               "AssocEng" : self.multistart_bounds[i,4],
+            }
+            
+            variables = [ params["b0"], params["Gamma"], params["c1"], assoc_params["AssocVol"], assoc_params["AssocEng"] ]
+
+            out = least_squares(self.__Residual, variables, args = (), method = self.algorithm, bounds = self.bounds_var)
+            
+            b0 = out.x[0]
+            Gamma = out.x[1]
+            c1 = out.x[2]
+            AssocVol = out.x[3]
+            AssocEng = out.x[4]
+
+            temp_dict = {
+               "b0" : b0, 
+               "Gamma" : Gamma, 
+               "c1": c1, 
+               "AssocVol" : AssocVol, 
+               "AssocEng" : AssocEng
+            } #Dictionary
+
+            deviation = out.cost
+
+            param_list.append(temp_dict)
+            deviation_list[i] = deviation
+
+         min = np.min(deviation_list)
+         condition = (deviation_list == min)
+         min_index = np.where(condition)
+         min_index = min_index[0][0]
+         
+         output = param_list[min_index]
+         return output
+
+
+
+      else:
+         params = self.Thermo.Get_CPAParams(1)
+         assoc_params = self.Thermo.Get_AssocParams(1)
+         
+         variables = [ params["b0"], params["Gamma"], params["c1"], assoc_params["AssocVol"], assoc_params["AssocEng"] ]
+
+         out = least_squares(self.__Residual, variables, args = (), method = self.algorithm, bounds = self.bounds_var)
+         
+         
+         b0 = out.x[0]
+         Gamma = out.x[1]
+         c1 = out.x[2]
+         AssocVol = out.x[3]
+         AssocEng = out.x[4]
+
+         output = {
+            "b0" : b0, 
+            "Gamma" : Gamma, 
+            "c1": c1, 
+            "AssocVol" : AssocVol, 
+            "AssocEng" : AssocEng
+         } #Dictionary
+
+         return output
       
-      b0 = out[0][0]
-      Gamma = out[0][1]
-      c1 = out[0][2]
-      AssocVol = out[0][3]
-      AssocEng = out[0][4]
-
-      output = {"b0" : b0, "Gamma" : Gamma, "c1": c1, "AssocVol" : AssocVol, "AssocEng" : AssocEng} #Dictionary
-
-      return b0, Gamma, c1, AssocVol, AssocEng
-
 
 
    def __Residual(self,variables):
@@ -1430,26 +1583,18 @@ class Optimizer:
 
       composition = [1.0]
       deviationType = "ARD"
-
-      expT_psat = np.array([])
-      expT_rho = np.array([])
-      expPsat = np.array([])
-      expRho = np.array([])
-
+   
       CompObject = ComparisonFuncs(Thermo_Optimizer, deviationType)
       
-      
-      for data_set in exp_data.data_sets:
-         if (data_set[1] == 'PSat'):
-            expT_psat = np.append(expT_psat,data_set[0][:,0])
-            expPsat = np.append(expPsat,data_set[0][:,1])
-         if (data_set[1] == 'rho'):
-            expT_rho = np.append(expT_rho,data_set[0][:,0])
-            expRho = np.append(expRho,data_set[0][:,1])
-
+      exp_psat = exp_data.Retrieve_data_type("PSat")
+      exp_rho = exp_data.Retrieve_data_type("rho")
+      psat_T = exp_psat[:,0]
+      rho_T = exp_rho[:,0]
+      psat = exp_psat[:,1]
+      rho = exp_rho[:,1]
       Thermo_Optimizer.Setup_Thermo()
-      deviation_psat = CompObject.PBubble_comparison(expT_psat, expPsat, composition)
-      deviation_rho = CompObject.LiqRho_comparison(expT_rho.tolist(), expRho.tolist(), composition)
+      deviation_psat = CompObject.PBubble_comparison(psat_T, psat, composition)
+      deviation_rho = CompObject.LiqRho_comparison(rho_T.tolist(), rho.tolist(), composition)
       deviation = np.append(deviation_psat,deviation_rho)
       #Thermo_Optimizer.Finishup_Thermo()
       return deviation
@@ -1616,21 +1761,11 @@ class Uncertainty_Analysis:
 
    def __Data_Sampling(self):
       exp_data = self.exp_data
-      exp_psat = np.array([None,None])
-      exp_rho = np.array([None,None])
-
-
-
-      for data_set in exp_data.data_sets:
-         if (data_set[1] == 'PSat'):
-            exp_psat = np.vstack([exp_psat,data_set[0]])
-         if (data_set[1] == 'rho'):
-            exp_rho = np.vstack([exp_rho,data_set[0]])
-
-      exp_psat = np.delete(exp_psat,(0), axis = 0)
-      exp_rho = np.delete(exp_rho,(0), axis = 0)
-
       
+      exp_psat = exp_data.Retrieve_data_type("PSat")
+      exp_rho = exp_data.Retrieve_data_type("rho")
+
+
       seq_psat = np.linspace(0,np.size(exp_psat,0)-1,np.size(exp_psat,0))
       seq_rho = np.linspace(0,np.size(exp_rho,0)-1,np.size(exp_rho,0))
 
