@@ -1495,7 +1495,7 @@ class Optimizer:
             
             variables = [ params["b0"], params["Gamma"], params["c1"], assoc_params["AssocVol"], assoc_params["AssocEng"] ]
 
-            out = least_squares(self.__Residual, variables, args = (), method = self.algorithm, bounds = self.bounds_var)
+            out = least_squares(self.__Residual, variables, args = (), method = 'lm')
             
             b0 = out.x[0]
             Gamma = out.x[1]
@@ -1822,10 +1822,10 @@ class Uncertainty_Analysis:
          OptimizerObject.Add_Model(Temporary_Thermo)
          OptimizerObject.Add_Experimental_Data(self.temporary_exp_data)
 
-         optimized_params = list(OptimizerObject.Calculation())
+         optimized_params = OptimizerObject.Calculation()
          
 
-         data_matrix[i,:] = optimized_params
+         data_matrix[i,:] = [optimized_params["b0"], optimized_params["Gamma"], optimized_params["c1"], optimized_params["AssocVol"], optimized_params["AssocEng"]]
          if enable_counter:
             print("Iteration " + str(i+1) + " of " + str(iterations))
       

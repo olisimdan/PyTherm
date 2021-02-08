@@ -1342,6 +1342,21 @@ tl_p2: Composition of ‘right point’ of the tie-lines (size=id_tl(np_tl+1)-1,
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Object responsible for running pure component parameterization for CPA model.</p>
 <dl class="py method">
+<dt id="pytherm.Optimizer.Add_Bounds">
+<code class="sig-name descname">Add_Bounds</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">bounds</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pytherm.Optimizer.Add_Bounds" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the bounds of variables for the optimization procedure.</p>
+<p>This has no effect when using the Levenberg-Marquardt algorithm.</p>
+<p>This function is entirely optional. By default, the variables have no bounds.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>bounds</strong> – dictionary - A dictionary containing variable names as keys and a 2-element list of lower and upper bound. See example below.</p>
+</dd>
+</dl>
+<p>Example: Assume we want to set upper and lower bounds for b0 and c1</p>
+<p>bounds = {“b0” : [b0_low, b0_high], “c1” : [c1_low, c1_high]}</p>
+</dd></dl>
+
+<dl class="py method">
 <dt id="pytherm.Optimizer.Add_Experimental_Data">
 <code class="sig-name descname">Add_Experimental_Data</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">exp_data</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pytherm.Optimizer.Add_Experimental_Data" title="Permalink to this definition">¶</a></dt>
 <dd><p>Adds experimental data to the optimizer object.</p>
@@ -1365,7 +1380,7 @@ tl_p2: Composition of ‘right point’ of the tie-lines (size=id_tl(np_tl+1)-1,
 
 <dl class="py method">
 <dt id="pytherm.Optimizer.Calculation">
-<code class="sig-name descname">Calculation</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pytherm.Optimizer.Calculation" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">Calculation</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pytherm.Optimizer.Calculation" title="Permalink to this definition">¶</a></dt>
 <dd><p>Performs the actual parameterization, cannot be run until Add_Experimental_Data and Add_Model have been run.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -1377,7 +1392,7 @@ tl_p2: Composition of ‘right point’ of the tie-lines (size=id_tl(np_tl+1)-1,
 <dl class="py method">
 <dt id="pytherm.Optimizer.Set_Optimization_Algorithm">
 <code class="sig-name descname">Set_Optimization_Algorithm</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">algorithm</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pytherm.Optimizer.Set_Optimization_Algorithm" title="Permalink to this definition">¶</a></dt>
-<dd><p>Sets the optimization algorithm used</p>
+<dd><p>Sets the optimization algorithm used. The default algorithm is Trust Region Reflective.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>algorithm</strong> – string - Selected algorithm</p>
@@ -1390,6 +1405,11 @@ tl_p2: Composition of ‘right point’ of the tie-lines (size=id_tl(np_tl+1)-1,
 <li><p>‘lm’: Levenberg-Marquardt algorithm,. Doesn’t handle bounds and sparse Jacobians. Usually the most efficient method for small unconstrained problems.</p></li>
 </ul>
 </dd></dl>
+
+<dl class="py method">
+<dt id="pytherm.Optimizer.Setup_Multistart">
+<code class="sig-name descname">Setup_Multistart</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">bounds</span></em>, <em class="sig-param"><span class="n">iterations</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pytherm.Optimizer.Setup_Multistart" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 </dd></dl>
 
