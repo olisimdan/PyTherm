@@ -6,6 +6,7 @@ PyTherm
 import os
 import ctypes as ct
 import numpy as np
+from psopy import minimize as PSO_minimize
 import copy
 import time
 #from functions.comparisonFcn import *
@@ -392,7 +393,7 @@ class Model(object):
       n = np.size(ipc)
       for i in range(0, n):
          self.__setvalue(IP_DGTVIPC0+i, ipc[i], idx)
-
+      
 
    def NoSpecKij(self, nkij):
       self.__setvalue(IP_NKIJ, nkij)
@@ -1328,8 +1329,12 @@ class Optimizer:
       self.Thermo = None
       self.exp_data = None
       self.algorithm = "trf"
-      self.bounds_var = ([-np.inf,-np.inf,-np.inf,-np.inf,-np.inf],[np.inf,np.inf,np.inf,np.inf,np.inf])
-
+      self.bounds_var = ([0, 0, 0, 0, 0],[np.inf,np.inf,np.inf,np.inf,np.inf])
+      self.x0_fixed = {"b0" : False,
+                        "Gamma" : False,
+                        "c1" : False,
+                        "AssocVol" : False,
+                        "AssocEng" : False}
 
       #Multistart variables
       self.multistart_iterations = None
@@ -1412,9 +1417,12 @@ class Optimizer:
       for key, value in bounds.items():
          self.bounds_var[0][locations[key]] = value[0]
          self.bounds_var[1][locations[key]] = value[1]
+      
+   def Fix_Variables(self, x0_fixed):
+      """
 
-
-
+      """
+      self.x0_fixed = x0_fixed
 
    def Set_Optimization_Algorithm(self, algorithm):
       """
@@ -1454,6 +1462,44 @@ class Optimizer:
       self.multistart_bounds = matrix
 
 
+   def PSO(self,n_particles,opt):
+      """
+         Perform particle swarm optimization, cannot be run until Add_Experimental_Data and Add_Model have been run.\n
+
+         :return: dictionary of optimized parameters.
+      """
+      if self.Thermo == None:
+         raise SyntaxError("The optimizer has not been set up, use Add_Model to add an Model object")
+      if self.exp_data == None:
+         raise SyntaxError("The optimizer has not been set up, use Add_Experimental_Data to add an Experimental_Data object")
+      
+
+      x0 = np.zeros((n_particles,5))
+      for i in range(0,5):
+         x0[:,i] = np.random.uniform(self.bounds_var[0][i], self.bounds_var[1][i], (n_particles))
+
+      out = PSO_minimize(self.__Residual, x0, args=(),options=opt)
+      
+     
+      
+      b0 = out.x[0]
+      Gamma = out.x[1]
+      c1 = out.x[2]
+      AssocVol = out.x[3]
+      AssocEng = out.x[4]
+
+      output = {
+         "b0" : b0, 
+         "Gamma" : Gamma, 
+         "c1": c1, 
+         "AssocVol" : AssocVol, 
+         "AssocEng" : AssocEng
+      } 
+
+      return output
+
+
+
 
    def Calculation(self, **kwargs):
       """
@@ -1466,7 +1512,6 @@ class Optimizer:
          raise SyntaxError("The optimizer has not been set up, use Add_Model to add an Model object")
       if self.exp_data == None:
          raise SyntaxError("The optimizer has not been set up, use Add_Experimental_Data to add an Experimental_Data object")
-
       runMultistart = False
       for key, value in kwargs.items():
          if key == "MultiStart" and value:
@@ -1531,22 +1576,33 @@ class Optimizer:
          assoc_params = self.Thermo.Get_AssocParams(1)
          
          variables = [ params["b0"], params["Gamma"], params["c1"], assoc_params["AssocVol"], assoc_params["AssocEng"] ]
+         temp_variables = copy.deepcopy(variables)
+         indexes = []
+         indexes_keep = []
+         fixed_list = [self.x0_fixed["b0"],self.x0_fixed["Gamma"],self.x0_fixed["c1"],self.x0_fixed["AssocVol"],self.x0_fixed["AssocEng"],]
+         
+         for index, value in enumerate(fixed_list):
+            if value:
+               indexes.append(index)
+            else:
+               indexes_keep.append(index)
+         temp_bounds = copy.deepcopy(self.bounds_var)
+         for index in sorted(indexes, reverse=True):
+            del variables[index]
+            del temp_bounds[0][index]
+            del temp_bounds[1][index]
 
-         out = least_squares(self.__Residual, variables, args = (), method = self.algorithm, bounds = self.bounds_var)
-         
-         
-         b0 = out.x[0]
-         Gamma = out.x[1]
-         c1 = out.x[2]
-         AssocVol = out.x[3]
-         AssocEng = out.x[4]
+         out = least_squares(self.__Residual, variables, args = (), method = self.algorithm, bounds = temp_bounds)
+
+         for index, value in enumerate(out.x):
+            temp_variables[indexes_keep[index]] = value
 
          output = {
-            "b0" : b0, 
-            "Gamma" : Gamma, 
-            "c1": c1, 
-            "AssocVol" : AssocVol, 
-            "AssocEng" : AssocEng
+            "b0" : temp_variables[0], 
+            "Gamma" : temp_variables[1], 
+            "c1": temp_variables[2], 
+            "AssocVol" : temp_variables[3], 
+            "AssocEng" : temp_variables[4]
          } #Dictionary
 
          return output
@@ -1561,19 +1617,39 @@ class Optimizer:
       """
       exp_data = self.exp_data
 
-
       temp_params = self.Thermo.Get_AssocParams(1) #For the purpose of extracting association scheme
+     
+      crits = self.Thermo.Get_CritProps(1)
+
+      cpa_params = self.Thermo.Get_CPAParams(1)
+      assoc_params = self.Thermo.Get_AssocParams(1)
+
+      params_temp = dict() #Contains all parameters and properties
+      params_temp.update(cpa_params)
+      params_temp.update(assoc_params)
+
+      params_list = [params_temp["b0"], params_temp["Gamma"], params_temp["c1"],params_temp["AssocVol"], params_temp["AssocEng"]]
+
+      count = 0
+      iterator = 0
+      decision = []
+      fixed_list = [self.x0_fixed["b0"],self.x0_fixed["Gamma"],self.x0_fixed["c1"],self.x0_fixed["AssocVol"],self.x0_fixed["AssocEng"],]
+      for element in fixed_list:
+         if not element:
+            decision.append(variables[count])
+            count = count + 1
+         else:
+            decision.append(params_list[iterator])
+         iterator = iterator + 1
 
       params = {
-         "b0" : variables[0],
-         "Gamma" : variables[1],
-         "c1" : variables[2],
-         "AssocVol" : variables[3],
-         "AssocEng" : variables[4],
+         "b0" : decision[0],
+         "Gamma" : decision[1],
+         "c1" : decision[2],
+         "AssocVol" : decision[3],
+         "AssocEng" : decision[4],
          "AssocSch" : temp_params["AssocSch"]
       }
-
-      crits = self.Thermo.Get_CritProps(1)
       Thermo_Optimizer = Model()
       Thermo_Optimizer.ChooseAModel(1)
       Thermo_Optimizer.NoPureComp(1)
@@ -1659,7 +1735,6 @@ class Uncertainty_Analysis:
 
          self.exp_data = exp_data
          self.temporary_exp_data = copy.deepcopy(exp_data)
-
 
    def Set_Delta(self, lb, ub):
       """
