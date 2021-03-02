@@ -1,6 +1,8 @@
 # PyTherm
 
 # You can download the entire thing as a zip file
-''' python
-print(5)
-'''
+```
+var add2 = function(number) {
+  return number + 2;
+}
+```
