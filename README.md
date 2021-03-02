@@ -16,3 +16,8 @@ At this moment, the package has not yet been registered at pipy, and thus cannot
 pip install pythermo
 ```
 
+## General Information
+After installation, the package is imported in python by the following line of code.
+```python
+from pythermo import pythermo as pt
+```
