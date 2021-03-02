@@ -1,9 +1,0 @@
-.vs
-.vscode
-.ipynb_checkpoints
-__pycache__
-Misc_Not_Used_Currently
-pythermo.egg-info
-Untitled.ipynb
-dist
-build
