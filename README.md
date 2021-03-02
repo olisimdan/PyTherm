@@ -1,7 +1,5 @@
-# PyTherm
-
-# You can download the entire thing as a zip file
-```shell
+# PyThermo
+```console
 cd <installation directory>
 
 python setup.py install
