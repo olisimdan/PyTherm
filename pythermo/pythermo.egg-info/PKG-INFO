@@ -1,0 +1,18 @@
+Metadata-Version: 2.1
+Name: pythermo
+Version: 1.0.0
+Summary: Thermodynamic Modelling Tools for Phase Equilibria
+Home-page: https://github.com/olisimdan/PyTherm
+Author: Xiaodong Liang & Daniel Qvistgaard
+Author-email: s164067@student.dtu.dk
+License: UNKNOWN
+Description: # PyTherm
+        
+        # You can download the entire thing as a zip file
+        
+Platform: UNKNOWN
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: BSD License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.6
+Description-Content-Type: text/markdown

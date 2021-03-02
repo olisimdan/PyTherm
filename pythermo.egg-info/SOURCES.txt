@@ -1,0 +1,17 @@
+MANIFEST.in
+README.md
+setup.py
+pythermo/__init__.py
+pythermo/pythermo.py
+pythermo/xThermoIPs.py
+pythermo.egg-info/PKG-INFO
+pythermo.egg-info/SOURCES.txt
+pythermo.egg-info/dependency_links.txt
+pythermo.egg-info/requires.txt
+pythermo.egg-info/top_level.txt
+pythermo/dll_files/libifcoremd.dll
+pythermo/dll_files/libmmd.dll
+pythermo/dll_files/svml_dispmd.dll
+pythermo/dll_files/xThermo.dll
+pythermo/dll_files/xThermoWrapper.F90
+pythermo/dll_files/xThermoWrapper.f90
