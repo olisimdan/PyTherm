@@ -7,15 +7,14 @@ import os
 import ctypes as ct
 import numpy as np
 import copy
-#from functions.comparisonFcn import *
 import pandas as pd
 from pythermo.xThermoIPs import *
-from lmfit import minimize, Parameters #This requires a package, isntall it by writing "pip install lmfit" in anaconda prompt
 from scipy.optimize import least_squares
 import random
 from joblib import Parallel, delayed
 import multiprocessing as mp
 from ssb_optimize import optimizer as opt
+import time
 
 
 c_int_p = ct.POINTER(ct.c_int)
@@ -123,6 +122,9 @@ class Model(object):
                   610 (new UC + simplified 2), 611 (new UC + simplified 1), 612 (new UC + org HC)\n
         11 - eCPA
       """
+      if not isinstance(ieos, int):
+         raise TypeError('ieos must be an integer.')
+
       self.__setvalue(IP_EOSOPT, ieos)
 
    def WhichModelIsUsed(self):
@@ -157,6 +159,11 @@ class Model(object):
          Usage:\n
          NoPureComp(n)
       """
+      if not isinstance(nComp, int):
+         raise TypeError('nComp must be an integer.')
+      if nComp < 1:
+         raise ValueError('nComp must higher than 0.')
+
       self.__setvalue(IP_NC, nComp)
 
    def Get_NoPureComp(self):
@@ -181,6 +188,23 @@ class Model(object):
          Usage:\n
          CritProps(idx, Tc, Pc, Om)
       """
+      if not isinstance(idx, int):
+         raise TypeError('idx must be an integer')
+      if idx <= 0:
+         raise ValueError('idx must be bigger than 0')
+      if not isinstance(Tc, (int, float)):
+         raise TypeError('Tc must be an integer or float')
+      if Tc <= 0:
+         raise ValueError('Tc must be bigger than 0')
+      if not isinstance(Pc, (int, float)):
+         raise TypeError('Pc must be an integer')
+      if Pc <= 0:
+         raise ValueError('Pc must be bigger than 0 or float')
+      if not isinstance(Om, (int, float)):
+         raise TypeError('Om must be an integer or float')
+      if Om <= 0:
+         raise ValueError('Om must be bigger than 0')
+
       self.__setvalue(IP_TC, Tc, idx)
       self.__setvalue(IP_PC, Pc, idx)
       self.__setvalue(IP_OMEGA, Om, idx)
@@ -198,6 +222,11 @@ class Model(object):
          Usage:\n
          output = Get_CritProps(idx)
       """
+      if not isinstance(idx, int):
+         raise TypeError('idx must be an integer')
+      if idx <= 0:
+         raise ValueError('idx must be bigger than 0')
+
       Tc = self.__getvalue(IP_TC, idx)
       Pc = self.__getvalue(IP_PC, idx)
       Om = self.__getvalue(IP_OMEGA, idx)
@@ -208,20 +237,63 @@ class Model(object):
    #Consider whether these really should exist
    #----------------------------------------------------------
    def Get_Tc(self, idx):
+      """
+         Gets the critical temperature
+
+         :param idx: integer - Component number/id
+         :return: float - Tc [K]
+      """
+      if not isinstance(idx, int):
+         raise TypeError('idx must be an integer')
+      if idx <= 0:
+         raise ValueError('idx must be bigger than 0')
       val = self.__getvalue(IP_TC, idx)
-      return (val)
+      return val
 
    def Get_Pc(self, idx):
+      """
+         Gets the critical pressure
+
+         :param idx: integer - Component number/id
+         :return: float - Pc [bar]
+      """
+      if not isinstance(idx, int):
+         raise TypeError('idx must be an integer')
+      if idx <= 0:
+         raise ValueError('idx must be bigger than 0')
       val = self.__getvalue(IP_PC, idx)
-      return (val)
+      return val
 
    def Get_Omega(self, idx):
+      """
+         Gets the acentric factor
+
+         :param idx: integer - Component number/id
+         :return: float - Om [dimensionless]
+      """
+      if not isinstance(idx, int):
+         raise TypeError('idx must be an integer')
+      if idx <= 0:
+         raise ValueError('idx must be bigger than 0')
       val = self.__getvalue(IP_OMEGA, idx)
-      return (val)
+      return val
    #----------------------------------------------------------
 
    def PenelouxVol(self, idx, c):
-      # c: Peneloux volume correction (cm3/mol)
+      """
+      Sets the peneloux volume correction
+
+      :param idx: integer - Component number/id
+      :param c: float - Peneloux volume correction [(]cm3/mol]
+      """
+      if not isinstance(idx, int):
+         raise TypeError('idx must be an integer')
+      if idx <= 0:
+         raise TypeError('idx must be bigger than 0')
+      if not isinstance(c, (int, float)):
+         raise TypeError('c must be an integer or float')
+      if c <= 0:
+         raise ValueError('c must be bigger than 0')
       self.__setvalue(IP_CPNLX, c, idx)
 
    def CPAParams(self, idx, b0, Gamma, c1, c2=0, c3=0):
@@ -237,6 +309,23 @@ class Model(object):
          Usage:\n
          CPAParams(idx, b0, Gamma, c1, c2=0, c3=0)
       """
+      if not isinstance(idx, int):
+         raise TypeError('idx must be an integer')
+      if idx <= 0:
+         raise TypeError('idx must be bigger than 0')
+      if not isinstance(b0, (int, float)):
+         raise TypeError('b0 must be an integer or float')
+      if b0 <= 0:
+         raise ValueError('b0 must be bigger than 0')
+      if not isinstance(Gamma, (int, float)):
+         raise TypeError('Gamma must be an integer')
+      if Gamma <= 0:
+         raise ValueError('Gamma must be bigger than 0 or float')
+      if not isinstance(c1, (int, float)):
+         raise TypeError('c1 must be an integer or float')
+      if c1 <= 0:
+         raise ValueError('c1 must be bigger than 0')
+      #Can c2 and c3 be negative?
       self.__setvalue(IP_CPAB0, b0, idx)
       self.__setvalue(IP_CPAGAM, Gamma, idx)
       self.__setvalue(IP_CPAC1, c1, idx)
@@ -258,6 +347,10 @@ class Model(object):
          Usage:\n
          output = Get_CPAParams(idx)
       """
+      if not isinstance(idx, int):
+         raise TypeError('idx must be an integer')
+      if idx <= 0:
+         raise TypeError('idx must be bigger than 0')
       b0 = self.__getvalue(IP_CPAB0, idx)
       Gamma = self.__getvalue(IP_CPAGAM, idx)
       c1 = self.__getvalue(IP_CPAC1, idx)
@@ -392,7 +485,6 @@ class Model(object):
       for i in range(0, n):
          self.__setvalue(IP_DGTVIPC0+i, ipc[i], idx)
       
-
    def NoSpecKij(self, nkij):
       self.__setvalue(IP_NKIJ, nkij)
 
@@ -843,7 +935,6 @@ class Model(object):
       
       return rho
 
-
    def TBubble(self, P, Moles, Tini=300.0):
       """
          Calculate the bubble temperature of the given system\n
@@ -1215,14 +1306,12 @@ class Model(object):
       return np_3p, p1xyz, p2xyz, p3xyz, np_tl, id_tl, tl_p1, tl_p2
 
 
-
 class Experimental_Data(object):
    """
       This class is dedicated to containing experimental data needed for optimization or modelling procedures.
    """
    def __init__(self):
       self.data_sets = [] #The list of datasets are limited '      self.types = ['PSat','rho']
-
 
    def Add(self,path,exp_type,identifier):
       """
@@ -1235,12 +1324,6 @@ class Experimental_Data(object):
       """
       data = pd.read_csv(path).to_numpy()
       self.data_sets.append([data,exp_type,identifier])
-
-
-   #def remove():
-
-   #def modify():
-
 
    def Show_list(self):
       """
@@ -1288,7 +1371,6 @@ class Experimental_Data(object):
       if len(output_data) == 0:
          raise SyntaxError("The entered data set name cannot be found. Try running .Show_data_set() to get a list of data sets and their names.")
       return output_data
-
 
    def ReducedTemperature(self,low,high,Tc):
          NoDataSets = len(self.data_sets)
@@ -1339,6 +1421,15 @@ class Optimizer:
       self.multistart_bounds = None
       self.multistart_setup = False
 
+   def __bounds_to_ssb(self,bounds):
+      """
+         Convert scipy type bounds to ssb type bounds
+      """
+      new_bounds = []
+      for i in range(0,len(bounds[0])):
+         new_bounds.append([bounds[0][i],bounds[1][i]])
+      return new_bounds
+
    def Add_Model(self,Thermo):
       """
          Adds a thermodynamic model to the optimizer object.\n
@@ -1365,7 +1456,6 @@ class Optimizer:
             raise SyntaxError("CPA parameters have not been given to Model object")
          if (params["Tc"] == 0): #If Tc is zero, that means critical properties have not been given.
             raise SyntaxError("Critical properties have not been given to Model object")
-         
 
    def Add_Experimental_Data(self,exp_data):
       """
@@ -1459,10 +1549,14 @@ class Optimizer:
       
       self.multistart_bounds = matrix
 
-
-   def PSO(self,n_particles,opt):
+   def Particle_Swarm(self, small_tol=10.0**-12, flat_tol=10.0**-10,
+                   max_iter=50, neighborhood_size=5, swarm_size=50):
       """
          Perform particle swarm optimization, cannot be run until Add_Experimental_Data and Add_Model have been run.\n
+
+         It is recommended to use a swarm size of 70-500. Source for recommendation: https://doi.org/10.1016/j.sweve.2020.100718
+
+
 
          :return: dictionary of optimized parameters.
       """
@@ -1470,21 +1564,22 @@ class Optimizer:
          raise SyntaxError("The optimizer has not been set up, use Add_Model to add an Model object")
       if self.exp_data == None:
          raise SyntaxError("The optimizer has not been set up, use Add_Experimental_Data to add an Experimental_Data object")
-      
+      if not isinstance(swarm_size, int):
+         raise TypeError("swarm_size must be an integer")
+      if not isinstance(max_iter, int):
+         raise TypeError("max_iter must be an integer")
 
-      x0 = np.zeros((n_particles,5))
-      for i in range(0,5):
-         x0[:,i] = np.random.uniform(self.bounds_var[0][i], self.bounds_var[1][i], (n_particles))
+    
+      new_bounds = self.__bounds_to_ssb(self.bounds_var)
+      ps_minimum, nelder_mead_initial_size = opt.particle_swarm(self.__Residual_SSB, small_tol = small_tol, flat_tol = flat_tol, neighborhood_size = neighborhood_size, bounds = new_bounds, swarm_size = swarm_size, max_iter = max_iter)
 
-      out = PSO_minimize(self.__Residual, x0, args=(),options=opt)
+      self.pso_results = [ps_minimum, nelder_mead_initial_size] #used for running subsequent nelder mead.
       
-     
-      
-      b0 = out.x[0]
-      Gamma = out.x[1]
-      c1 = out.x[2]
-      AssocVol = out.x[3]
-      AssocEng = out.x[4]
+      b0 = ps_minimum[0]
+      Gamma = ps_minimum[1]
+      c1 = ps_minimum[2]
+      AssocVol = ps_minimum[3]
+      AssocEng = ps_minimum[4]
 
       output = {
          "b0" : b0, 
@@ -1496,10 +1591,43 @@ class Optimizer:
 
       return output
 
+   def Nelder_Mead(self,small_tol=10.0**-14,
+                flat_tol=10.0**-12, max_iter=1000, max_bisect_iter=100, initial_size=0.01):
+      """
+         Perform nelder mead optimization, cannot be run until Add_Experimental_Data and Add_Model have been run.\n
+
+         :return: dictionary of optimized parameters.
+      """
+      if self.Thermo == None:
+         raise SyntaxError("The optimizer has not been set up, use Add_Model to add an Model object")
+      if self.exp_data == None:
+         raise SyntaxError("The optimizer has not been set up, use Add_Experimental_Data to add an Experimental_Data object")
 
 
+      if not self.pso_results == None:
+         initial_size = self.pso_results[1]
 
-   def Calculation(self, **kwargs):
+      new_bounds = self.__bounds_to_ssb(self.bounds_var)
+      nm_minimum = opt.nelder_mead(self.pso_results[0], self.__Residual_SSB, flat_tol= flat_tol, small_tol = small_tol, bounds=new_bounds,max_iter=max_iter, max_bisect_iter=max_bisect_iter, initial_size=initial_size)
+     
+      
+      b0 = nm_minimum[0]
+      Gamma = nm_minimum[1]
+      c1 = nm_minimum[2]
+      AssocVol = nm_minimum[3]
+      AssocEng = nm_minimum[4]
+
+      output = {
+         "b0" : b0, 
+         "Gamma" : Gamma, 
+         "c1": c1, 
+         "AssocVol" : AssocVol, 
+         "AssocEng" : AssocEng
+      } 
+
+      return output
+   def Optimization(self, **kwargs):
+
       """
          Performs the actual parameterization, cannot be run until Add_Experimental_Data and Add_Model have been run.\n
          
@@ -1605,7 +1733,60 @@ class Optimizer:
 
          return output
       
+   def __Residual_SSB(self,variables):
+      """
+         Calculates the residuals between model and experimental data\n
+         :param variables: list[5] of doubles [b0, Gamma, c1, AssocVol, AssocEng]
+         :return: list of residuals
+      """
+      
 
+      exp_data = self.exp_data
+
+      temp_params = self.Thermo.Get_AssocParams(1) #For the purpose of extracting association scheme
+     
+      crits = self.Thermo.Get_CritProps(1)
+
+      params = {
+         "b0" : variables[0],
+         "Gamma" : variables[1],
+         "c1" : variables[2],
+         "AssocVol" : variables[3],
+         "AssocEng" : variables[4],
+         "AssocSch" : temp_params["AssocSch"]
+      }
+      Thermo_Optimizer = Model()
+      Thermo_Optimizer.ChooseAModel(1)
+      Thermo_Optimizer.NoPureComp(1)
+      Thermo_Optimizer.CritProps(1, crits["Tc"], crits["Pc"], crits["Om"])
+      Thermo_Optimizer.CPAParams(1, params["b0"], params["Gamma"], params["c1"])
+      Thermo_Optimizer.AssocParams(1, params["AssocSch"], params["AssocVol"], params["AssocEng"])
+
+      
+
+      composition = [1.0]
+      deviationType = "ARD"
+   
+      CompObject = ComparisonFuncs(Thermo_Optimizer, deviationType)
+
+      
+      exp_psat = exp_data.Retrieve_data_type("PSat")
+      exp_rho = exp_data.Retrieve_data_type("rho")
+      psat_T = exp_psat[:,0]
+      rho_T = exp_rho[:,0]
+      psat = exp_psat[:,1]
+      rho = exp_rho[:,1]
+      
+      
+      Thermo_Optimizer.Setup_Thermo()
+      deviation_psat = CompObject.PBubble_comparison(psat_T, psat, composition)
+      
+      deviation_rho = CompObject.LiqRho_comparison(rho_T.tolist(), rho.tolist(), composition)
+      
+      deviation = np.append(deviation_psat,deviation_rho)
+      
+      return np.sum(deviation)
+      
 
    def __Residual(self,variables):
       """
@@ -1672,7 +1853,6 @@ class Optimizer:
       deviation = np.append(deviation_psat,deviation_rho)
       #Thermo_Optimizer.Finishup_Thermo()
       return deviation
-
 
 
 class Uncertainty_Analysis:
@@ -1895,7 +2075,7 @@ class Uncertainty_Analysis:
          OptimizerObject.Add_Model(Temporary_Thermo)
          OptimizerObject.Add_Experimental_Data(self.temporary_exp_data)
 
-         optimized_params = OptimizerObject.Calculation()
+         optimized_params = OptimizerObject.Optimization()
          
 
          data_matrix[i,:] = [optimized_params["b0"], optimized_params["Gamma"], optimized_params["c1"], optimized_params["AssocVol"], optimized_params["AssocEng"]]
@@ -1917,9 +2097,6 @@ class Uncertainty_Analysis:
             outputs.update({dict_string : output})
       return outputs
             
-
-
-         
 
 class ComparisonFuncs:
    """
@@ -1974,6 +2151,8 @@ class ComparisonFuncs:
       if isinstance(expP,(float,int)):
          expP = [expP]
       
+      
+      
       for element in expT:
          if not isinstance(element,(float,int)):
                raise SyntaxError('Each element of expT must be numeric')
@@ -1982,18 +2161,25 @@ class ComparisonFuncs:
          if not isinstance(element,(float,int)):
                raise SyntaxError('Each element of expP must be numeric')
       
+      
+      
       if len(expP) != len(expT):
          raise SyntaxError('expT and expP must be of same length')
       
       deviation = np.zeros(len(expP))
       P = np.zeros(len(expP))
-      
+
+
       for i in range(0,len(expT)):
          [P[i], LnK, ierr] = Thermo.PBubble(expT[i], expComposition, Pini)
          deviation[i] = self.__deviation_func(expP[i],P[i])
       
+
+
       if len(deviation) == 1:
          deviation = deviation[0]
+      
+
       return deviation
 
    def TBubble_comparison(self,expT,expP,expComposition,Tini = 400):
@@ -2040,7 +2226,6 @@ class ComparisonFuncs:
          deviation = deviation[0]
       
       return deviation
-
 
    def LiqRho_comparison(self, expT, expRho, expComposition, Pini=1):
       """
@@ -2246,68 +2431,3 @@ class ComparisonFuncs:
                   deviation_y.append(None)
 
       return np.array(deviation_x), np.array(deviation_y)
-        
-
-
-
-
-
-
-
-class __UnitConversion:
-   def __init__(self):
-      self.SI = {
-         "T" : "K",
-         "P" : "Pa",
-         "rho" : ""
-      }
-      self.temperature = {
-         "K" : [1,0],
-         "C" : [1, -273.15]
-      }
-   def convert(self):
-      a = 5 #fill later
-
-"""
-class __CommonFunctions:
-   def __init__(self):
-      a = 5
-
-   def CopyModel(Thermo):
-      New_Thermo = Model()
-      New_Thermo.ChooseAModel(1)
-      New_Thermo.NoPureComp(Thermo.Get_NoPureComp())
-      crits = Thermo.Get_CritProps(1)
-      New_Thermo.
-
-      return New_Thermo
-"""
-
-
-class MultiThreading:
-   def __init__(self,suppress = False):
-      self.ncores = mp.cpu_count() - 1
-      if not suppress:
-         print("Your computer has a total of " + str(mp.cpu_count()) + " cores (or threads). ")
-         print("This module will by default utilize all available cores minus one.")
-         print("To change this, use the Set_Cores() function")
-   
-   def Set_Cores(self, ncores):
-      """
-         Sets the amount of cores to be used for multithreading
-
-         :param ncores: integer - Number of cores to be used. Must be between 1 and maximum number of CPU cores
-      """
-      if ncores >= 1 and ncores <= mp.cpu_count():
-         self.ncores = ncores
-         print("Amount of cores utilized: " + str(self.ncores))
-      else:
-         print("Entered number of cores not within range, defaulting to " + str(mp.cpu_count() - 1))
-
-   def Pooling(self):
-      inputs = range(10)
-      results = Parallel(n_jobs=self.ncores)(delayed(self.CalcFunc)(n) for n in inputs)
-      print(results)
-
-   def CalcFunc(self,n):
-      return n

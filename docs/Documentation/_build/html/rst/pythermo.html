@@ -156,8 +156,1366 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="pythermo">
-<h1>PyThermo<a class="headerlink" href="#pythermo" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="module-pythermo.pythermo">
+<span id="pythermo"></span><h1>PyThermo<a class="headerlink" href="#module-pythermo.pythermo" title="Permalink to this headline">¶</a></h1>
+<p>PyTherm</p>
+<dl class="py class">
+<dt id="pythermo.pythermo.ComparisonFuncs">
+<em class="property">class </em><code class="sig-prename descclassname">pythermo.pythermo.</code><code class="sig-name descname">ComparisonFuncs</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">Thermo</span></em>, <em class="sig-param"><span class="n">deviationType</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pythermo.pythermo.ComparisonFuncs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>This class is dedicated to comparing a model with experimental data by calculating
+a residual/deviation between model and experimental data</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>Thermo</strong> – </p></li>
+<li><p><strong>deviationType</strong> – </p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="pythermo.pythermo.ComparisonFuncs.BinaryVLE_Comparison">
+<code class="sig-name descname">BinaryVLE_Comparison</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">expT</span></em>, <em class="sig-param"><span class="n">expP</span></em>, <em class="sig-param"><span class="n">expX</span></em>, <em class="sig-param"><span class="n">expY</span></em>, <em class="sig-param"><span class="n">expComposition</span><span class="o">=</span><span class="default_value">1</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pythermo.pythermo.ComparisonFuncs.BinaryVLE_Comparison" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>expT</strong> – double or list of doubles - Experimental dew temperature (K)</p></li>
+<li><p><strong>expP</strong> – double or list of doubles - Experimental pressure (bar)</p></li>
+<li><p><strong>expX</strong> – double or list of doubles - Experimental liquid phase mole fraction of component 1</p></li>
+<li><p><strong>expY</strong> – double or list of doubles - Experimental vapor phase mole fraction of component 1</p></li>
+<li><p><strong>expComposition</strong> – List of doubles - Experimental feed composition (mole)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>List of doubles - Deviations in desired units</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pythermo.pythermo.ComparisonFuncs.LiqRho_comparison">
+<code class="sig-name descname">LiqRho_comparison</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">expT</span></em>, <em class="sig-param"><span class="n">expRho</span></em>, <em class="sig-param"><span class="n">expComposition</span></em>, <em class="sig-param"><span class="n">Pini</span><span class="o">=</span><span class="default_value">1</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pythermo.pythermo.ComparisonFuncs.LiqRho_comparison" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>expT</strong> – double or list of doubles - Experimental temperature (K)</p></li>
+<li><p><strong>expRho</strong> – double or list of doubles - Experimental liquid density (mol/L)</p></li>
+<li><p><strong>expComposition</strong> – List of doubles - Experimental feed composition (mole)</p></li>
+<li><p><strong>Pini</strong> – double - Initial guess in bars, default = 1</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>List of doubles - Deviations in desired units</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pythermo.pythermo.ComparisonFuncs.PBubble_comparison">
+<code class="sig-name descname">PBubble_comparison</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">expT</span></em>, <em class="sig-param"><span class="n">expP</span></em>, <em class="sig-param"><span class="n">expComposition</span></em>, <em class="sig-param"><span class="n">Pini</span><span class="o">=</span><span class="default_value">1.0</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pythermo.pythermo.ComparisonFuncs.PBubble_comparison" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>expT</strong> – double or list of doubles - Experimental temperature (K)</p></li>
+<li><p><strong>expP</strong> – double or list of doubles - Experimental bubble pressure (bar)</p></li>
+<li><p><strong>expComposition</strong> – List of doubles - Experimental feed composition (mole)</p></li>
+<li><p><strong>Pini</strong> – double - Initial guess in bars, default = 1</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>List of doubles - Deviations in desired units</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pythermo.pythermo.ComparisonFuncs.PDew_comparison">
+<code class="sig-name descname">PDew_comparison</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">expT</span></em>, <em class="sig-param"><span class="n">expP</span></em>, <em class="sig-param"><span class="n">expComposition</span></em>, <em class="sig-param"><span class="n">Pini</span><span class="o">=</span><span class="default_value">1.0</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pythermo.pythermo.ComparisonFuncs.PDew_comparison" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>expT</strong> – double or list of doubles - Experimental temperature (K)</p></li>
+<li><p><strong>expP</strong> – double or list of doubles - Experimental dew pressure (bar)</p></li>
+<li><p><strong>expComposition</strong> – List of doubles - Experimental feed composition (mole)</p></li>
+<li><p><strong>Pini</strong> – double - Initial guess in bars, default = 1</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>List of doubles - Deviations in desired units</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pythermo.pythermo.ComparisonFuncs.TBubble_comparison">
+<code class="sig-name descname">TBubble_comparison</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">expT</span></em>, <em class="sig-param"><span class="n">expP</span></em>, <em class="sig-param"><span class="n">expComposition</span></em>, <em class="sig-param"><span class="n">Tini</span><span class="o">=</span><span class="default_value">400</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pythermo.pythermo.ComparisonFuncs.TBubble_comparison" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>expT</strong> – double or list of doubles - Experimental bubble temperature (K)</p></li>
+<li><p><strong>expP</strong> – double or list of doubles - Experimental pressure (bar)</p></li>
+<li><p><strong>expComposition</strong> – List of doubles - Experimental feed composition (mole)</p></li>
+<li><p><strong>Tini</strong> – double - Initial guess in kelvin, default = 400</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>List of doubles - Deviations in desired units</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pythermo.pythermo.ComparisonFuncs.TDew_comparison">
+<code class="sig-name descname">TDew_comparison</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">expT</span></em>, <em class="sig-param"><span class="n">expP</span></em>, <em class="sig-param"><span class="n">expComposition</span></em>, <em class="sig-param"><span class="n">Tini</span><span class="o">=</span><span class="default_value">400</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pythermo.pythermo.ComparisonFuncs.TDew_comparison" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>expT</strong> – double or list of doubles - Experimental dew temperature (K)</p></li>
+<li><p><strong>expP</strong> – double or list of doubles - Experimental pressure (bar)</p></li>
+<li><p><strong>expComposition</strong> – List of doubles - Experimental feed composition (mole)</p></li>
+<li><p><strong>Tini</strong> – double - Initial guess in kelvin, default = 400</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>List of doubles - Deviations in desired units</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="pythermo.pythermo.Experimental_Data">
+<em class="property">class </em><code class="sig-prename descclassname">pythermo.pythermo.</code><code class="sig-name descname">Experimental_Data</code><a class="headerlink" href="#pythermo.pythermo.Experimental_Data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>This class is dedicated to containing experimental data needed for optimization or modelling procedures.</p>
+<dl class="py method">
+<dt id="pythermo.pythermo.Experimental_Data.Add">
+<code class="sig-name descname">Add</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">path</span></em>, <em class="sig-param"><span class="n">exp_type</span></em>, <em class="sig-param"><span class="n">identifier</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pythermo.pythermo.Experimental_Data.Add" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds the contents of a .csv data file to the class.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>path</strong> – string - containing the library path to a csv file containing the experimental data</p></li>
+<li><p><strong>exp_type</strong> – <p>string - a string indicating the type of experimental data.</p>
+<ul>
+<li><p>Saturated Vapor Pressure: “PSat”</p></li>
+<li><p>Saturated Liquid Density: “rho”</p></li>
+</ul>
+</p></li>
+<li><p><strong>identifier</strong> – string - A unique name for each dataset, think of it as an ID</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pythermo.pythermo.Experimental_Data.ReducedTemperature">
+<code class="sig-name descname">ReducedTemperature</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">low</span></em>, <em class="sig-param"><span class="n">high</span></em>, <em class="sig-param"><span class="n">Tc</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pythermo.pythermo.Experimental_Data.ReducedTemperature" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="pythermo.pythermo.Experimental_Data.Retrieve_data">
+<code class="sig-name descname">Retrieve_data</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">identifier</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pythermo.pythermo.Experimental_Data.Retrieve_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieve a set of data from the class Experimental_Data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>identifier</strong> – string - containing the library path to a csv file containing the experimental data</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>hejt - sdfsdf</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pythermo.pythermo.Experimental_Data.Retrieve_data_type">
+<code class="sig-name descname">Retrieve_data_type</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">exp_type</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pythermo.pythermo.Experimental_Data.Retrieve_data_type" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieve a set of data from the class Experimental_Data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>exp_type</strong> – string - containing the library path to a csv file containing the experimental data</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>hejt - sdfsdf</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pythermo.pythermo.Experimental_Data.Show_data_set">
+<code class="sig-name descname">Show_data_set</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">name</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pythermo.pythermo.Experimental_Data.Show_data_set" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="pythermo.pythermo.Experimental_Data.Show_list">
+<code class="sig-name descname">Show_list</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pythermo.pythermo.Experimental_Data.Show_list" title="Permalink to this definition">¶</a></dt>
+<dd><p>Display a list of the contents stored in class Experimental_Data</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="pythermo.pythermo.Model">
+<em class="property">class </em><code class="sig-prename descclassname">pythermo.pythermo.</code><code class="sig-name descname">Model</code><a class="headerlink" href="#pythermo.pythermo.Model" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Thermodynamic calculations are contained in this class.</p>
+<dl class="py method">
+<dt id="pythermo.pythermo.Model.AssocParams">
+<code class="sig-name descname">AssocParams</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">idx</span></em>, <em class="sig-param"><span class="n">AssocSch</span></em>, <em class="sig-param"><span class="n">AssocVol</span></em>, <em class="sig-param"><span class="n">AssocEng</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pythermo.pythermo.Model.AssocParams" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the specified association parameters</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>idx</strong> – integer - Index of component in component list</p></li>
+<li><p><strong>AssocSch</strong> – integer - Association scheme (maximum) three integers</p></li>
+<li><p><strong>AssocVol</strong> – double - Reduced self-association energy (K)</p></li>
+<li><p><strong>AssocEng</strong> – double - Self-association volume (1000*beta for CPA)</p></li>
+</ul>
+</dd>
+</dl>
+<p>AssocSch: 1st integer is no. of glue sites, 2nd integer is no of positive sites, 3rd integer is no of negative sites e.g. 022 = 4C, 011 = 2B, 100 = 1A, 001 = solvation with one negative site</p>
+<p>For more information on association schemes, see the “Association Schemes” in table of contents.</p>
+<p>Usage:</p>
+<p>AssocParams(self, idx)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pythermo.pythermo.Model.CPAParams">
+<code class="sig-name descname">CPAParams</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">idx</span></em>, <em class="sig-param"><span class="n">b0</span></em>, <em class="sig-param"><span class="n">Gamma</span></em>, <em class="sig-param"><span class="n">c1</span></em>, <em class="sig-param"><span class="n">c2</span><span class="o">=</span><span class="default_value">0</span></em>, <em class="sig-param"><span class="n">c3</span><span class="o">=</span><span class="default_value">0</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pythermo.pythermo.Model.CPAParams" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the CPA parameters of component idx</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>idx</strong> – integer - Component number/id</p></li>
+<li><p><strong>b0</strong> – double - co-volume (cm3/mol)</p></li>
+<li><p><strong>Gamma</strong> – double - reduced energy parameter = a/Rb (K)</p></li>
+<li><p><strong>c1</strong> – double - alpha function T-dependence (-)</p></li>
+<li><p><strong>c2</strong> – double - coefficients in MC Alpha function alpha(T) = 1+c1*(1-sqrt(T/Tc))+c2*(1-sqrt(T/Tc))^2+c3*(1-sqrt(T/Tc))^3</p></li>
+<li><p><strong>c3</strong> – double - coefficients in MC Alpha function alpha(T) = 1+c1*(1-sqrt(T/Tc))+c2*(1-sqrt(T/Tc))^2+c3*(1-sqrt(T/Tc))^3</p></li>
+</ul>
+</dd>
+</dl>
+<p>Usage:</p>
+<p>CPAParams(idx, b0, Gamma, c1, c2=0, c3=0)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pythermo.pythermo.Model.ChooseAModel">
+<code class="sig-name descname">ChooseAModel</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">ieos</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pythermo.pythermo.Model.ChooseAModel" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function allows the user to pick a model to use</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>ieos</strong> – <p>integer</p>
+<p>1 - CPA</p>
+<p>2 - SRK</p>
+<p>3 - PR</p>
+<dl class="simple">
+<dt>4 - PC-SAFT  (400, org UC + simplified 2), 401 (org UC + simplified 1), 402 (org UC + org HC)</dt><dd><p>410 (new UC + simplified 2), 411 (new UC + simplified 1), 412 (new UC + org HC)</p>
+</dd>
+<dt>6 - ePC-SAFT (600, org UC + simplified 2), 601 (org UC + simplified 1), 602 (org UC + org HC)</dt><dd><p>610 (new UC + simplified 2), 611 (new UC + simplified 1), 612 (new UC + org HC)</p>
+</dd>
+</dl>
+<p>11 - eCPA</p>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pythermo.pythermo.Model.CritProps">
+<code class="sig-name descname">CritProps</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">idx</span></em>, <em class="sig-param"><span class="n">Tc</span></em>, <em class="sig-param"><span class="n">Pc</span></em>, <em class="sig-param"><span class="n">Om</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pythermo.pythermo.Model.CritProps" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the critical properties of component idx</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>idx</strong> – integer - Component number/id</p></li>
+<li><p><strong>Tc</strong> – double - Critical temperature (K)</p></li>
+<li><p><strong>Pc</strong> – double - Critical pressure (bar)</p></li>
+<li><p><strong>Om</strong> – double -  Acentric factor (-)</p></li>
+</ul>
+</dd>
+</dl>
+<p>Usage:</p>
+<p>CritProps(idx, Tc, Pc, Om)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pythermo.pythermo.Model.DGTParams">
+<code class="sig-name descname">DGTParams</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">idx</span></em>, <em class="sig-param"><span class="n">ipc</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pythermo.pythermo.Model.DGTParams" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="pythermo.pythermo.Model.DerivedProps">
+<code class="sig-name descname">DerivedProps</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">T</span></em>, <em class="sig-param"><span class="n">P</span></em>, <em class="sig-param"><span class="n">Moles</span></em>, <em class="sig-param"><span class="n">iph</span><span class="o">=</span><span class="default_value">0</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pythermo.pythermo.Model.DerivedProps" title="Permalink to this definition">¶</a></dt>
+<dd><p>T: temperature (K)
+P: pressure (bar)
+Moles: number of moles (mol)
+iph: properties of which phase is required</p>
+<p>UR:   U_RES/RT
+HR:   H_RES/RT
+AR:   G_RES/RT
+GR:   G_RES/RT
+SR:   S_RES/R
+CPR:  CP_RES/R
+CVR:  CV_RES/R
+DPDV: V/P*DPDV
+DPDT: T/P*DPDT</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pythermo.pythermo.Model.Finishup_Thermo">
+<code class="sig-name descname">Finishup_Thermo</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pythermo.pythermo.Model.Finishup_Thermo" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run this after thermodynamic calculations have concluded.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pythermo.pythermo.Model.FugacityCoeff">
+<code class="sig-name descname">FugacityCoeff</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">T</span></em>, <em class="sig-param"><span class="n">P</span></em>, <em class="sig-param"><span class="n">Moles</span></em>, <em class="sig-param"><span class="n">iph</span><span class="o">=</span><span class="default_value">0</span></em>, <em class="sig-param"><span class="n">job</span><span class="o">=</span><span class="default_value">0</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pythermo.pythermo.Model.FugacityCoeff" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculates the fugacity coeffiecient and related properties.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>T</strong> – double - Temperature (K)</p></li>
+<li><p><strong>P</strong> – double - Pressure (bar)</p></li>
+<li><p><strong>Moles</strong> – list of double -</p></li>
+<li><p><strong>iph</strong> – integer - Properties of which phase is required</p></li>
+<li><p><strong>job</strong> – integer - Which level of properties are needed</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return ZFact</dt>
+<dd class="field-even"><p>double - Compressibility factor</p>
+</dd>
+<dt class="field-odd">Return lnPhi</dt>
+<dd class="field-odd"><p>double - Returned if job &gt;= 1</p>
+</dd>
+<dt class="field-even">Return ntdlnPhidn</dt>
+<dd class="field-even"><p>double - Returned if job &gt;= 2</p>
+</dd>
+<dt class="field-odd">Return dlnPhidlPP</dt>
+<dd class="field-odd"><p>double - Returned if job &gt;= 3</p>
+</dd>
+<dt class="field-even">Return dlnPhidlTT</dt>
+<dd class="field-even"><p>double - Returned if job == 4</p>
+</dd>
+<dt class="field-odd">Return ic</dt>
+<dd class="field-odd"><p>integer</p>
+</dd>
+</dl>
+<p>Information regarding job:</p>
+<ul class="simple">
+<li><p>0: only compressibility factor</p></li>
+<li><p>1: 0 + log(fugacity coefficient)</p></li>
+<li><p>2: 1 + nT * d_ln(Phi) / d_ni</p></li>
+<li><p>3: 2 + d_ln(Phi) / d_ln(P)</p></li>
+<li><p>4: 3 + d_ln(Phi) / d_ln(T)</p></li>
+</ul>
+<p>The return phase type is always given at the end</p>
+<p>Usage:</p>
+<p>(ZFact, ic) = FugacityCoeff(self, T, P, Moles, iph=0, job=0) If job = 0</p>
+<p>(ZFact, lnPhi, ic) = FugacityCoeff(self, T, P, Moles, iph=0, job=0) -  If job = 1</p>
+<p>(ZFact, lnPhi, lnPhi, ic) = FugacityCoeff(self, T, P, Moles, iph=0, job=0) -  If job = 2</p>
+<p>(ZFact, lnPhi, lnPhi, dlnPhidlPP, ic) = FugacityCoeff(self, T, P, Moles, iph=0, job=0) -  If job = 3</p>
+<p>(ZFact, lnPhi, lnPhi, dlnPhidlPP, dlnPhidlPP, ic) = FugacityCoeff(self, T, P, Moles, iph=0, job=0) -  If job = 4</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pythermo.pythermo.Model.Get_AssocParams">
+<code class="sig-name descname">Get_AssocParams</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">idx</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pythermo.pythermo.Model.Get_AssocParams" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the specified association parameters</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>idx</strong> – integer - Index of component in component list</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>dictionary - Contains Association parameters: Association scheme, Reduced self-association energy, Self-association volume</p>
+</dd>
+</dl>
+<ul class="simple">
+<li><p>AssocSch: Association scheme (maximum) three integers</p></li>
+<li><p>AssocVol: Reduced self-association energy (K)</p></li>
+<li><p>AssocEng: Self-association volume (1000*beta for CPA)</p></li>
+</ul>
+<p>AssocSch: 1st integer is no. of glue sites, 2nd integer is no of positive sites, 3rd integer is no of negative sites e.g. 022 = 4C, 011 = 2B, 100 = 1A, 001 = solvation with one negative site</p>
+<p>For more information on association schemes, see the “Association Schemes” in table of contents.</p>
+<p>Usage:</p>
+<p>output = Get_AssocParams(self, idx)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pythermo.pythermo.Model.Get_CPAParams">
+<code class="sig-name descname">Get_CPAParams</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">idx</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pythermo.pythermo.Model.Get_CPAParams" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the CPA parameters of component idx</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>idx</strong> – integer - Component number/id</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>dictionary - Contains CPA parameters: co-volume, reduced enrgy parameter, alpha function T-dependence</p>
+</dd>
+</dl>
+<ul class="simple">
+<li><p>b0: co-volume (cm3/mol)</p></li>
+<li><p>Gamma: reduced energy parameter = a/Rb (K)</p></li>
+<li><p>c1: alpha function T-dependence (-)</p></li>
+<li><p>c2: coefficients in MC Alpha function alpha(T) = 1+c1*(1-sqrt(T/Tc))+c2*(1-sqrt(T/Tc))^2+c3*(1-sqrt(T/Tc))^3</p></li>
+<li><p>c3: coefficients in MC Alpha function alpha(T) = 1+c1*(1-sqrt(T/Tc))+c2*(1-sqrt(T/Tc))^2+c3*(1-sqrt(T/Tc))^3</p></li>
+</ul>
+<p>Usage:</p>
+<p>output = Get_CPAParams(idx)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pythermo.pythermo.Model.Get_CritProps">
+<code class="sig-name descname">Get_CritProps</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">idx</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pythermo.pythermo.Model.Get_CritProps" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the critical properties of component idx</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>idx</strong> – integer - Component number/id</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>dictionary - Contains critical temperature, critical pressure and acentric factor</p>
+</dd>
+</dl>
+<ul class="simple">
+<li><p>Critical temperature (K)</p></li>
+<li><p>Critical pressure (bar)</p></li>
+<li><p>Acentric factor (-)</p></li>
+</ul>
+<p>Usage:</p>
+<p>output = Get_CritProps(idx)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pythermo.pythermo.Model.Get_NoAppComp">
+<code class="sig-name descname">Get_NoAppComp</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pythermo.pythermo.Model.Get_NoAppComp" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="pythermo.pythermo.Model.Get_NoAssocSite">
+<code class="sig-name descname">Get_NoAssocSite</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pythermo.pythermo.Model.Get_NoAssocSite" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="pythermo.pythermo.Model.Get_NoPureComp">
+<code class="sig-name descname">Get_NoPureComp</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pythermo.pythermo.Model.Get_NoPureComp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the number of pure components in the system</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>integer - number of components</p>
+</dd>
+</dl>
+<p>Usage:</p>
+<p>n = Get_NoPureComp()</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pythermo.pythermo.Model.Get_NoSpecCrossAssoc">
+<code class="sig-name descname">Get_NoSpecCrossAssoc</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pythermo.pythermo.Model.Get_NoSpecCrossAssoc" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the number of specified cross association parameters</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>integer - Number of cross association parameters</p>
+</dd>
+</dl>
+<p>Usage:</p>
+<p>n = Get_NoSpecCrossAssoc()</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pythermo.pythermo.Model.Get_NoSpecCrossHBond">
+<code class="sig-name descname">Get_NoSpecCrossHBond</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pythermo.pythermo.Model.Get_NoSpecCrossHBond" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="pythermo.pythermo.Model.Get_NoSpecHVNRTL">
+<code class="sig-name descname">Get_NoSpecHVNRTL</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pythermo.pythermo.Model.Get_NoSpecHVNRTL" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the number of specified HVNRTL</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>integer - Number of HVNRTL</p>
+</dd>
+</dl>
+<p>Usage:</p>
+<p>n = Get_NoSpecHVNRTL()</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pythermo.pythermo.Model.Get_NoSpecKij">
+<code class="sig-name descname">Get_NoSpecKij</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pythermo.pythermo.Model.Get_NoSpecKij" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the number of specified binary interaction parameters</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>integer - Number of specified binary interaction parameters</p>
+</dd>
+</dl>
+<p>Usage:</p>
+<p>n = Get_NoSpecKij()</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pythermo.pythermo.Model.Get_Omega">
+<code class="sig-name descname">Get_Omega</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">idx</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pythermo.pythermo.Model.Get_Omega" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the acentric factor</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>idx</strong> – integer - Component number/id</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>float - Om [dimensionless]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pythermo.pythermo.Model.Get_Pc">
+<code class="sig-name descname">Get_Pc</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">idx</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pythermo.pythermo.Model.Get_Pc" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the critical pressure</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>idx</strong> – integer - Component number/id</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>float - Pc [bar]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pythermo.pythermo.Model.Get_Tc">
+<code class="sig-name descname">Get_Tc</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">idx</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pythermo.pythermo.Model.Get_Tc" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the critical temperature</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>idx</strong> – integer - Component number/id</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>float - Tc [K]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pythermo.pythermo.Model.HBondInfo">
+<code class="sig-name descname">HBondInfo</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">idx</span></em>, <em class="sig-param"><span class="n">htype</span><span class="o">=</span><span class="default_value">- 1</span></em>, <em class="sig-param"><span class="n">CoordNo</span><span class="o">=</span><span class="default_value">- 1</span></em>, <em class="sig-param"><span class="n">muOH</span><span class="o">=</span><span class="default_value">- 1</span></em>, <em class="sig-param"><span class="n">phi</span><span class="o">=</span><span class="default_value">- 1</span></em>, <em class="sig-param"><span class="n">theta</span><span class="o">=</span><span class="default_value">- 1</span></em>, <em class="sig-param"><span class="n">gamma</span><span class="o">=</span><span class="default_value">- 1</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pythermo.pythermo.Model.HBondInfo" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>idx</strong> – integer - Index of component in component list</p></li>
+<li><p><strong>htype</strong> – integer - Hydrogen bond network</p></li>
+<li><p><strong>CoordNo</strong> – integer - Coordination no.</p></li>
+<li><p><strong>muOH</strong> – double - Dipole moment in direction of H-bond (Debye)</p></li>
+<li><p><strong>phi</strong> – double - Internal H-O-R angle (radian)</p></li>
+<li><p><strong>theta</strong> – double - Rotation angle between shells (radian)</p></li>
+<li><p><strong>gamma</strong> – double - Average angle between dipole moment and H-bond (radian)</p></li>
+</ul>
+</dd>
+</dl>
+<p>Information regarding bond network (htype):</p>
+<ul class="simple">
+<li><p>0: tetrahedral</p></li>
+<li><p>1: planar</p></li>
+<li><p>2: linear</p></li>
+<li><p>3: no shell</p></li>
+<li><p>4: cancel mu0 of associated compounds</p></li>
+<li><p>-1: calculate from association</p></li>
+</ul>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pythermo.pythermo.Model.IonProps">
+<code class="sig-name descname">IonProps</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">idx</span></em>, <em class="sig-param"><span class="n">charge</span></em>, <em class="sig-param"><span class="n">sigma</span></em>, <em class="sig-param"><span class="n">bornR</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pythermo.pythermo.Model.IonProps" title="Permalink to this definition">¶</a></dt>
+<dd><p>charge: elementary charge of ion
+sigma: diameter of ion (Å)
+bornR: Born radius (Å)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pythermo.pythermo.Model.LiqRho">
+<code class="sig-name descname">LiqRho</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">T</span></em>, <em class="sig-param"><span class="n">Moles</span></em>, <em class="sig-param"><span class="n">Pini</span><span class="o">=</span><span class="default_value">1.0</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pythermo.pythermo.Model.LiqRho" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate the saturated liquid density of the given system</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>T</strong> – double - Temperature (K)</p></li>
+<li><p><strong>Moles</strong> – list of doubles - Feed composition (mole)</p></li>
+<li><p><strong>Pini</strong> – double - Initial guess (bar)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return rho</dt>
+<dd class="field-even"><p>double - Liquid density (mol/L)</p>
+</dd>
+</dl>
+<p>Usage:</p>
+<p>rho = LiqRho(self, T, Moles, Pini=1.0)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pythermo.pythermo.Model.NoAppComp">
+<code class="sig-name descname">NoAppComp</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">nAppComp</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pythermo.pythermo.Model.NoAppComp" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="pythermo.pythermo.Model.NoPureComp">
+<code class="sig-name descname">NoPureComp</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">nComp</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pythermo.pythermo.Model.NoPureComp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the number of pure components in the system</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>nComp</strong> – integer - number of components</p>
+</dd>
+</dl>
+<p>Usage:</p>
+<p>NoPureComp(n)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pythermo.pythermo.Model.NoSpecCrossAssoc">
+<code class="sig-name descname">NoSpecCrossAssoc</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">ncrs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pythermo.pythermo.Model.NoSpecCrossAssoc" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="pythermo.pythermo.Model.NoSpecCrossHBond">
+<code class="sig-name descname">NoSpecCrossHBond</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">ncrsHB</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pythermo.pythermo.Model.NoSpecCrossHBond" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="pythermo.pythermo.Model.NoSpecHVNRTL">
+<code class="sig-name descname">NoSpecHVNRTL</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">nhv</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pythermo.pythermo.Model.NoSpecHVNRTL" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="pythermo.pythermo.Model.NoSpecKij">
+<code class="sig-name descname">NoSpecKij</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">nkij</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pythermo.pythermo.Model.NoSpecKij" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="pythermo.pythermo.Model.PBubble">
+<code class="sig-name descname">PBubble</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">T</span></em>, <em class="sig-param"><span class="n">Moles</span></em>, <em class="sig-param"><span class="n">Pini</span><span class="o">=</span><span class="default_value">1.0</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pythermo.pythermo.Model.PBubble" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate the bubble pressure of the given system</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>T</strong> – double - Temperature (K)</p></li>
+<li><p><strong>Moles</strong> – list of doubles - Feed composition (mole)</p></li>
+<li><p><strong>Pini</strong> – double - Initial guess (bar)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return P</dt>
+<dd class="field-even"><p>double - Bubble point pressure (bar)</p>
+</dd>
+<dt class="field-odd">Return LnK</dt>
+<dd class="field-odd"><p>double - Logarithm of K-factors</p>
+</dd>
+<dt class="field-even">Return ierr</dt>
+<dd class="field-even"><p>integer - successful or not (ierr=0 means successful)</p>
+</dd>
+</dl>
+<p>Usage:</p>
+<p>(P, LnK, ierr) = PBubble(self, T, Moles, Pini=1.0)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pythermo.pythermo.Model.PDew">
+<code class="sig-name descname">PDew</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">T</span></em>, <em class="sig-param"><span class="n">Moles</span></em>, <em class="sig-param"><span class="n">Pini</span><span class="o">=</span><span class="default_value">1.0</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pythermo.pythermo.Model.PDew" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate the dew point pessure of the given system</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>T</strong> – double - Temperature (K)</p></li>
+<li><p><strong>Moles</strong> – list of doubles - Feed composition (mole)</p></li>
+<li><p><strong>Pini</strong> – double - Initial guess (bar)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return P</dt>
+<dd class="field-even"><p>double - Dew point pressure (bar)</p>
+</dd>
+<dt class="field-odd">Return LnK</dt>
+<dd class="field-odd"><p>double - Logarithm of K-factors</p>
+</dd>
+<dt class="field-even">Return ierr</dt>
+<dd class="field-even"><p>integer - successful or not (ierr=0 means successful)</p>
+</dd>
+</dl>
+<p>Usage:</p>
+<p>(P, LnK, ierr) = PDew(self, T, Moles, Pini=1.0)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pythermo.pythermo.Model.PTFlash">
+<code class="sig-name descname">PTFlash</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">T</span></em>, <em class="sig-param"><span class="n">P</span></em>, <em class="sig-param"><span class="n">Moles</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pythermo.pythermo.Model.PTFlash" title="Permalink to this definition">¶</a></dt>
+<dd><p>inputs:
+T: temperature (K)
+P: pressure (bar)
+Moles: Feed composition (mole)</p>
+<p>outputs:
+nfas: no of phases
+PhaseFrac: Phase fractions
+PhaseComp: Phase composition (nfas, nc)
+PhaseType: Phase type
+ierr: successful or not (ierr=0 means successful)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pythermo.pythermo.Model.PXYdiagram">
+<code class="sig-name descname">PXYdiagram</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">T</span><span class="o">=</span><span class="default_value">298.15</span></em>, <em class="sig-param"><span class="n">npoint_max</span><span class="o">=</span><span class="default_value">100</span></em>, <em class="sig-param"><span class="n">step_max</span><span class="o">=</span><span class="default_value">0.5</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pythermo.pythermo.Model.PXYdiagram" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>T</strong> – double - Temperature (K)</p></li>
+<li><p><strong>npoint_max</strong> – integer - max number of point allowed for each line (by default 100)</p></li>
+<li><p><strong>step_max</strong> – double - Max step of tracing from one point to the next, if lines are unsmooth enough, it can be decreased (by default smax=0.5)</p></li>
+</ul>
+</dd>
+</dl>
+<p><strong>First vapor-liquid curve</strong></p>
+<dl class="field-list simple">
+<dt class="field-odd">Return np_vl1</dt>
+<dd class="field-odd"><p>integer - Number of points in first vapor-liquid curve</p>
+</dd>
+<dt class="field-even">Return vl1Txy</dt>
+<dd class="field-even"><p>list - Consist of three columns: vl1x, vl1w, vl1p</p>
+</dd>
+</dl>
+<ul class="simple">
+<li><p>vl1x: Composition points</p></li>
+<li><p>vl1w: Composition points</p></li>
+<li><p>vl1p: Pressure (bar)</p></li>
+</ul>
+<p><strong>Liquid-liquid curve</strong></p>
+<dl class="field-list simple">
+<dt class="field-odd">Return np_ll</dt>
+<dd class="field-odd"><p>integer - Number of points in liquid-liquid curve</p>
+</dd>
+<dt class="field-even">Return llTxy</dt>
+<dd class="field-even"><p>list - Consist of three columns: llx, llw, llp</p>
+</dd>
+</dl>
+<ul class="simple">
+<li><p>llx: Composition points</p></li>
+<li><p>llw: Composition points</p></li>
+<li><p>llp: Pressure (bar)</p></li>
+</ul>
+<p><strong>Second vapor-liquid curve</strong></p>
+<dl class="field-list simple">
+<dt class="field-odd">Return np_vl2</dt>
+<dd class="field-odd"><p>integer - Number of points in second vapor-liquid curve</p>
+</dd>
+<dt class="field-even">Return vl2Txy</dt>
+<dd class="field-even"><p>list - Consist of three columns: vl2x, vl2w, vl2p</p>
+</dd>
+</dl>
+<ul class="simple">
+<li><p>vl1x: Composition points</p></li>
+<li><p>vl1w: Composition points</p></li>
+<li><p>vl1p: Pressure (bar)</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Return critpoint</dt>
+<dd class="field-odd"><p>list - Consist of x3 (Critical point composition (first)), w3 (Critical point composition (second)) and p3 (Critical point pressure (bar))</p>
+</dd>
+<dt class="field-even">Return nscrit</dt>
+<dd class="field-even"><p>integer - No. of subcritical comopnents</p>
+</dd>
+</dl>
+<ul class="simple">
+<li><p>0: both supercritical</p></li>
+<li><p>1: Component 1 subcritical</p></li>
+<li><p>2: Component 2 subcritical</p></li>
+<li><p>3: Both subcritical</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Return ierr</dt>
+<dd class="field-odd"><p>integer - Successful or not (ierr=0 means successful)</p>
+</dd>
+</dl>
+<p>Usage:</p>
+<p>(np_vl1, vl1Pxy, np_ll, llPxy, np_vl2, vl2Pxy, critpoint, nscrit.value, ierr) = PXYdiagram(T=298.15, npoint_max=100, step_max=0.5)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pythermo.pythermo.Model.PenelouxVol">
+<code class="sig-name descname">PenelouxVol</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">idx</span></em>, <em class="sig-param"><span class="n">c</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pythermo.pythermo.Model.PenelouxVol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the peneloux volume correction</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>idx</strong> – integer - Component number/id</p></li>
+<li><p><strong>c</strong> – float - Peneloux volume correction [(]cm3/mol]</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pythermo.pythermo.Model.PhaseEnvelope">
+<code class="sig-name descname">PhaseEnvelope</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">Moles</span></em>, <em class="sig-param"><span class="n">Pini</span><span class="o">=</span><span class="default_value">0.5</span></em>, <em class="sig-param"><span class="n">beta</span><span class="o">=</span><span class="default_value">0.0</span></em>, <em class="sig-param"><span class="n">npoint_max</span><span class="o">=</span><span class="default_value">500</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pythermo.pythermo.Model.PhaseEnvelope" title="Permalink to this definition">¶</a></dt>
+<dd><p>inputs:
+Moles: Feed composition (mole)
+Pini: initial pressure (bar)
+beta: vapor fraction (by default beta=0)
+npoint_max: maximum allowed number of point</p>
+<p>outputs:
+npoint: number of calculated point
+Tarray: array of temperature (K)
+Parray: array of pressure (bar)
+TypeofPoint: array of type of point [-2: min P, -1: min T, 0: normal, 1: max P, 2: max T, 3: critical] {shall we return the text or deal them outside?}
+ierr: successful or not (ierr=0 means successful)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pythermo.pythermo.Model.PolarProps">
+<code class="sig-name descname">PolarProps</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">idx</span></em>, <em class="sig-param"><span class="n">mu</span></em>, <em class="sig-param"><span class="n">a0</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pythermo.pythermo.Model.PolarProps" title="Permalink to this definition">¶</a></dt>
+<dd><p>mu: dipole moment (Debye)
+a0: molecular polarizability (10^40*C^2*m^2/J)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pythermo.pythermo.Model.SAFTParams">
+<code class="sig-name descname">SAFTParams</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">idx</span></em>, <em class="sig-param"><span class="n">m</span></em>, <em class="sig-param"><span class="n">sig</span></em>, <em class="sig-param"><span class="n">eps</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pythermo.pythermo.Model.SAFTParams" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the SAFT parameters of component idx
+:param idx: integer - Component number/id
+:param m: integer - number of segement (-)
+:param sig: double - size of segement (Å)
+:param eps: double - reduced self-interaction parameter /K)</p>
+<p>Usage:</p>
+<p>SAFTParams(self, idx, m, sig, eps)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pythermo.pythermo.Model.Setup_Thermo">
+<code class="sig-name descname">Setup_Thermo</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pythermo.pythermo.Model.Setup_Thermo" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run this after a model has been set up and before running any calculations. No inputs and no outputs.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pythermo.pythermo.Model.SpecAppCompStoich">
+<code class="sig-name descname">SpecAppCompStoich</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">idx</span></em>, <em class="sig-param"><span class="n">incides</span></em>, <em class="sig-param"><span class="n">stoichiometry</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pythermo.pythermo.Model.SpecAppCompStoich" title="Permalink to this definition">¶</a></dt>
+<dd><p>idx: index in apparent component list
+indices: index in component list
+stoichiometry: stoichiometry of indices
+for example, the component list is [H2O, Na+, Cl-, Br-]
+the calling procedure will be:
+SPECAPPCOMPSTOICH(1,[1],[1]);
+SPECAPPCOMPSTOICH(2,[2 3],[1 1]);
+SPECAPPCOMPSTOICH(3,[2 4],[1 1]);</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pythermo.pythermo.Model.SpecCrossAssoc">
+<code class="sig-name descname">SpecCrossAssoc</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">idx</span></em>, <em class="sig-param"><span class="n">i</span></em>, <em class="sig-param"><span class="n">j</span></em>, <em class="sig-param"><span class="n">crstyp</span></em>, <em class="sig-param"><span class="n">crsbeta</span></em>, <em class="sig-param"><span class="n">crseps</span></em>, <em class="sig-param"><span class="n">crse_b</span><span class="o">=</span><span class="default_value">0</span></em>, <em class="sig-param"><span class="n">crse_c</span><span class="o">=</span><span class="default_value">0</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pythermo.pythermo.Model.SpecCrossAssoc" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the cross association between component i and component j</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>idx</strong> – integer - Index of specified cross association</p></li>
+<li><p><strong>i</strong> – integer - Index of component i in component list</p></li>
+<li><p><strong>j</strong> – integer - Index of component j in component list</p></li>
+<li><p><strong>crstyp</strong> – double - Type of cross-association</p></li>
+<li><p><strong>crsbeta</strong> – double - Cross-association volume (<a href="#id1"><span class="problematic" id="id2">*</span></a>1000 for CPA)</p></li>
+<li><p><strong>crseps</strong> – double - Reduced cross-association energy (K)</p></li>
+<li><p><strong>crse_b</strong> – double - Parameter b</p></li>
+<li><p><strong>crse_c</strong> – double - Parameter c</p></li>
+</ul>
+</dd>
+</dl>
+<p><strong>Information about crstyp (type of cross-association)</strong></p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 28%" />
+<col style="width: 46%" />
+<col style="width: 26%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>crstyp</p></th>
+<th class="head"><p>crs_vol</p></th>
+<th class="head"><p>crs_eng</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>0 default, (near Elliott)</p></td>
+<td><p>crs_vol=sqrt((av_1*av_2)*(b0_1*b0_2))</p></td>
+<td><p>crs_eng=0.5*(ae_1+ae_2)</p></td>
+</tr>
+<tr class="row-odd"><td><p>1 CR-1,</p></td>
+<td><p>crs_vol=sqrt(av_1*av_2)*0.5*(b0_1+b0_2)</p></td>
+<td><p>crs_eng=0.5*(ae_1+ae_2)</p></td>
+</tr>
+<tr class="row-even"><td><p>2 modified CR-1,</p></td>
+<td><p>crs_vol=beta*0.5*(b0_1+b0_2)</p></td>
+<td><p>crs_eng=0.5*(ae_1+ae_2)</p></td>
+</tr>
+<tr class="row-odd"><td><p>3 modified Elliott</p></td>
+<td><p>crs_vol=beta*sqrt((av_1*av_2)*(b0_1*b0_2))</p></td>
+<td><p>crs_eng=0.5*(ae_1+ae_2)</p></td>
+</tr>
+<tr class="row-even"><td><p>4 custom CR-1</p></td>
+<td><p>crs_vol=beta*0.5*(b0_1+b0_2)</p></td>
+<td><p>crs_eng=epsR</p></td>
+</tr>
+</tbody>
+</table>
+<p>crs_eng = crs_eng + b*T + c/T</p>
+<p>For PC-SAFT, the following inputs are also possible
+crstyp: set type of cross-association</p>
+<ul class="simple">
+<li><p>11/21: CR-1</p></li>
+<li><p>12/22: modified CR-1 (req. specification of beta)</p></li>
+<li><p>14/24: custom CR-1 (specification of both beta &amp; eps)</p></li>
+</ul>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 13%" />
+<col style="width: 37%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>crstyp</p></th>
+<th class="head"><p>Combining Rule</p></th>
+<th class="head"><p>Equation</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>1, 2 and 4</p></td>
+<td><p>Segment-Volume</p></td>
+<td><p>sigma_ij^3 = 0.5*(sigma_i^3 + sigma_j^3)</p></td>
+</tr>
+<tr class="row-odd"><td><p>11, 12 and 4</p></td>
+<td><p>Traditional SAFT-Sigma</p></td>
+<td><p>sigma_ij^3 = (0.5*(sigma_i+sigma_j))^3</p></td>
+</tr>
+<tr class="row-even"><td><p>21, 22 and 24</p></td>
+<td><p>Molecule-Volume</p></td>
+<td><p>(m*sigma)_ij^3 = 0.5*((m*sigma_i)^3 + (m*sigma_j)^3)</p></td>
+</tr>
+</tbody>
+</table>
+<p>ATTENTION: In the last cases, the association volume has to be scalled by m when setting up the assoication parameters.</p>
+<p>Usage:</p>
+<p>SpecCrossAssoc(idx, i, j, crstyp, crsbeta, crseps, crse_b=0, crse_c=0)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pythermo.pythermo.Model.SpecCrossHBond">
+<code class="sig-name descname">SpecCrossHBond</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">idx</span></em>, <em class="sig-param"><span class="n">i</span></em>, <em class="sig-param"><span class="n">j</span></em>, <em class="sig-param"><span class="n">htij</span></em>, <em class="sig-param"><span class="n">htji</span></em>, <em class="sig-param"><span class="n">zij</span></em>, <em class="sig-param"><span class="n">zji</span></em>, <em class="sig-param"><span class="n">theta</span></em>, <em class="sig-param"><span class="n">gamma</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pythermo.pythermo.Model.SpecCrossHBond" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>idx</strong> – integer - Index of specifiec cross HBond</p></li>
+<li><p><strong>i</strong> – integer - Index of component i in component list</p></li>
+<li><p><strong>j</strong> – integer - Index of component j in component list</p></li>
+<li><p><strong>htij</strong> – integer - Hydrogen-bond type of i to j</p></li>
+<li><p><strong>htji</strong> – integer - Hydrogen-bond type of j to i</p></li>
+<li><p><strong>zij</strong> – integer - Coordination no. of i around j</p></li>
+<li><p><strong>zji</strong> – integer - Coordination no. of j around i</p></li>
+<li><p><strong>theta</strong> – double - Rotation angle inhydrogen bond (radian)</p></li>
+<li><p><strong>gamma</strong> – double - Projection of angle of dipole moment in H-bond direction (radian)</p></li>
+</ul>
+</dd>
+</dl>
+<p><strong>Information about hydrogen-bond type</strong></p>
+<ul class="simple">
+<li><p>0: TETRAHEDRAL - A tetrahedral H - bond network(e.g.water)</p></li>
+<li><p>1: PLANAR - A planer H - bond network(e.g.alcohols)</p></li>
+<li><p>2: LINEAR - A linear H - bond network</p></li>
+<li><p>3: NOSHELL - A network with only the inner shell(no 2nd, 3rd, etc.)</p></li>
+<li><p>4: CANCEL - As NOSHELL, but also includes cancellation of the dipole moment(e.g.around ions)</p></li>
+</ul>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pythermo.pythermo.Model.SpecHVNRTL">
+<code class="sig-name descname">SpecHVNRTL</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">idx</span></em>, <em class="sig-param"><span class="n">i</span></em>, <em class="sig-param"><span class="n">j</span></em>, <em class="sig-param"><span class="n">u0ij</span></em>, <em class="sig-param"><span class="n">u0ji</span><span class="o">=</span><span class="default_value">0.0</span></em>, <em class="sig-param"><span class="n">utij</span><span class="o">=</span><span class="default_value">0.0</span></em>, <em class="sig-param"><span class="n">utji</span><span class="o">=</span><span class="default_value">0.0</span></em>, <em class="sig-param"><span class="n">uttij</span><span class="o">=</span><span class="default_value">0.0</span></em>, <em class="sig-param"><span class="n">uttji</span><span class="o">=</span><span class="default_value">0.0</span></em>, <em class="sig-param"><span class="n">alphaij</span><span class="o">=</span><span class="default_value">0.3</span></em>, <em class="sig-param"><span class="n">alphaji</span><span class="o">=</span><span class="default_value">0.3</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pythermo.pythermo.Model.SpecHVNRTL" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="pythermo.pythermo.Model.SpecKij">
+<code class="sig-name descname">SpecKij</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">idx</span></em>, <em class="sig-param"><span class="n">i</span></em>, <em class="sig-param"><span class="n">j</span></em>, <em class="sig-param"><span class="n">kija</span></em>, <em class="sig-param"><span class="n">kijb</span><span class="o">=</span><span class="default_value">0.0</span></em>, <em class="sig-param"><span class="n">kijc</span><span class="o">=</span><span class="default_value">0.0</span></em>, <em class="sig-param"><span class="n">kijd</span><span class="o">=</span><span class="default_value">0.0</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pythermo.pythermo.Model.SpecKij" title="Permalink to this definition">¶</a></dt>
+<dd><p>Specifies the kij between compont i and component j</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>idx</strong> – integer - index of the list of the specified binary interaction parameters</p></li>
+<li><p><strong>i</strong> – integer - index of component i in component list</p></li>
+<li><p><strong>j</strong> – integer - index of component j in component list</p></li>
+<li><p><strong>kija</strong> – double - see formula below</p></li>
+<li><p><strong>kijb</strong> – double - see formula below</p></li>
+<li><p><strong>kijc</strong> – double - see formula below</p></li>
+<li><p><strong>kijd</strong> – double - see formula below</p></li>
+</ul>
+</dd>
+</dl>
+<p>kij expression:</p>
+<p>kij(i,j) = kija + kijb*T + kijc/T + kijd*lnT</p>
+<p>Usage:</p>
+<p>SpecKij(self, idx, i, j, kija, kijb=0.0, kijc=0.0, kijd=0.0)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pythermo.pythermo.Model.StabilityAnalysis">
+<code class="sig-name descname">StabilityAnalysis</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">T</span></em>, <em class="sig-param"><span class="n">Pin</span></em>, <em class="sig-param"><span class="n">nfas</span></em>, <em class="sig-param"><span class="n">PhaseFrac</span></em>, <em class="sig-param"><span class="n">PhaseComp</span></em>, <em class="sig-param"><span class="n">ZFactor</span><span class="o">=</span><span class="default_value">[]</span></em>, <em class="sig-param"><span class="n">ioptPV</span><span class="o">=</span><span class="default_value">0</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pythermo.pythermo.Model.StabilityAnalysis" title="Permalink to this definition">¶</a></dt>
+<dd><p>inputs:
+T: dew point temperature (K)
+Pin: pressure (bar)
+nfas: number of phases
+PhaseFrac: phase fracation
+PhaseComp: phase composition
+ZFactor: compressibility factor
+ioptPV: Pressure specified or Volume specified</p>
+<p>outputs:
+tm: tangent plane distance (modified)
+TrialComp: composition of the trial phase
+zy: compressibility factor of the trial phase
+if (ioptPV==1): pressure
+ierr: successful or not (ierr=0 means successful)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pythermo.pythermo.Model.StaticPermittivity">
+<code class="sig-name descname">StaticPermittivity</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">T</span></em>, <em class="sig-param"><span class="n">P</span></em>, <em class="sig-param"><span class="n">Moles</span></em>, <em class="sig-param"><span class="n">iph</span><span class="o">=</span><span class="default_value">1</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pythermo.pythermo.Model.StaticPermittivity" title="Permalink to this definition">¶</a></dt>
+<dd><p>T: temperature (K)
+P: pressure (bar)
+Moles: number of moles (mol)
+iph: properties of which phase is required</p>
+<p>eps: static permittivity (epsilon)
+nsq: squared refractive index (n^2)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pythermo.pythermo.Model.TBubble">
+<code class="sig-name descname">TBubble</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">P</span></em>, <em class="sig-param"><span class="n">Moles</span></em>, <em class="sig-param"><span class="n">Tini</span><span class="o">=</span><span class="default_value">300.0</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pythermo.pythermo.Model.TBubble" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate the bubble temperature of the given system</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>P</strong> – double - Pressure (bar)</p></li>
+<li><p><strong>Moles</strong> – list of doubles - Feed composition (mole)</p></li>
+<li><p><strong>Tini</strong> – double - Initial guess (K)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return T</dt>
+<dd class="field-even"><p>double - Bubble point temperature (mol/L)</p>
+</dd>
+<dt class="field-odd">Return LnK</dt>
+<dd class="field-odd"><p>double - Logarithm of K-factors</p>
+</dd>
+<dt class="field-even">Return ierr</dt>
+<dd class="field-even"><p>integer - successful or not (ierr=0 means successful)</p>
+</dd>
+</dl>
+<p>Usage:</p>
+<p>(T, LnK, ierr) = TBubble(self, T, Moles, Tini=1.0)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pythermo.pythermo.Model.TDew">
+<code class="sig-name descname">TDew</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">P</span></em>, <em class="sig-param"><span class="n">Moles</span></em>, <em class="sig-param"><span class="n">Tini</span><span class="o">=</span><span class="default_value">300.0</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pythermo.pythermo.Model.TDew" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate the bubble temperature of the given system</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>P</strong> – double - Pressure (bar)</p></li>
+<li><p><strong>Moles</strong> – list of doubles - Feed composition (mole)</p></li>
+<li><p><strong>Tini</strong> – double - Initial guess (K)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return T</dt>
+<dd class="field-even"><p>double - Bubble point temperature (mol/L)</p>
+</dd>
+<dt class="field-odd">Return LnK</dt>
+<dd class="field-odd"><p>double - Logarithm of K-factors</p>
+</dd>
+<dt class="field-even">Return ierr</dt>
+<dd class="field-even"><p>integer - successful or not (ierr=0 means successful)</p>
+</dd>
+</dl>
+<p>Usage:</p>
+<p>(T, LnK, ierr) = TDew(self, T, Moles, Tini=1.0)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pythermo.pythermo.Model.TXYdiagram">
+<code class="sig-name descname">TXYdiagram</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">P</span><span class="o">=</span><span class="default_value">1.0</span></em>, <em class="sig-param"><span class="n">npoint_max</span><span class="o">=</span><span class="default_value">100</span></em>, <em class="sig-param"><span class="n">step_max</span><span class="o">=</span><span class="default_value">0.5</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pythermo.pythermo.Model.TXYdiagram" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>T</strong> – double - Pressure (bar, by default P=1bar)</p></li>
+<li><p><strong>npoint_max</strong> – integer - max number of point allowed for each line (by default 100)</p></li>
+<li><p><strong>step_max</strong> – double - Max step of tracing from one point to the next, if lines are unsmooth enough, it can be decreased (by default smax=0.5)</p></li>
+</ul>
+</dd>
+</dl>
+<p><strong>First vapor-liquid curve</strong></p>
+<dl class="field-list simple">
+<dt class="field-odd">Return np_vl1</dt>
+<dd class="field-odd"><p>integer - Number of points in first vapor-liquid curve</p>
+</dd>
+<dt class="field-even">Return vl1Txy</dt>
+<dd class="field-even"><p>list - Consist of three columns: vl1x, vl1w, vl1p</p>
+</dd>
+</dl>
+<ul class="simple">
+<li><p>vl1x: Composition points</p></li>
+<li><p>vl1w: Composition points</p></li>
+<li><p>vl1p: Pressure (bar)</p></li>
+</ul>
+<p><strong>Liquid-liquid curve</strong></p>
+<dl class="field-list simple">
+<dt class="field-odd">Return np_ll</dt>
+<dd class="field-odd"><p>integer - Number of points in liquid-liquid curve</p>
+</dd>
+<dt class="field-even">Return llTxy</dt>
+<dd class="field-even"><p>list - Consist of three columns: llx, llw, llp</p>
+</dd>
+</dl>
+<ul class="simple">
+<li><p>llx: Composition points</p></li>
+<li><p>llw: Composition points</p></li>
+<li><p>llp: Pressure (bar)</p></li>
+</ul>
+<p><strong>Second vapor-liquid curve</strong></p>
+<dl class="field-list simple">
+<dt class="field-odd">Return np_vl2</dt>
+<dd class="field-odd"><p>integer - Number of points in second vapor-liquid curve</p>
+</dd>
+<dt class="field-even">Return vl2Txy</dt>
+<dd class="field-even"><p>list - Consist of three columns: vl2x, vl2w, vl2p</p>
+</dd>
+</dl>
+<ul class="simple">
+<li><p>vl1x: Composition points</p></li>
+<li><p>vl1w: Composition points</p></li>
+<li><p>vl1p: Pressure (bar)</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Return critpoint</dt>
+<dd class="field-odd"><p>list - Consist of x3 (Critical point composition (first)), w3 (Critical point composition (second)) and p3 (Critical point pressure (bar))</p>
+</dd>
+<dt class="field-even">Return nscrit</dt>
+<dd class="field-even"><p>integer - No. of subcritical comopnents</p>
+</dd>
+</dl>
+<ul class="simple">
+<li><p>0: both supercritical</p></li>
+<li><p>1: Component 1 subcritical</p></li>
+<li><p>2: Component 2 subcritical</p></li>
+<li><p>3: Both subcritical</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Return ierr</dt>
+<dd class="field-odd"><p>integer - Successful or not (ierr=0 means successful)</p>
+</dd>
+</dl>
+<p>Usage:</p>
+<p>(np_vl1, vl1Pxy, np_ll, llPxy, np_vl2, vl2Pxy, critpoint, nscrit.value, ierr) = TXYdiagram(T=298.15, npoint_max=100, step_max=0.5)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pythermo.pythermo.Model.TernaryXYDiagram">
+<code class="sig-name descname">TernaryXYDiagram</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">T</span><span class="o">=</span><span class="default_value">298.15</span></em>, <em class="sig-param"><span class="n">P</span><span class="o">=</span><span class="default_value">1.0</span></em>, <em class="sig-param"><span class="n">nreg3f_max</span><span class="o">=</span><span class="default_value">10</span></em>, <em class="sig-param"><span class="n">nregtl_max</span><span class="o">=</span><span class="default_value">10</span></em>, <em class="sig-param"><span class="n">npoint_max</span><span class="o">=</span><span class="default_value">200</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pythermo.pythermo.Model.TernaryXYDiagram" title="Permalink to this definition">¶</a></dt>
+<dd><p>inputs:
+T: temperature (K)
+P: pressure (bar)
+nreg3f_max: max number of 3 phase regions
+nregtl_max: max number of tie-line regions
+npoint_max: max number of tie-lines</p>
+<p>outputs:
+np_3p: Number of three-phase region
+p1xyz: Composition of 1st point (size=np_3p,3)
+p2xyz: Composition of 2nd point (size=np_3p,3)
+p3xyz: Composition of 3rd point (size=np_3p,3)
+np_tl: Number of tie-lines region
+id_tl: Range of indices of tie-lines (size=np_tl + 1)
+tl_p1: Composition of ‘left point’ of the tie-lines (size=id_tl(np_tl+1)-1,3)
+tl_p2: Composition of ‘right point’ of the tie-lines (size=id_tl(np_tl+1)-1,3)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pythermo.pythermo.Model.WhichModelIsUsed">
+<code class="sig-name descname">WhichModelIsUsed</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pythermo.pythermo.Model.WhichModelIsUsed" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns used model</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return sEOS</dt>
+<dd class="field-odd"><p>string</p>
+</dd>
+</dl>
+<p>Usage:</p>
+<p>sEOS = WhichModelIsUsed()</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="pythermo.pythermo.Optimizer">
+<em class="property">class </em><code class="sig-prename descclassname">pythermo.pythermo.</code><code class="sig-name descname">Optimizer</code><a class="headerlink" href="#pythermo.pythermo.Optimizer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Object responsible for running pure component parameterization for CPA model.</p>
+<dl class="py method">
+<dt id="pythermo.pythermo.Optimizer.Add_Bounds">
+<code class="sig-name descname">Add_Bounds</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">bounds</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pythermo.pythermo.Optimizer.Add_Bounds" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the bounds of variables for the optimization procedure.</p>
+<p>This has no effect when using the Levenberg-Marquardt algorithm.</p>
+<p>This function is entirely optional. By default, the variables have no bounds.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>bounds</strong> – dictionary - A dictionary containing variable names as keys and a 2-element list of lower and upper bound. See example below.</p>
+</dd>
+</dl>
+<p>Example: Assume we want to set upper and lower bounds for b0 and c1</p>
+<p>bounds = {“b0” : [b0_low, b0_high], “c1” : [c1_low, c1_high]}</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pythermo.pythermo.Optimizer.Add_Experimental_Data">
+<code class="sig-name descname">Add_Experimental_Data</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">exp_data</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pythermo.pythermo.Optimizer.Add_Experimental_Data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds experimental data to the optimizer object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>exp_data</strong> – Class of type Experimental_Data</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pythermo.pythermo.Optimizer.Add_Model">
+<code class="sig-name descname">Add_Model</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">Thermo</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pythermo.pythermo.Optimizer.Add_Model" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds a thermodynamic model to the optimizer object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>Thermo</strong> – Class of type Model</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pythermo.pythermo.Optimizer.Fix_Variables">
+<code class="sig-name descname">Fix_Variables</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x0_fixed</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pythermo.pythermo.Optimizer.Fix_Variables" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="pythermo.pythermo.Optimizer.Nelder_Mead">
+<code class="sig-name descname">Nelder_Mead</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">small_tol</span><span class="o">=</span><span class="default_value">1e-14</span></em>, <em class="sig-param"><span class="n">flat_tol</span><span class="o">=</span><span class="default_value">1e-12</span></em>, <em class="sig-param"><span class="n">max_iter</span><span class="o">=</span><span class="default_value">1000</span></em>, <em class="sig-param"><span class="n">max_bisect_iter</span><span class="o">=</span><span class="default_value">100</span></em>, <em class="sig-param"><span class="n">initial_size</span><span class="o">=</span><span class="default_value">0.01</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pythermo.pythermo.Optimizer.Nelder_Mead" title="Permalink to this definition">¶</a></dt>
+<dd><p>Perform nelder mead optimization, cannot be run until Add_Experimental_Data and Add_Model have been run.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>dictionary of optimized parameters.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pythermo.pythermo.Optimizer.Optimization">
+<code class="sig-name descname">Optimization</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pythermo.pythermo.Optimizer.Optimization" title="Permalink to this definition">¶</a></dt>
+<dd><p>Performs the actual parameterization, cannot be run until Add_Experimental_Data and Add_Model have been run.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>dictionary of optimized parameters.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pythermo.pythermo.Optimizer.Particle_Swarm">
+<code class="sig-name descname">Particle_Swarm</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">small_tol</span><span class="o">=</span><span class="default_value">1e-12</span></em>, <em class="sig-param"><span class="n">flat_tol</span><span class="o">=</span><span class="default_value">1e-10</span></em>, <em class="sig-param"><span class="n">max_iter</span><span class="o">=</span><span class="default_value">50</span></em>, <em class="sig-param"><span class="n">neighborhood_size</span><span class="o">=</span><span class="default_value">5</span></em>, <em class="sig-param"><span class="n">swarm_size</span><span class="o">=</span><span class="default_value">50</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pythermo.pythermo.Optimizer.Particle_Swarm" title="Permalink to this definition">¶</a></dt>
+<dd><p>Perform particle swarm optimization, cannot be run until Add_Experimental_Data and Add_Model have been run.</p>
+<p>It is recommended to use a swarm size of 70-500. Source for recommendation: <a class="reference external" href="https://doi.org/10.1016/j.sweve.2020.100718">https://doi.org/10.1016/j.sweve.2020.100718</a></p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>dictionary of optimized parameters.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pythermo.pythermo.Optimizer.Set_Optimization_Algorithm">
+<code class="sig-name descname">Set_Optimization_Algorithm</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">algorithm</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pythermo.pythermo.Optimizer.Set_Optimization_Algorithm" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the optimization algorithm used. The default algorithm is Trust Region Reflective.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>algorithm</strong> – string - Selected algorithm</p>
+</dd>
+</dl>
+<p>Available algorithms:</p>
+<ul class="simple">
+<li><p>‘trf’: Trust Region Reflective algorithm, particularly suitably for large sparse problems with bounds. Generally robust method</p></li>
+<li><p>‘dogbox’: Dogleg algorithm with rectangular trust regions, typical use case is small problems with bounds.</p></li>
+<li><p>‘lm’: Levenberg-Marquardt algorithm,. Doesn’t handle bounds and sparse Jacobians. Usually the most efficient method for small unconstrained problems.</p></li>
+</ul>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pythermo.pythermo.Optimizer.Setup_Multistart">
+<code class="sig-name descname">Setup_Multistart</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">bounds</span></em>, <em class="sig-param"><span class="n">iterations</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pythermo.pythermo.Optimizer.Setup_Multistart" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="pythermo.pythermo.Uncertainty_Analysis">
+<em class="property">class </em><code class="sig-prename descclassname">pythermo.pythermo.</code><code class="sig-name descname">Uncertainty_Analysis</code><a class="headerlink" href="#pythermo.pythermo.Uncertainty_Analysis" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Class dedicated to CPA uncertainty analysis</p>
+<dl class="py method">
+<dt id="pythermo.pythermo.Uncertainty_Analysis.Add_Experimental_Data">
+<code class="sig-name descname">Add_Experimental_Data</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">exp_data</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pythermo.pythermo.Uncertainty_Analysis.Add_Experimental_Data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds experimental data to the uncertainty analysis object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>exp_data</strong> – Class of type Experimental_Data</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pythermo.pythermo.Uncertainty_Analysis.Add_Model">
+<code class="sig-name descname">Add_Model</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">Thermo</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pythermo.pythermo.Uncertainty_Analysis.Add_Model" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds a thermodynamic model to the uncertainty analysis object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>Thermo</strong> – Class of type Model</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pythermo.pythermo.Uncertainty_Analysis.Bootstrapping">
+<code class="sig-name descname">Bootstrapping</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">iterations</span></em>, <em class="sig-param"><span class="n">enable_counter</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pythermo.pythermo.Uncertainty_Analysis.Bootstrapping" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="pythermo.pythermo.Uncertainty_Analysis.Scatter_Plots">
+<code class="sig-name descname">Scatter_Plots</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data_matrix</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pythermo.pythermo.Uncertainty_Analysis.Scatter_Plots" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="pythermo.pythermo.Uncertainty_Analysis.Sensitivity_Analysis">
+<code class="sig-name descname">Sensitivity_Analysis</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pythermo.pythermo.Uncertainty_Analysis.Sensitivity_Analysis" title="Permalink to this definition">¶</a></dt>
+<dd><p>Performs sensitivity analysis on pure comopnent parameters by predicting saturated vapor pressure and saturated liquid density.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pythermo.pythermo.Uncertainty_Analysis.Set_Delta">
+<code class="sig-name descname">Set_Delta</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">lb</span></em>, <em class="sig-param"><span class="n">ub</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pythermo.pythermo.Uncertainty_Analysis.Set_Delta" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the bounds of percentage deviation for sensitivity analysis</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>lb</strong> – double - Lower bound deviation used for sensitivity analysis [%]</p></li>
+<li><p><strong>yb</strong> – double - Ubber bound deviation used for sensitivity analysis [%]</p></li>
+</ul>
+</dd>
+</dl>
+<p>Usage:</p>
+<p>Set_Delta(lb, ub)</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="pythermo.pythermo.c_double_p">
+<code class="sig-prename descclassname">pythermo.pythermo.</code><code class="sig-name descname">c_double_p</code><a class="headerlink" href="#pythermo.pythermo.c_double_p" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">pythermo.pythermo.LP_c_double</span></code></p>
+</dd></dl>
+
 </div>
 
 
