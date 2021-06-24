@@ -158,7 +158,7 @@
             
   <div class="section" id="module-pythermo.pythermo">
 <span id="pythermo"></span><h1>PyThermo<a class="headerlink" href="#module-pythermo.pythermo" title="Permalink to this headline">¶</a></h1>
-<p>PyTherm</p>
+<p>PyThermo</p>
 <dl class="py class">
 <dt id="pythermo.pythermo.ComparisonFuncs">
 <em class="property">class </em><code class="sig-prename descclassname">pythermo.pythermo.</code><code class="sig-name descname">ComparisonFuncs</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">Thermo</span></em>, <em class="sig-param"><span class="n">deviationType</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pythermo.pythermo.ComparisonFuncs" title="Permalink to this definition">¶</a></dt>
@@ -448,19 +448,40 @@ a residual/deviation between model and experimental data</p>
 <dl class="py method">
 <dt id="pythermo.pythermo.Model.DerivedProps">
 <code class="sig-name descname">DerivedProps</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">T</span></em>, <em class="sig-param"><span class="n">P</span></em>, <em class="sig-param"><span class="n">Moles</span></em>, <em class="sig-param"><span class="n">iph</span><span class="o">=</span><span class="default_value">0</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pythermo.pythermo.Model.DerivedProps" title="Permalink to this definition">¶</a></dt>
-<dd><p>T: temperature (K)
-P: pressure (bar)
-Moles: number of moles (mol)
-iph: properties of which phase is required</p>
-<p>UR:   U_RES/RT
-HR:   H_RES/RT
-AR:   G_RES/RT
-GR:   G_RES/RT
-SR:   S_RES/R
-CPR:  CP_RES/R
-CVR:  CV_RES/R
-DPDV: V/P*DPDV
-DPDT: T/P*DPDT</p>
+<dd><p>Compute derived properties.
+:param T: float - temperature (K)
+:param P: float - pressure (bar)
+:param Moles: List of floats - number of moles (mol)
+:param iph: integer - (Optional) properties of which phase is required (-1 -&gt; Vapor, +1 -&gt; Liquid, 0 -&gt; default)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return UR</dt>
+<dd class="field-odd"><p>U_RES/RT</p>
+</dd>
+<dt class="field-even">Return HR</dt>
+<dd class="field-even"><p>H_RES/RT</p>
+</dd>
+<dt class="field-odd">Return AR</dt>
+<dd class="field-odd"><p>G_RES/RT</p>
+</dd>
+<dt class="field-even">Return GR</dt>
+<dd class="field-even"><p>G_RES/RT</p>
+</dd>
+<dt class="field-odd">Return SR</dt>
+<dd class="field-odd"><p>S_RES/R</p>
+</dd>
+<dt class="field-even">Return CPR</dt>
+<dd class="field-even"><p>CP_RES/R</p>
+</dd>
+<dt class="field-odd">Return CVR</dt>
+<dd class="field-odd"><p>CV_RES/R</p>
+</dd>
+<dt class="field-even">Return DPDV</dt>
+<dd class="field-even"><p>V/P*DPDV</p>
+</dd>
+<dt class="field-odd">Return DPDT</dt>
+<dd class="field-odd"><p>T/P*DPDT</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
@@ -589,7 +610,11 @@ DPDT: T/P*DPDT</p>
 <dl class="py method">
 <dt id="pythermo.pythermo.Model.Get_NoAppComp">
 <code class="sig-name descname">Get_NoAppComp</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pythermo.pythermo.Model.Get_NoAppComp" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Gets the number of apparent components
+:return: integer - Number of apparent components</p>
+<p>Usage:</p>
+<p>Get_NoAppComp()</p>
+</dd></dl>
 
 <dl class="py method">
 <dt id="pythermo.pythermo.Model.Get_NoAssocSite">
@@ -625,7 +650,15 @@ DPDT: T/P*DPDT</p>
 <dl class="py method">
 <dt id="pythermo.pythermo.Model.Get_NoSpecCrossHBond">
 <code class="sig-name descname">Get_NoSpecCrossHBond</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pythermo.pythermo.Model.Get_NoSpecCrossHBond" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Gets the number of specified cross hydrogen bonds</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>integer - Number of cross hydrogen bonds</p>
+</dd>
+</dl>
+<p>Usage:</p>
+<p>n = Get_NoSpecCrossHBond()</p>
+</dd></dl>
 
 <dl class="py method">
 <dt id="pythermo.pythermo.Model.Get_NoSpecHVNRTL">
@@ -753,7 +786,11 @@ bornR: Born radius (Å)</p>
 <dl class="py method">
 <dt id="pythermo.pythermo.Model.NoAppComp">
 <code class="sig-name descname">NoAppComp</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">nAppComp</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pythermo.pythermo.Model.NoAppComp" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Sets the number of apparent components
+:param nAppComp: integer - Number of apparent components</p>
+<p>Usage:</p>
+<p>NoAppComp(nAppComp)</p>
+</dd></dl>
 
 <dl class="py method">
 <dt id="pythermo.pythermo.Model.NoPureComp">
@@ -771,17 +808,37 @@ bornR: Born radius (Å)</p>
 <dl class="py method">
 <dt id="pythermo.pythermo.Model.NoSpecCrossAssoc">
 <code class="sig-name descname">NoSpecCrossAssoc</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">ncrs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pythermo.pythermo.Model.NoSpecCrossAssoc" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Sets the number of specified cross association parameters</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>ncrs</strong> – integer - Number of specified cross association parameters</p>
+</dd>
+</dl>
+<p>Usage:</p>
+<p>NoSpecHVNRTL(ncrs)</p>
+</dd></dl>
 
 <dl class="py method">
 <dt id="pythermo.pythermo.Model.NoSpecCrossHBond">
 <code class="sig-name descname">NoSpecCrossHBond</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">ncrsHB</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pythermo.pythermo.Model.NoSpecCrossHBond" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Sets the number of specified cross hydrogen bonding
+:param ncrsHB: integer - Number of specified hydrogen bonds.</p>
+<p>Usage:</p>
+<p>NoSpecCrossHBond(ncrsHB)</p>
+</dd></dl>
 
 <dl class="py method">
 <dt id="pythermo.pythermo.Model.NoSpecHVNRTL">
 <code class="sig-name descname">NoSpecHVNRTL</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">nhv</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pythermo.pythermo.Model.NoSpecHVNRTL" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Set the number of specified HVNRTL</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>nhv</strong> – integer - Number of HVNRTL</p>
+</dd>
+</dl>
+<p>Usage:</p>
+<p>NoSpecHVNRTL(nhv)</p>
+</dd></dl>
 
 <dl class="py method">
 <dt id="pythermo.pythermo.Model.NoSpecKij">
@@ -843,16 +900,24 @@ bornR: Born radius (Å)</p>
 <dl class="py method">
 <dt id="pythermo.pythermo.Model.PTFlash">
 <code class="sig-name descname">PTFlash</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">T</span></em>, <em class="sig-param"><span class="n">P</span></em>, <em class="sig-param"><span class="n">Moles</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pythermo.pythermo.Model.PTFlash" title="Permalink to this definition">¶</a></dt>
-<dd><p>inputs:
-T: temperature (K)
-P: pressure (bar)
-Moles: Feed composition (mole)</p>
-<p>outputs:
-nfas: no of phases
-PhaseFrac: Phase fractions
-PhaseComp: Phase composition (nfas, nc)
-PhaseType: Phase type
-ierr: successful or not (ierr=0 means successful)</p>
+<dd><p>Perform a flash calculation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>T</strong> (<em>float</em>) – temperature (K)</p></li>
+<li><p><strong>P</strong> (<em>float</em>) – pressure (bar)</p></li>
+<li><p><strong>Moles</strong> (<em>list of floats</em>) – Feed composition (mole)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>(nfas, PhaseFrac, PhaseComp, PhaseType, ierr)</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>tuple</p>
+</dd>
+</dl>
+<p>Usage:</p>
+<p>nfas, PhaseFrac, PhaseComp, PhaseType, ierr = PTFlash(T, P, Moles)</p>
 </dd></dl>
 
 <dl class="py method">
@@ -990,10 +1055,11 @@ a0: molecular polarizability (10^40*C^2*m^2/J)</p>
 <dl class="py method">
 <dt id="pythermo.pythermo.Model.SpecAppCompStoich">
 <code class="sig-name descname">SpecAppCompStoich</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">idx</span></em>, <em class="sig-param"><span class="n">incides</span></em>, <em class="sig-param"><span class="n">stoichiometry</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pythermo.pythermo.Model.SpecAppCompStoich" title="Permalink to this definition">¶</a></dt>
-<dd><p>idx: index in apparent component list
-indices: index in component list
-stoichiometry: stoichiometry of indices
-for example, the component list is [H2O, Na+, Cl-, Br-]
+<dd><p>Specifies apparent component stoichiometry
+:param idx: integer - index in apparent component list
+:param indices: integer - index in component list
+:param stoichiometry: float - stoichiometry of indices</p>
+<p>For example, the component list is [H2O, Na+, Cl-, Br-]
 the calling procedure will be:
 SPECAPPCOMPSTOICH(1,[1],[1]);
 SPECAPPCOMPSTOICH(2,[2 3],[1 1]);
@@ -1097,21 +1163,16 @@ crstyp: set type of cross-association</p>
 <dl class="py method">
 <dt id="pythermo.pythermo.Model.SpecCrossHBond">
 <code class="sig-name descname">SpecCrossHBond</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">idx</span></em>, <em class="sig-param"><span class="n">i</span></em>, <em class="sig-param"><span class="n">j</span></em>, <em class="sig-param"><span class="n">htij</span></em>, <em class="sig-param"><span class="n">htji</span></em>, <em class="sig-param"><span class="n">zij</span></em>, <em class="sig-param"><span class="n">zji</span></em>, <em class="sig-param"><span class="n">theta</span></em>, <em class="sig-param"><span class="n">gamma</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pythermo.pythermo.Model.SpecCrossHBond" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>idx</strong> – integer - Index of specifiec cross HBond</p></li>
-<li><p><strong>i</strong> – integer - Index of component i in component list</p></li>
-<li><p><strong>j</strong> – integer - Index of component j in component list</p></li>
-<li><p><strong>htij</strong> – integer - Hydrogen-bond type of i to j</p></li>
-<li><p><strong>htji</strong> – integer - Hydrogen-bond type of j to i</p></li>
-<li><p><strong>zij</strong> – integer - Coordination no. of i around j</p></li>
-<li><p><strong>zji</strong> – integer - Coordination no. of j around i</p></li>
-<li><p><strong>theta</strong> – double - Rotation angle inhydrogen bond (radian)</p></li>
-<li><p><strong>gamma</strong> – double - Projection of angle of dipole moment in H-bond direction (radian)</p></li>
-</ul>
-</dd>
-</dl>
+<dd><p>Specifies cross hydrogen bonding
+:param idx: integer - Index of specifiec cross HBond
+:param i: integer - Index of component i in component list
+:param j: integer - Index of component j in component list
+:param htij: integer - Hydrogen-bond type of i to j
+:param htji: integer - Hydrogen-bond type of j to i
+:param zij: integer - Coordination no. of i around j
+:param zji: integer - Coordination no. of j around i
+:param theta: double - Rotation angle inhydrogen bond (radian)
+:param gamma: double - Projection of angle of dipole moment in H-bond direction (radian)</p>
 <p><strong>Information about hydrogen-bond type</strong></p>
 <ul class="simple">
 <li><p>0: TETRAHEDRAL - A tetrahedral H - bond network(e.g.water)</p></li>
@@ -1172,12 +1233,21 @@ ierr: successful or not (ierr=0 means successful)</p>
 <dl class="py method">
 <dt id="pythermo.pythermo.Model.StaticPermittivity">
 <code class="sig-name descname">StaticPermittivity</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">T</span></em>, <em class="sig-param"><span class="n">P</span></em>, <em class="sig-param"><span class="n">Moles</span></em>, <em class="sig-param"><span class="n">iph</span><span class="o">=</span><span class="default_value">1</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pythermo.pythermo.Model.StaticPermittivity" title="Permalink to this definition">¶</a></dt>
-<dd><p>T: temperature (K)
-P: pressure (bar)
-Moles: number of moles (mol)
-iph: properties of which phase is required</p>
-<p>eps: static permittivity (epsilon)
-nsq: squared refractive index (n^2)</p>
+<dd><p>Perform static permittivity calculations.
+:param T: float - temperature (K)
+:param P: float - pressure (bar)
+:param Moles: list of floats - number of moles (mol)
+:param iph: integer - (Optional) properties of which phase is required</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return eps</dt>
+<dd class="field-odd"><p>float - static permittivity (epsilon)</p>
+</dd>
+<dt class="field-even">Return nsq</dt>
+<dd class="field-even"><p>float - squared refractive index (n^2)</p>
+</dd>
+</dl>
+<p>Usage:</p>
+<p>eps, nsq = StaticPermittivity(T,P,Moles)</p>
 </dd></dl>
 
 <dl class="py method">

@@ -23,7 +23,7 @@ setuptools.setup(
     python_requires='>=3.6',
    # include_package_data=True,
     package_data = {
-        'pythermo' : ['dll_files/xThermoWrapper.F90'],
+        #'pythermo' : ['dll_files/xThermoWrapper.F90'],
         'pythermo' : ['dll_files/*.dll'],
     },
     data_files = None,

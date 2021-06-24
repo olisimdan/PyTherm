@@ -1,6 +1,6 @@
 
 """
-PyTherm
+PyThermo
 """
 
 import os
@@ -13,7 +13,7 @@ from scipy.optimize import least_squares
 import random
 from joblib import Parallel, delayed
 import multiprocessing as mp
-from ssb_optimize import optimizer as opt
+import pythermo.optimization as opt
 import time
 
 
@@ -292,8 +292,6 @@ class Model(object):
          raise TypeError('idx must be bigger than 0')
       if not isinstance(c, (int, float)):
          raise TypeError('c must be an integer or float')
-      if c <= 0:
-         raise ValueError('c must be bigger than 0')
       self.__setvalue(IP_CPNLX, c, idx)
 
    def CPAParams(self, idx, b0, Gamma, c1, c2=0, c3=0):
@@ -318,13 +316,13 @@ class Model(object):
       if b0 <= 0:
          raise ValueError('b0 must be bigger than 0')
       if not isinstance(Gamma, (int, float)):
-         raise TypeError('Gamma must be an integer')
-      if Gamma <= 0:
-         raise ValueError('Gamma must be bigger than 0 or float')
+         raise TypeError('Gamma must be an integer or float')
+      if Gamma < 0:
+         raise ValueError('Gamma must be bigger than or equal to 0')
       if not isinstance(c1, (int, float)):
          raise TypeError('c1 must be an integer or float')
-      if c1 <= 0:
-         raise ValueError('c1 must be bigger than 0')
+      if c1 < 0:
+         raise ValueError('c1 must be bigger than or equal to 0')
       #Can c2 and c3 be negative?
       self.__setvalue(IP_CPAB0, b0, idx)
       self.__setvalue(IP_CPAGAM, Gamma, idx)
@@ -426,17 +424,17 @@ class Model(object):
 
    def PolarProps(self,idx, mu, a0):
       """
-      mu: dipole moment (Debye)
-      a0: molecular polarizability (10^40*C^2*m^2/J)
+         mu: dipole moment (Debye)
+         a0: molecular polarizability (10^40*C^2*m^2/J)
       """
       self.__setvalue(IP_DIPOLEMOMENT, mu, idx)
       self.__setvalue(IP_MOLECULARPOLARIZABILITY, a0, idx)
 
    def IonProps(self, idx, charge, sigma, bornR):
       """
-      charge: elementary charge of ion
-      sigma: diameter of ion (Å)
-      bornR: Born radius (Å)
+         charge: elementary charge of ion
+         sigma: diameter of ion (Å)
+         bornR: Born radius (Å)
       """
       self.__setvalue(IP_CHARGE, charge, idx)
       self.__setvalue(IP_DHDIAMETER, sigma, idx)
@@ -444,23 +442,22 @@ class Model(object):
 
    def HBondInfo(self, idx, htype=-1, CoordNo=-1, muOH=-1, phi=-1, theta=-1, gamma=-1):
       """
-      :param idx: integer - Index of component in component list
-      :param htype: integer - Hydrogen bond network
-      :param CoordNo: integer - Coordination no.
-      :param muOH: double - Dipole moment in direction of H-bond (Debye)
-      :param phi: double - Internal H-O-R angle (radian)
-      :param theta: double - Rotation angle between shells (radian)
-      :param gamma: double - Average angle between dipole moment and H-bond (radian)
+         :param idx: integer - Index of component in component list
+         :param htype: integer - Hydrogen bond network
+         :param CoordNo: integer - Coordination no.
+         :param muOH: double - Dipole moment in direction of H-bond (Debye)
+         :param phi: double - Internal H-O-R angle (radian)
+         :param theta: double - Rotation angle between shells (radian)
+         :param gamma: double - Average angle between dipole moment and H-bond (radian)
 
-      Information regarding bond network (htype):
+         Information regarding bond network (htype):
 
-      - 0: tetrahedral
-      - 1: planar
-      - 2: linear
-      - 3: no shell
-      - 4: cancel mu0 of associated compounds
-      - -1: calculate from association
-
+         - 0: tetrahedral
+         - 1: planar
+         - 2: linear
+         - 3: no shell
+         - 4: cancel mu0 of associated compounds
+         - -1: calculate from association
       """
       self.__setvalue(IP_HTYPE, htype, idx)
       self.__setvalue(IP_CORDNO, CoordNo, idx)
@@ -524,6 +521,13 @@ class Model(object):
       self.__setvalue(IP_KIJ_D, kijd, idx)
 
    def NoSpecHVNRTL(self, nhv):
+      """
+         Set the number of specified HVNRTL\n
+         :param nhv: integer - Number of HVNRTL
+
+         Usage:\n
+         NoSpecHVNRTL(nhv)
+      """
       self.__setvalue(IP_NHV, nhv)
 
    def Get_NoSpecHVNRTL(self):
@@ -550,7 +554,13 @@ class Model(object):
       self.__setvalue(IP_NRTL_ALPHAJI, alphaji, idx)
 
    def NoSpecCrossAssoc(self, ncrs):
-      # ncrs: number of user specified cross-association parameters
+      """
+         Sets the number of specified cross association parameters\n
+         :param ncrs: integer - Number of specified cross association parameters
+
+         Usage:\n
+         NoSpecHVNRTL(ncrs)
+      """
       self.__setvalue(IP_NCRSASS, ncrs)
 
    def Get_NoSpecCrossAssoc(self):
@@ -620,14 +630,29 @@ class Model(object):
       self.__setvalue(IP_CRSASS_ENG_C, crse_c, idx)
 
    def NoSpecCrossHBond(self, ncrsHB):
+      """
+         Sets the number of specified cross hydrogen bonding
+         :param ncrsHB: integer - Number of specified hydrogen bonds.
+
+         Usage:\n
+         NoSpecCrossHBond(ncrsHB)
+      """
       self.__setvalue(IP_NCRSHBOND, ncrsHB)
 
    def Get_NoSpecCrossHBond(self):
+      """
+         Gets the number of specified cross hydrogen bonds\n
+         :return: integer - Number of cross hydrogen bonds
+
+         Usage:\n
+         n = Get_NoSpecCrossHBond()
+      """
       val = self.__getvalue(IP_NCRSHBOND)
       return (int(val))
 
    def SpecCrossHBond(self, idx, i, j, htij, htji, zij, zji, theta, gamma):
       """
+         Specifies cross hydrogen bonding
          :param idx: integer - Index of specifiec cross HBond
          :param i: integer - Index of component i in component list
          :param j: integer - Index of component j in component list
@@ -656,18 +681,34 @@ class Model(object):
       self.__setvalue(IP_CRSHBOND_COSGAMMA, np.cos(np.radians(gamma)), idx)
 
    def NoAppComp(self, nAppComp):
+      """
+         Sets the number of apparent components 
+         :param nAppComp: integer - Number of apparent components
+
+         Usage:\n
+         NoAppComp(nAppComp)
+      """
       self.__setvalue(IP_NAPPCOMP, nAppComp)
 
    def Get_NoAppComp(self):
+      """
+         Gets the number of apparent components 
+         :return: integer - Number of apparent components
+
+         Usage:\n
+         Get_NoAppComp()
+      """
       val = self.__getvalue(IP_NAPPCOMP)
       return (int(val))
 
    def SpecAppCompStoich(self, idx, incides, stoichiometry):
       """
-         idx: index in apparent component list
-         indices: index in component list
-         stoichiometry: stoichiometry of indices
-         for example, the component list is [H2O, Na+, Cl-, Br-]
+         Specifies apparent component stoichiometry
+         :param idx: integer - index in apparent component list
+         :param indices: integer - index in component list
+         :param stoichiometry: float - stoichiometry of indices
+
+         For example, the component list is [H2O, Na+, Cl-, Br-]
          the calling procedure will be:
          SPECAPPCOMPSTOICH(1,[1],[1]);
          SPECAPPCOMPSTOICH(2,[2 3],[1 1]);
@@ -777,20 +818,21 @@ class Model(object):
 
    def DerivedProps(self, T, P, Moles, iph=0):
       """
-      T: temperature (K)
-      P: pressure (bar)
-      Moles: number of moles (mol)
-      iph: properties of which phase is required
+         Compute derived properties.
+         :param T: float - temperature (K)
+         :param P: float - pressure (bar)
+         :param Moles: List of floats - number of moles (mol)
+         :param iph: integer - (Optional) properties of which phase is required (-1 -> Vapor, +1 -> Liquid, 0 -> default)
 
-      UR:   U_RES/RT
-      HR:   H_RES/RT
-      AR:   G_RES/RT
-      GR:   G_RES/RT
-      SR:   S_RES/R
-      CPR:  CP_RES/R
-      CVR:  CV_RES/R
-      DPDV: V/P*DPDV
-      DPDT: T/P*DPDT
+         :return UR:   U_RES/RT
+         :return HR:   H_RES/RT
+         :return AR:   G_RES/RT
+         :return GR:   G_RES/RT
+         :return SR:   S_RES/R
+         :return CPR:  CP_RES/R
+         :return CVR:  CV_RES/R
+         :return DPDV: V/P*DPDV
+         :return DPDT: T/P*DPDT
       """
       nc = self.Get_NoPureComp()
       iph = iph
@@ -827,13 +869,17 @@ class Model(object):
 
    def StaticPermittivity(self, T, P, Moles, iph=1):
       """
-      T: temperature (K)
-      P: pressure (bar)
-      Moles: number of moles (mol)
-      iph: properties of which phase is required
+         Perform static permittivity calculations.
+         :param T: float - temperature (K)
+         :param P: float - pressure (bar)
+         :param Moles: list of floats - number of moles (mol)
+         :param iph: integer - (Optional) properties of which phase is required
 
-      eps: static permittivity (epsilon)
-      nsq: squared refractive index (n^2)
+         :return eps: float - static permittivity (epsilon)
+         :return nsq: float - squared refractive index (n^2)
+
+         Usage:\n
+         eps, nsq = StaticPermittivity(T,P,Moles)
       """
       nc = self.Get_NoPureComp()
       iph = iph
@@ -859,17 +905,22 @@ class Model(object):
 
    def PTFlash(self, T, P, Moles):
       """
-      inputs:
-      T: temperature (K)
-      P: pressure (bar)
-      Moles: Feed composition (mole)
+         Perform a flash calculation.
 
-      outputs:
-      nfas: no of phases
-      PhaseFrac: Phase fractions
-      PhaseComp: Phase composition (nfas, nc)
-      PhaseType: Phase type
-      ierr: successful or not (ierr=0 means successful)
+         :param T: temperature (K)
+         :type T: float
+         :param P: pressure (bar)
+         :type P: float
+         :param Moles: Feed composition (mole)
+         :type Moles: list of floats
+
+         
+         :return: (nfas, PhaseFrac, PhaseComp, PhaseType, ierr)
+         :rtype: tuple
+
+
+         Usage:\n
+         nfas, PhaseFrac, PhaseComp, PhaseType, ierr = PTFlash(T, P, Moles)
       """
       nc = self.Get_NoPureComp()
       pMoles = np.atleast_1d(Moles)
