@@ -13,7 +13,7 @@ class Testing(unittest.TestCase):
         Thermo.CPAParams(1, 14.515, 1017.3, 0.6736)
         Thermo.AssocParams(1, 22, 69.2, 2003.2)
         Thermo.Setup_Thermo()
-        P, LnK, ierr = Thermo.PBubble(273.15+100,1)
+        P, LnK, ierr = Thermo.PBubble(373.15,1) # T = 371.15K, moles = 1
         Thermo.Finishup_Thermo()
         self.assertGreater(P,0)
         self.assertAlmostEqual(P,1.01325,1)
@@ -42,7 +42,7 @@ class Testing(unittest.TestCase):
         Thermo.CPAParams(1, 14.515, 1017.3, 0.6736)
         Thermo.AssocParams(1, 22, 69.2, 2003.2)
         Thermo.Setup_Thermo()
-        T, LnK, ierr = Thermo.TBubble(1.01325,1,500)
+        T, LnK, ierr = Thermo.TBubble(1.01325,1,500) # P = 1.01325bar, moles = 1, Tini = 500K
         Thermo.Finishup_Thermo()
         self.assertGreater(T,0)
         self.assertAlmostEqual(T,373.15,0)
@@ -58,7 +58,6 @@ class Testing(unittest.TestCase):
         self.assertRaises(TypeError, pt.Model().TBubble, 3+5j, 1,1)
         self.assertRaises(TypeError, pt.Model().TBubble, "some string", 1,1)
         self.assertRaises(TypeError, pt.Model().TBubble, True, 1,1)
-
 
 
     """
