@@ -16,11 +16,11 @@ where <installation directory> is the directory which the .zip file has extracte
 python setup.py install
 ```
 
-##Project Structure, Versioning, and Documentation
+## Project Structure, Versioning, and Documentation
 
 Project structure follows python-guide.org recommendations.
 
-Docstring format follows Google style recoomendations.
+Docstring format follows Sphinx markdown recommendations. This allows for syntax documentation via Sphinx.
 
 Versioning for publishing to PyPI follows the "major.minor.patch" format based on https://semver.org/ recommendations.
 
