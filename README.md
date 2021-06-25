@@ -16,6 +16,12 @@ where <installation directory> is the directory which the .zip file has extracte
 python setup.py install
 ```
 
+## Testing
+To run unit tests, open a shell environment and run the following command in the top-level directory.
+```console
+python -m unittest discover -v
+```
+
 ## Project Structure, Versioning, and Documentation
 
 Project structure follows python-guide.org recommendations.
@@ -36,3 +42,6 @@ After installation, the package is imported in python by the following line of c
 ```python
 from pythermo import pythermo as pt
 ```
+
+## Learning Material
+Learning material is available in the repository folders "Learning Material" and "docs". Within "Learning Material" you will find Jupyter Notebooks and sample python codes. In the "docs" folder you will find user guide to help set up the package, and a syntax page where the syntax of all functions are described. Even after installing with pip it is recommended to download the repository as a .zip file directly from GitHub in order to have access to these folders.
