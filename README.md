@@ -16,6 +16,19 @@ where <installation directory> is the directory which the .zip file has extracte
 python setup.py install
 ```
 
+##Project Structure, Versioning, and Documentation
+
+Project structure follows python-guide.org recommendations.
+
+Docstring format follows Google style recoomendations.
+
+Versioning for publishing to PyPI follows the "major.minor.patch" format based on https://semver.org/ recommendations.
+
+* major version - when you make incompatible API changes,
+* minor version - when you add functionality in a backwards-compatible manner, and
+* patch version - when you make backwards-compatible bug fixes.
+
+The Markdown cheat sheet is a useful reference for keeping documentation up to date.
 
 
 ## General Information

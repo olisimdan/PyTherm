@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="pythermo",
-    version="1.0.1",
+    version="1.0.2",
     author="Xiaodong Liang & Daniel Qvistgaard",
     author_email="s164067@student.dtu.dk",
     description="Thermodynamic Modelling Tools for Phase Equilibria",
