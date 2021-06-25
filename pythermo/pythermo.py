@@ -111,16 +111,17 @@ class Model(object):
 
    def ChooseAModel(self, ieos):
       """
-      This function allows the user to pick a model to use\n
-      :param ieos: integer\n
-        1 - CPA\n
-        2 - SRK\n
-        3 - PR\n
-        4 - PC-SAFT  (400, org UC + simplified 2), 401 (org UC + simplified 1), 402 (org UC + org HC)
-                  410 (new UC + simplified 2), 411 (new UC + simplified 1), 412 (new UC + org HC)\n
-        6 - ePC-SAFT (600, org UC + simplified 2), 601 (org UC + simplified 1), 602 (org UC + org HC)
-                  610 (new UC + simplified 2), 611 (new UC + simplified 1), 612 (new UC + org HC)\n
-        11 - eCPA
+      This function allows the user to pick a model to use
+
+      :param ieos: Model ID
+      :type ieos: integer
+
+      1 - CPA\n
+      2 - SRK\n
+      3 - PR\n
+      4 - PC-SAFT  (400, org UC + simplified 2), 401 (org UC + simplified 1), 402 (org UC + org HC), 410 (new UC + simplified 2), 411 (new UC + simplified 1), 412 (new UC + org HC)\n
+      6 - ePC-SAFT (600, org UC + simplified 2), 601 (org UC + simplified 1), 602 (org UC + org HC), 610 (new UC + simplified 2), 611 (new UC + simplified 1), 612 (new UC + org HC)\n
+      11 - eCPA
       """
       if not isinstance(ieos, int):
          raise TypeError('ieos must be an integer.')
@@ -130,7 +131,9 @@ class Model(object):
    def WhichModelIsUsed(self):
       """
          Returns used model\n
-         :return sEOS: string
+
+         :return: Model used
+         :rtype: string
 
          Usage:\n
          sEOS = WhichModelIsUsed()
@@ -153,8 +156,10 @@ class Model(object):
 
    def NoPureComp(self, nComp):
       """
-         Set the number of pure components in the system\n
-         :param nComp: integer - number of components
+         Set the number of pure components in the system
+
+         :param nComp: number of components
+         :type nComp: integer
 
          Usage:\n
          NoPureComp(n)
@@ -168,8 +173,10 @@ class Model(object):
 
    def Get_NoPureComp(self):
       """
-         Get the number of pure components in the system\n
-         :return: integer - number of components
+         Get the number of pure components in the system
+
+         :return: Number of components
+         :rtype: integer
 
          Usage:\n
          n = Get_NoPureComp()
@@ -179,11 +186,16 @@ class Model(object):
 
    def CritProps(self, idx, Tc, Pc, Om):
       """
-         Sets the critical properties of component idx\n
-         :param idx: integer - Component number/id
-         :param Tc: double - Critical temperature (K)
-         :param Pc: double - Critical pressure (bar)
-         :param Om: double -  Acentric factor (-)
+         Sets the critical properties of component idx
+
+         :param idx: Component number/id
+         :type idx: integer
+         :param Tc: Critical temperature (K)
+         :type Tc: float
+         :param Pc: Critical pressure (bar)
+         :type Pc: float
+         :param Om: Acentric factor (-)
+         :type Om: float
 
          Usage:\n
          CritProps(idx, Tc, Pc, Om)
@@ -211,9 +223,12 @@ class Model(object):
 
    def Get_CritProps(self, idx):
       """
-         Gets the critical properties of component idx\n
-         :param idx: integer - Component number/id
-         :return: dictionary - Contains critical temperature, critical pressure and acentric factor
+         Gets the critical properties of component idx
+
+         :param idx: Component number/id
+         :type idx: integer
+         :return: Contains critical temperature, critical pressure and acentric factor
+         :rtype: dictionary
          
          - Critical temperature (K)
          - Critical pressure (bar)
@@ -240,8 +255,10 @@ class Model(object):
       """
          Gets the critical temperature
 
-         :param idx: integer - Component number/id
-         :return: float - Tc [K]
+         :param idx: Component number/id
+         :type idx: integer
+         :return: Tc [K]
+         :rtype: float
       """
       if not isinstance(idx, int):
          raise TypeError('idx must be an integer')
@@ -254,8 +271,10 @@ class Model(object):
       """
          Gets the critical pressure
 
-         :param idx: integer - Component number/id
-         :return: float - Pc [bar]
+         :param idx: Component number/id
+         :type idx: integer
+         :return: Pc [bar]
+         :rtype: float
       """
       if not isinstance(idx, int):
          raise TypeError('idx must be an integer')
@@ -268,8 +287,10 @@ class Model(object):
       """
          Gets the acentric factor
 
-         :param idx: integer - Component number/id
-         :return: float - Om [dimensionless]
+         :param idx: Component number/id
+         :type idx: integer
+         :return: Om [dimensionless]
+         :rtype: float
       """
       if not isinstance(idx, int):
          raise TypeError('idx must be an integer')
@@ -281,10 +302,12 @@ class Model(object):
 
    def PenelouxVol(self, idx, c):
       """
-      Sets the peneloux volume correction
+         Sets the peneloux volume correction
 
-      :param idx: integer - Component number/id
-      :param c: float - Peneloux volume correction [(]cm3/mol]
+         :param idx: Component number/id
+         :type idx: integer
+         :param: Peneloux volume correction [(]cm3/mol]
+         :rtype: float
       """
       if not isinstance(idx, int):
          raise TypeError('idx must be an integer')
@@ -297,12 +320,20 @@ class Model(object):
    def CPAParams(self, idx, b0, Gamma, c1, c2=0, c3=0):
       """
          Sets the CPA parameters of component idx\n
-         :param idx: integer - Component number/id
-         :param b0: double - co-volume (cm3/mol)
-         :param Gamma: double - reduced energy parameter = a/Rb (K)
-         :param c1: double - alpha function T-dependence (-)
-         :param c2: double - coefficients in MC Alpha function alpha(T) = 1+c1*(1-sqrt(T/Tc))+c2*(1-sqrt(T/Tc))^2+c3*(1-sqrt(T/Tc))^3
-         :param c3: double - coefficients in MC Alpha function alpha(T) = 1+c1*(1-sqrt(T/Tc))+c2*(1-sqrt(T/Tc))^2+c3*(1-sqrt(T/Tc))^3
+
+         :param idx: Component number/id
+         :type idx: integer
+         :param b0: Co-volume (cm3/mol)
+         :type b0: float
+         :param Gamma: Reduced energy parameter = a/Rb (K)
+         :type Gamma: float
+         :param c1: Alpha function T-dependence (-)
+         :type c1: float
+         :param c2: Coefficients in MC Alpha function alpha(T) = 1+c1*(1-sqrt(T/Tc))+c2*(1-sqrt(T/Tc))^2+c3*(1-sqrt(T/Tc))^3
+         :type c2: float
+         :param c3: Coefficients in MC Alpha function alpha(T) = 1+c1*(1-sqrt(T/Tc))+c2*(1-sqrt(T/Tc))^2+c3*(1-sqrt(T/Tc))^3
+         :type c3: float
+         
 
          Usage:\n
          CPAParams(idx, b0, Gamma, c1, c2=0, c3=0)
@@ -332,9 +363,12 @@ class Model(object):
 
    def Get_CPAParams(self, idx):
       """
-         Gets the CPA parameters of component idx\n
-         :param idx: integer - Component number/id
-         :return: dictionary - Contains CPA parameters: co-volume, reduced enrgy parameter, alpha function T-dependence
+         Gets the CPA parameters of component idx
+
+         :param idx: Component number/id
+         :type idx: integer
+         :return: Contains CPA parameters: co-volume, reduced enrgy parameter, alpha function T-dependence
+         :rtype: dictionary
 
          - b0: co-volume (cm3/mol)
          - Gamma: reduced energy parameter = a/Rb (K)
@@ -360,10 +394,15 @@ class Model(object):
    def SAFTParams(self, idx, m, sig, eps):
       """
          Sets the SAFT parameters of component idx
-         :param idx: integer - Component number/id
-         :param m: integer - number of segement (-)
-         :param sig: double - size of segement (Å)
-         :param eps: double - reduced self-interaction parameter /K)
+
+         :param idx: Component number/id
+         :type idx: integer
+         :param m: number of segement (-)
+         :type m: integer
+         :param sig: size of segement (Å)
+         :type sig: float
+         :param eps: reduced self-interaction parameter /K)
+         :type eps: float
 
          Usage:\n
          SAFTParams(self, idx, m, sig, eps)
@@ -379,11 +418,16 @@ class Model(object):
 
    def AssocParams(self, idx, AssocSch, AssocVol, AssocEng):
       """
-         Sets the specified association parameters\n
-         :param idx: integer - Index of component in component list
-         :param AssocSch: integer - Association scheme (maximum) three integers
-         :param AssocVol: double - Reduced self-association energy (K)
-         :param AssocEng: double - Self-association volume (1000*beta for CPA)
+         Sets the specified association parameters
+
+         :param idx: Index of component in component list
+         :type idx: integer
+         :param AssocSch: Association scheme (maximum) three integers
+         :type AssocSch: integer
+         :param AssocVol: Reduced self-association energy (K)
+         :type AssocVol: float
+         :param AssocEng: Self-association volume (1000*beta for CPA)
+         :type AssocEng: float
          
          AssocSch: 1st integer is no. of glue sites, 2nd integer is no of positive sites, 3rd integer is no of negative sites e.g. 022 = 4C, 011 = 2B, 100 = 1A, 001 = solvation with one negative site
 
@@ -398,9 +442,12 @@ class Model(object):
 
    def Get_AssocParams(self,idx):
       """
-         Gets the specified association parameters\n
-         :param idx: integer - Index of component in component list
-         :return: dictionary - Contains Association parameters: Association scheme, Reduced self-association energy, Self-association volume
+         Gets the specified association parameters
+
+         :param idx: Index of component in component list
+         :type idx: integer
+         :return: Contains Association parameters: Association scheme, Reduced self-association energy, Self-association volume
+         :rtype: dictionary
          
          - AssocSch: Association scheme (maximum) three integers
          - AssocVol: Reduced self-association energy (K)
@@ -424,17 +471,30 @@ class Model(object):
 
    def PolarProps(self,idx, mu, a0):
       """
-         mu: dipole moment (Debye)
-         a0: molecular polarizability (10^40*C^2*m^2/J)
+         Set the polar properties
+
+         :param idx: Index of component in component list
+         :type idx: integer
+         :param mu: Dipole moment (Debye)
+         :type mu: float
+         :param a0: Molecular polarizability (10^40*C^2*m^2/J)
+         :type a0: float
       """
       self.__setvalue(IP_DIPOLEMOMENT, mu, idx)
       self.__setvalue(IP_MOLECULARPOLARIZABILITY, a0, idx)
 
    def IonProps(self, idx, charge, sigma, bornR):
       """
-         charge: elementary charge of ion
-         sigma: diameter of ion (Å)
-         bornR: Born radius (Å)
+         Sets the ionic properties
+
+         :param idx: Index of component in component list
+         :type idx: integer
+         :param charge: Elementary charge of ion
+         :type charge: float
+         :param sigma: Diameter of ion (Å)
+         :type sigma: float
+         :param bornR: Born radius (Å)
+         :type bornR: float
       """
       self.__setvalue(IP_CHARGE, charge, idx)
       self.__setvalue(IP_DHDIAMETER, sigma, idx)
@@ -442,13 +502,22 @@ class Model(object):
 
    def HBondInfo(self, idx, htype=-1, CoordNo=-1, muOH=-1, phi=-1, theta=-1, gamma=-1):
       """
-         :param idx: integer - Index of component in component list
-         :param htype: integer - Hydrogen bond network
-         :param CoordNo: integer - Coordination no.
-         :param muOH: double - Dipole moment in direction of H-bond (Debye)
-         :param phi: double - Internal H-O-R angle (radian)
-         :param theta: double - Rotation angle between shells (radian)
-         :param gamma: double - Average angle between dipole moment and H-bond (radian)
+         Sets the hydrogen bond info 
+
+         :param idx: Index of component in component list
+         :type idx: integer
+         :param htype: Hydrogen bond network
+         :type htype: integer
+         :param CoordNo: Coordination no.
+         :type CoordNo: integer
+         :param muOH: Dipole moment in direction of H-bond (Debye)
+         :type muOH: float
+         :param phi: Internal H-O-R angle (radian)
+         :type phi: float
+         :param theta: Rotation angle between shells (radian)
+         :type theta: float
+         :param gamma: Average angle between dipole moment and H-bond (radian)
+         :type gamma: float
 
          Information regarding bond network (htype):
 
@@ -476,7 +545,14 @@ class Model(object):
          self.__setvalue(IP_COSGAMMA, -2.0, idx)
 
    def DGTParams(self, idx, ipc):
-      # ipc: value(s) of influence parameter c0
+      """
+         Sets the DGT parameters
+
+         :param idx: Index of component in component list
+         :type idx: integer
+         :param ipc: ipc
+         :type ipc: float
+      """
       ipc = np.atleast_1d(ipc)
       n = np.size(ipc)
       for i in range(0, n):
@@ -487,8 +563,10 @@ class Model(object):
 
    def Get_NoSpecKij(self):
       """
-         Gets the number of specified binary interaction parameters\n
-         :return: integer - Number of specified binary interaction parameters
+         Gets the number of specified binary interaction parameters
+
+         :return: Number of specified binary interaction parameters
+         :rtype: integer
 
          Usage:\n
          n = Get_NoSpecKij()
@@ -498,14 +576,22 @@ class Model(object):
 
    def SpecKij(self, idx, i, j, kija, kijb=0.0, kijc=0.0, kijd=0.0):
       """
-         Specifies the kij between compont i and component j\n
-         :param idx: integer - index of the list of the specified binary interaction parameters
-         :param i: integer - index of component i in component list
-         :param j: integer - index of component j in component list
-         :param kija: double - see formula below
-         :param kijb: double - see formula below
-         :param kijc: double - see formula below
-         :param kijd: double - see formula below
+         Specifies the kij between compont i and component j
+
+         :param idx: Index of the list of the specified binary interaction parameters
+         :type idx: integer
+         :param i: Index of component i in component list
+         :type i: integer
+         :param j: Index of component j in component list
+         :type j: integer
+         :param kija: See formula below
+         :type kija: float
+         :param kijb: See formula below
+         :type kijb: float
+         :param kijc: See formula below
+         :type kijc: float
+         :param kijd: See formula below
+         :type kijd: float
 
          kij expression:\n
          kij(i,j) = kija + kijb*T + kijc/T + kijd*lnT
@@ -522,8 +608,10 @@ class Model(object):
 
    def NoSpecHVNRTL(self, nhv):
       """
-         Set the number of specified HVNRTL\n
-         :param nhv: integer - Number of HVNRTL
+         Set the number of specified HVNRTL
+
+         :param nhv: Number of HVNRTL
+         :type nhv: float
 
          Usage:\n
          NoSpecHVNRTL(nhv)
@@ -532,8 +620,10 @@ class Model(object):
 
    def Get_NoSpecHVNRTL(self):
       """
-         Gets the number of specified HVNRTL\n
-         :return: integer - Number of HVNRTL
+         Gets the number of specified HVNRTL
+
+         :return: Number of HVNRTL
+         :rtype: integer
 
          Usage:\n
          n = Get_NoSpecHVNRTL()
@@ -555,8 +645,10 @@ class Model(object):
 
    def NoSpecCrossAssoc(self, ncrs):
       """
-         Sets the number of specified cross association parameters\n
-         :param ncrs: integer - Number of specified cross association parameters
+         Sets the number of specified cross association parameters
+
+         :param ncrs: Number of specified cross association parameters
+         :type ncrs: integer
 
          Usage:\n
          NoSpecHVNRTL(ncrs)
@@ -565,8 +657,10 @@ class Model(object):
 
    def Get_NoSpecCrossAssoc(self):
       """
-         Gets the number of specified cross association parameters\n
-         :return: integer - Number of cross association parameters
+         Gets the number of specified cross association parameters
+
+         :return: Number of cross association parameters
+         :type: integer
 
          Usage:\n
          n = Get_NoSpecCrossAssoc()
@@ -578,14 +672,22 @@ class Model(object):
       """
          Sets the cross association between component i and component j
 
-         :param idx: integer - Index of specified cross association
-         :param i: integer - Index of component i in component list
-         :param j: integer - Index of component j in component list
-         :param crstyp: double - Type of cross-association
-         :param crsbeta: double - Cross-association volume (*1000 for CPA)
-         :param crseps: double - Reduced cross-association energy (K)
-         :param crse_b: double - Parameter b
-         :param crse_c: double - Parameter c
+         :param idx: Index of specified cross association
+         :type idx: integer
+         :param i: Index of component i in component list
+         :type i: integer
+         :param j: Index of component j in component list
+         :type j: integer
+         :param crstyp: Type of cross-association
+         :type crstyp: float
+         :param crsbeta: Cross-association volume (*1000 for CPA)
+         :type crsbeta: float
+         :param crseps: Reduced cross-association energy (K)
+         :type crseps: float
+         :param crse_b: Parameter b
+         :type crse_b: float
+         :param crse_c: Parameter c
+         :type crse_c: float
 
          **Information about crstyp (type of cross-association)**
 
@@ -632,7 +734,9 @@ class Model(object):
    def NoSpecCrossHBond(self, ncrsHB):
       """
          Sets the number of specified cross hydrogen bonding
-         :param ncrsHB: integer - Number of specified hydrogen bonds.
+
+         :param ncrsHB: Number of specified hydrogen bonds.
+         :type ncrsHB: integer
 
          Usage:\n
          NoSpecCrossHBond(ncrsHB)
@@ -641,8 +745,10 @@ class Model(object):
 
    def Get_NoSpecCrossHBond(self):
       """
-         Gets the number of specified cross hydrogen bonds\n
-         :return: integer - Number of cross hydrogen bonds
+         Gets the number of specified cross hydrogen bonds
+
+         :return: Number of cross hydrogen bonds
+         :rtype: integer
 
          Usage:\n
          n = Get_NoSpecCrossHBond()
@@ -653,15 +759,25 @@ class Model(object):
    def SpecCrossHBond(self, idx, i, j, htij, htji, zij, zji, theta, gamma):
       """
          Specifies cross hydrogen bonding
-         :param idx: integer - Index of specifiec cross HBond
-         :param i: integer - Index of component i in component list
-         :param j: integer - Index of component j in component list
-         :param htij: integer - Hydrogen-bond type of i to j
-         :param htji: integer - Hydrogen-bond type of j to i
-         :param zij: integer - Coordination no. of i around j
-         :param zji: integer - Coordination no. of j around i
-         :param theta: double - Rotation angle inhydrogen bond (radian)
-         :param gamma: double - Projection of angle of dipole moment in H-bond direction (radian)
+
+         :param idx: Index of specifiec cross HBond
+         :type idx: integer
+         :param i: Index of component i in component list
+         :type i: integer
+         :param j: Index of component j in component list
+         :type j: integer
+         :param htij: Hydrogen-bond type of i to j
+         :type htij: integer
+         :param htji: Hydrogen-bond type of j to i
+         :type htji: integer
+         :param zij: Coordination no. of i around j
+         :type zij: integer
+         :param zji: Coordination no. of j around i
+         :type zji: integer
+         :param theta: Rotation angle inhydrogen bond (radian)
+         :type theta: float
+         :param gamma: Projection of angle of dipole moment in H-bond direction (radian)
+         :type gamme: float
 
          **Information about hydrogen-bond type**
          
@@ -683,7 +799,9 @@ class Model(object):
    def NoAppComp(self, nAppComp):
       """
          Sets the number of apparent components 
-         :param nAppComp: integer - Number of apparent components
+
+         :param nAppComp: Number of apparent components
+         :type nAppComp: integer
 
          Usage:\n
          NoAppComp(nAppComp)
@@ -692,8 +810,10 @@ class Model(object):
 
    def Get_NoAppComp(self):
       """
-         Gets the number of apparent components 
-         :return: integer - Number of apparent components
+         Gets the number of apparent components
+
+         :return: Number of apparent components
+         :rtype: integer
 
          Usage:\n
          Get_NoAppComp()
@@ -704,9 +824,13 @@ class Model(object):
    def SpecAppCompStoich(self, idx, incides, stoichiometry):
       """
          Specifies apparent component stoichiometry
-         :param idx: integer - index in apparent component list
-         :param indices: integer - index in component list
-         :param stoichiometry: float - stoichiometry of indices
+
+         :param idx: Index in apparent component list
+         :type idx: integer
+         :param indices: Index in component list
+         :type indices: integer
+         :param stoichiometry: Stoichiometry of indices
+         :type stoichiometry: float
 
          For example, the component list is [H2O, Na+, Cl-, Br-]
          the calling procedure will be:
@@ -749,17 +873,18 @@ class Model(object):
       """
          Calculates the fugacity coeffiecient and related properties.
 
-         :param T: double - Temperature (K)
-         :param P: double - Pressure (bar)
-         :param Moles: list of double -
-         :param iph: integer - Properties of which phase is required
-         :param job: integer - Which level of properties are needed
-         :return ZFact: double - Compressibility factor
-         :return lnPhi: double - Returned if job >= 1
-         :return ntdlnPhidn: double - Returned if job >= 2
-         :return dlnPhidlPP: double - Returned if job >= 3
-         :return dlnPhidlTT: double - Returned if job == 4
-         :return ic: integer
+         :param T: Temperature (K)
+         :type T: float
+         :param P: Pressure (bar)
+         :type P: float
+         :param Moles: List containing molar fractions of each component.
+         :type Moles: list
+         :param iph: Properties of which phase is required
+         :type iph: integer
+         :param job: Which level of properties are needed
+         :type job: integer
+         :return: (ZFact, lnPhi, ntdlnPhidn, dlnPhidlTT, ic)
+         :rtype: tuple
 
          Information regarding job:
 
@@ -953,6 +1078,13 @@ class Model(object):
          (P, LnK, ierr) = PBubble(self, T, Moles, Pini=1.0)
       """
       nc = self.Get_NoPureComp()
+
+      if T <= 0 or Pini <= 0:
+         raise ValueError("Temperature must be positive (in units of kelvin)")
+
+      if isinstance(T, (complex, str, bool)):
+         raise TypeError("T must be numeric")
+
       if isinstance(Moles, list): 
           for i in range(0,len(Moles)):
               Moles[i] = float(Moles[i])
@@ -999,6 +1131,19 @@ class Model(object):
          Usage:\n
          (T, LnK, ierr) = TBubble(self, T, Moles, Tini=1.0)
       """
+
+      if P <= 0 or Tini <= 0:
+         raise ValueError("Pressure must be positive (in units of Pa)")
+
+      if isinstance(P, (complex, str, bool)):
+         raise TypeError("Pressure must be numeric")
+
+      if isinstance(Moles, list): 
+          for i in range(0,len(Moles)):
+              Moles[i] = float(Moles[i])
+      else:
+          Moles = float(Moles)
+
       nc = self.Get_NoPureComp()
       pMoles = np.atleast_1d(Moles)
       T = ct.c_double(Tini)
@@ -1607,8 +1752,6 @@ class Optimizer:
 
          It is recommended to use a swarm size of 70-500. Source for recommendation: https://doi.org/10.1016/j.sweve.2020.100718
 
-
-
          :return: dictionary of optimized parameters.
       """
       if self.Thermo == None:
@@ -2154,14 +2297,25 @@ class ComparisonFuncs:
       This class is dedicated to comparing a model with experimental data by calculating 
       a residual/deviation between model and experimental data
 
-      :param Thermo:
-      :param deviationType:
+      :param Thermo: A pythermo object
+      :type Thermo: Model
+      :param deviationType: A string indicating which type of deviation is used (ARD, RD, AD)
+      :type deviationType: string
    """
    def __init__(self,Thermo,deviationType):
-      self.Thermo = Thermo
       
+      
+      deviationTypes = ['ARD','RD','AD']
+
       if not isinstance(deviationType,str):
-         raise SyntaxError('deviationType must be a string')   
+         raise TypeError('deviationType must be a string') 
+      elif deviationType not in deviationTypes:
+         raise ValueError('deviationType must be either ARD, RD or AD.') 
+
+      if not isinstance(Thermo, Model):
+         raise TypeError('Thermo must be a Model object.')   
+
+      self.Thermo = Thermo
       self.deviationType = deviationType
 
       
@@ -2182,7 +2336,10 @@ class ComparisonFuncs:
 
    def PBubble_comparison(self,expT,expP,expComposition,Pini = 1.0):
       """
-         :param expT: double or list of doubles - Experimental temperature (K)
+         Computes the difference between calculated bubble pressure and experimental bubble pressure
+
+         :param expT: Experimental temperature (K)
+         :type expT: float or list of floats
          :param expP: double or list of doubles - Experimental bubble pressure (bar)
          :param expComposition: List of doubles - Experimental feed composition (mole)
          :param Pini: double - Initial guess in bars, default = 1

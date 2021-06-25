@@ -168,8 +168,8 @@ a residual/deviation between model and experimental data</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>Thermo</strong> – </p></li>
-<li><p><strong>deviationType</strong> – </p></li>
+<li><p><strong>Thermo</strong> (<a class="reference internal" href="#pythermo.pythermo.Model" title="pythermo.pythermo.Model"><em>Model</em></a>) – A pythermo object</p></li>
+<li><p><strong>deviationType</strong> (<em>string</em>) – A string indicating which type of deviation is used (ARD, RD, AD)</p></li>
 </ul>
 </dd>
 </dl>
@@ -367,10 +367,10 @@ a residual/deviation between model and experimental data</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>idx</strong> – integer - Index of component in component list</p></li>
-<li><p><strong>AssocSch</strong> – integer - Association scheme (maximum) three integers</p></li>
-<li><p><strong>AssocVol</strong> – double - Reduced self-association energy (K)</p></li>
-<li><p><strong>AssocEng</strong> – double - Self-association volume (1000*beta for CPA)</p></li>
+<li><p><strong>idx</strong> (<em>integer</em>) – Index of component in component list</p></li>
+<li><p><strong>AssocSch</strong> (<em>integer</em>) – Association scheme (maximum) three integers</p></li>
+<li><p><strong>AssocVol</strong> (<em>float</em>) – Reduced self-association energy (K)</p></li>
+<li><p><strong>AssocEng</strong> (<em>float</em>) – Self-association volume (1000*beta for CPA)</p></li>
 </ul>
 </dd>
 </dl>
@@ -387,12 +387,12 @@ a residual/deviation between model and experimental data</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>idx</strong> – integer - Component number/id</p></li>
-<li><p><strong>b0</strong> – double - co-volume (cm3/mol)</p></li>
-<li><p><strong>Gamma</strong> – double - reduced energy parameter = a/Rb (K)</p></li>
-<li><p><strong>c1</strong> – double - alpha function T-dependence (-)</p></li>
-<li><p><strong>c2</strong> – double - coefficients in MC Alpha function alpha(T) = 1+c1*(1-sqrt(T/Tc))+c2*(1-sqrt(T/Tc))^2+c3*(1-sqrt(T/Tc))^3</p></li>
-<li><p><strong>c3</strong> – double - coefficients in MC Alpha function alpha(T) = 1+c1*(1-sqrt(T/Tc))+c2*(1-sqrt(T/Tc))^2+c3*(1-sqrt(T/Tc))^3</p></li>
+<li><p><strong>idx</strong> (<em>integer</em>) – Component number/id</p></li>
+<li><p><strong>b0</strong> (<em>float</em>) – Co-volume (cm3/mol)</p></li>
+<li><p><strong>Gamma</strong> (<em>float</em>) – Reduced energy parameter = a/Rb (K)</p></li>
+<li><p><strong>c1</strong> (<em>float</em>) – Alpha function T-dependence (-)</p></li>
+<li><p><strong>c2</strong> (<em>float</em>) – Coefficients in MC Alpha function alpha(T) = 1+c1*(1-sqrt(T/Tc))+c2*(1-sqrt(T/Tc))^2+c3*(1-sqrt(T/Tc))^3</p></li>
+<li><p><strong>c3</strong> (<em>float</em>) – Coefficients in MC Alpha function alpha(T) = 1+c1*(1-sqrt(T/Tc))+c2*(1-sqrt(T/Tc))^2+c3*(1-sqrt(T/Tc))^3</p></li>
 </ul>
 </dd>
 </dl>
@@ -406,20 +406,15 @@ a residual/deviation between model and experimental data</p>
 <dd><p>This function allows the user to pick a model to use</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>ieos</strong> – <p>integer</p>
+<dd class="field-odd"><p><strong>ieos</strong> (<em>integer</em>) – Model ID</p>
+</dd>
+</dl>
 <p>1 - CPA</p>
 <p>2 - SRK</p>
 <p>3 - PR</p>
-<dl class="simple">
-<dt>4 - PC-SAFT  (400, org UC + simplified 2), 401 (org UC + simplified 1), 402 (org UC + org HC)</dt><dd><p>410 (new UC + simplified 2), 411 (new UC + simplified 1), 412 (new UC + org HC)</p>
-</dd>
-<dt>6 - ePC-SAFT (600, org UC + simplified 2), 601 (org UC + simplified 1), 602 (org UC + org HC)</dt><dd><p>610 (new UC + simplified 2), 611 (new UC + simplified 1), 612 (new UC + org HC)</p>
-</dd>
-</dl>
+<p>4 - PC-SAFT  (400, org UC + simplified 2), 401 (org UC + simplified 1), 402 (org UC + org HC), 410 (new UC + simplified 2), 411 (new UC + simplified 1), 412 (new UC + org HC)</p>
+<p>6 - ePC-SAFT (600, org UC + simplified 2), 601 (org UC + simplified 1), 602 (org UC + org HC), 610 (new UC + simplified 2), 611 (new UC + simplified 1), 612 (new UC + org HC)</p>
 <p>11 - eCPA</p>
-</p>
-</dd>
-</dl>
 </dd></dl>
 
 <dl class="py method">
@@ -429,10 +424,10 @@ a residual/deviation between model and experimental data</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>idx</strong> – integer - Component number/id</p></li>
-<li><p><strong>Tc</strong> – double - Critical temperature (K)</p></li>
-<li><p><strong>Pc</strong> – double - Critical pressure (bar)</p></li>
-<li><p><strong>Om</strong> – double -  Acentric factor (-)</p></li>
+<li><p><strong>idx</strong> (<em>integer</em>) – Component number/id</p></li>
+<li><p><strong>Tc</strong> (<em>float</em>) – Critical temperature (K)</p></li>
+<li><p><strong>Pc</strong> (<em>float</em>) – Critical pressure (bar)</p></li>
+<li><p><strong>Om</strong> (<em>float</em>) – Acentric factor (-)</p></li>
 </ul>
 </dd>
 </dl>
@@ -443,7 +438,16 @@ a residual/deviation between model and experimental data</p>
 <dl class="py method">
 <dt id="pythermo.pythermo.Model.DGTParams">
 <code class="sig-name descname">DGTParams</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">idx</span></em>, <em class="sig-param"><span class="n">ipc</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pythermo.pythermo.Model.DGTParams" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Sets the DGT parameters</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>idx</strong> (<em>integer</em>) – Index of component in component list</p></li>
+<li><p><strong>ipc</strong> (<em>float</em>) – ipc</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt id="pythermo.pythermo.Model.DerivedProps">
@@ -497,30 +501,18 @@ a residual/deviation between model and experimental data</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>T</strong> – double - Temperature (K)</p></li>
-<li><p><strong>P</strong> – double - Pressure (bar)</p></li>
-<li><p><strong>Moles</strong> – list of double -</p></li>
-<li><p><strong>iph</strong> – integer - Properties of which phase is required</p></li>
-<li><p><strong>job</strong> – integer - Which level of properties are needed</p></li>
+<li><p><strong>T</strong> (<em>float</em>) – Temperature (K)</p></li>
+<li><p><strong>P</strong> (<em>float</em>) – Pressure (bar)</p></li>
+<li><p><strong>Moles</strong> (<em>list</em>) – List containing molar fractions of each component.</p></li>
+<li><p><strong>iph</strong> (<em>integer</em>) – Properties of which phase is required</p></li>
+<li><p><strong>job</strong> (<em>integer</em>) – Which level of properties are needed</p></li>
 </ul>
 </dd>
-<dt class="field-even">Return ZFact</dt>
-<dd class="field-even"><p>double - Compressibility factor</p>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>(ZFact, lnPhi, ntdlnPhidn, dlnPhidlTT, ic)</p>
 </dd>
-<dt class="field-odd">Return lnPhi</dt>
-<dd class="field-odd"><p>double - Returned if job &gt;= 1</p>
-</dd>
-<dt class="field-even">Return ntdlnPhidn</dt>
-<dd class="field-even"><p>double - Returned if job &gt;= 2</p>
-</dd>
-<dt class="field-odd">Return dlnPhidlPP</dt>
-<dd class="field-odd"><p>double - Returned if job &gt;= 3</p>
-</dd>
-<dt class="field-even">Return dlnPhidlTT</dt>
-<dd class="field-even"><p>double - Returned if job == 4</p>
-</dd>
-<dt class="field-odd">Return ic</dt>
-<dd class="field-odd"><p>integer</p>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>tuple</p>
 </dd>
 </dl>
 <p>Information regarding job:</p>
@@ -546,10 +538,13 @@ a residual/deviation between model and experimental data</p>
 <dd><p>Gets the specified association parameters</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>idx</strong> – integer - Index of component in component list</p>
+<dd class="field-odd"><p><strong>idx</strong> (<em>integer</em>) – Index of component in component list</p>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>dictionary - Contains Association parameters: Association scheme, Reduced self-association energy, Self-association volume</p>
+<dd class="field-even"><p>Contains Association parameters: Association scheme, Reduced self-association energy, Self-association volume</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>dictionary</p>
 </dd>
 </dl>
 <ul class="simple">
@@ -569,10 +564,13 @@ a residual/deviation between model and experimental data</p>
 <dd><p>Gets the CPA parameters of component idx</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>idx</strong> – integer - Component number/id</p>
+<dd class="field-odd"><p><strong>idx</strong> (<em>integer</em>) – Component number/id</p>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>dictionary - Contains CPA parameters: co-volume, reduced enrgy parameter, alpha function T-dependence</p>
+<dd class="field-even"><p>Contains CPA parameters: co-volume, reduced enrgy parameter, alpha function T-dependence</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>dictionary</p>
 </dd>
 </dl>
 <ul class="simple">
@@ -592,10 +590,13 @@ a residual/deviation between model and experimental data</p>
 <dd><p>Gets the critical properties of component idx</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>idx</strong> – integer - Component number/id</p>
+<dd class="field-odd"><p><strong>idx</strong> (<em>integer</em>) – Component number/id</p>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>dictionary - Contains critical temperature, critical pressure and acentric factor</p>
+<dd class="field-even"><p>Contains critical temperature, critical pressure and acentric factor</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>dictionary</p>
 </dd>
 </dl>
 <ul class="simple">
@@ -610,8 +611,15 @@ a residual/deviation between model and experimental data</p>
 <dl class="py method">
 <dt id="pythermo.pythermo.Model.Get_NoAppComp">
 <code class="sig-name descname">Get_NoAppComp</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pythermo.pythermo.Model.Get_NoAppComp" title="Permalink to this definition">¶</a></dt>
-<dd><p>Gets the number of apparent components
-:return: integer - Number of apparent components</p>
+<dd><p>Gets the number of apparent components</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Number of apparent components</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>integer</p>
+</dd>
+</dl>
 <p>Usage:</p>
 <p>Get_NoAppComp()</p>
 </dd></dl>
@@ -627,7 +635,10 @@ a residual/deviation between model and experimental data</p>
 <dd><p>Get the number of pure components in the system</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>integer - number of components</p>
+<dd class="field-odd"><p>Number of components</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>integer</p>
 </dd>
 </dl>
 <p>Usage:</p>
@@ -640,7 +651,10 @@ a residual/deviation between model and experimental data</p>
 <dd><p>Gets the number of specified cross association parameters</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>integer - Number of cross association parameters</p>
+<dd class="field-odd"><p>Number of cross association parameters</p>
+</dd>
+<dt class="field-even">Type</dt>
+<dd class="field-even"><p>integer</p>
 </dd>
 </dl>
 <p>Usage:</p>
@@ -653,7 +667,10 @@ a residual/deviation between model and experimental data</p>
 <dd><p>Gets the number of specified cross hydrogen bonds</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>integer - Number of cross hydrogen bonds</p>
+<dd class="field-odd"><p>Number of cross hydrogen bonds</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>integer</p>
 </dd>
 </dl>
 <p>Usage:</p>
@@ -666,7 +683,10 @@ a residual/deviation between model and experimental data</p>
 <dd><p>Gets the number of specified HVNRTL</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>integer - Number of HVNRTL</p>
+<dd class="field-odd"><p>Number of HVNRTL</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>integer</p>
 </dd>
 </dl>
 <p>Usage:</p>
@@ -679,7 +699,10 @@ a residual/deviation between model and experimental data</p>
 <dd><p>Gets the number of specified binary interaction parameters</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>integer - Number of specified binary interaction parameters</p>
+<dd class="field-odd"><p>Number of specified binary interaction parameters</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>integer</p>
 </dd>
 </dl>
 <p>Usage:</p>
@@ -692,10 +715,13 @@ a residual/deviation between model and experimental data</p>
 <dd><p>Gets the acentric factor</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>idx</strong> – integer - Component number/id</p>
+<dd class="field-odd"><p><strong>idx</strong> (<em>integer</em>) – Component number/id</p>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>float - Om [dimensionless]</p>
+<dd class="field-even"><p>Om [dimensionless]</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>float</p>
 </dd>
 </dl>
 </dd></dl>
@@ -706,10 +732,13 @@ a residual/deviation between model and experimental data</p>
 <dd><p>Gets the critical pressure</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>idx</strong> – integer - Component number/id</p>
+<dd class="field-odd"><p><strong>idx</strong> (<em>integer</em>) – Component number/id</p>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>float - Pc [bar]</p>
+<dd class="field-even"><p>Pc [bar]</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>float</p>
 </dd>
 </dl>
 </dd></dl>
@@ -720,10 +749,13 @@ a residual/deviation between model and experimental data</p>
 <dd><p>Gets the critical temperature</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>idx</strong> – integer - Component number/id</p>
+<dd class="field-odd"><p><strong>idx</strong> (<em>integer</em>) – Component number/id</p>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>float - Tc [K]</p>
+<dd class="field-even"><p>Tc [K]</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>float</p>
 </dd>
 </dl>
 </dd></dl>
@@ -731,16 +763,17 @@ a residual/deviation between model and experimental data</p>
 <dl class="py method">
 <dt id="pythermo.pythermo.Model.HBondInfo">
 <code class="sig-name descname">HBondInfo</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">idx</span></em>, <em class="sig-param"><span class="n">htype</span><span class="o">=</span><span class="default_value">- 1</span></em>, <em class="sig-param"><span class="n">CoordNo</span><span class="o">=</span><span class="default_value">- 1</span></em>, <em class="sig-param"><span class="n">muOH</span><span class="o">=</span><span class="default_value">- 1</span></em>, <em class="sig-param"><span class="n">phi</span><span class="o">=</span><span class="default_value">- 1</span></em>, <em class="sig-param"><span class="n">theta</span><span class="o">=</span><span class="default_value">- 1</span></em>, <em class="sig-param"><span class="n">gamma</span><span class="o">=</span><span class="default_value">- 1</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pythermo.pythermo.Model.HBondInfo" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="field-list simple">
+<dd><p>Sets the hydrogen bond info</p>
+<dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>idx</strong> – integer - Index of component in component list</p></li>
-<li><p><strong>htype</strong> – integer - Hydrogen bond network</p></li>
-<li><p><strong>CoordNo</strong> – integer - Coordination no.</p></li>
-<li><p><strong>muOH</strong> – double - Dipole moment in direction of H-bond (Debye)</p></li>
-<li><p><strong>phi</strong> – double - Internal H-O-R angle (radian)</p></li>
-<li><p><strong>theta</strong> – double - Rotation angle between shells (radian)</p></li>
-<li><p><strong>gamma</strong> – double - Average angle between dipole moment and H-bond (radian)</p></li>
+<li><p><strong>idx</strong> (<em>integer</em>) – Index of component in component list</p></li>
+<li><p><strong>htype</strong> (<em>integer</em>) – Hydrogen bond network</p></li>
+<li><p><strong>CoordNo</strong> (<em>integer</em>) – Coordination no.</p></li>
+<li><p><strong>muOH</strong> (<em>float</em>) – Dipole moment in direction of H-bond (Debye)</p></li>
+<li><p><strong>phi</strong> (<em>float</em>) – Internal H-O-R angle (radian)</p></li>
+<li><p><strong>theta</strong> (<em>float</em>) – Rotation angle between shells (radian)</p></li>
+<li><p><strong>gamma</strong> (<em>float</em>) – Average angle between dipole moment and H-bond (radian)</p></li>
 </ul>
 </dd>
 </dl>
@@ -758,9 +791,17 @@ a residual/deviation between model and experimental data</p>
 <dl class="py method">
 <dt id="pythermo.pythermo.Model.IonProps">
 <code class="sig-name descname">IonProps</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">idx</span></em>, <em class="sig-param"><span class="n">charge</span></em>, <em class="sig-param"><span class="n">sigma</span></em>, <em class="sig-param"><span class="n">bornR</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pythermo.pythermo.Model.IonProps" title="Permalink to this definition">¶</a></dt>
-<dd><p>charge: elementary charge of ion
-sigma: diameter of ion (Å)
-bornR: Born radius (Å)</p>
+<dd><p>Sets the ionic properties</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>idx</strong> (<em>integer</em>) – Index of component in component list</p></li>
+<li><p><strong>charge</strong> (<em>float</em>) – Elementary charge of ion</p></li>
+<li><p><strong>sigma</strong> (<em>float</em>) – Diameter of ion (Å)</p></li>
+<li><p><strong>bornR</strong> (<em>float</em>) – Born radius (Å)</p></li>
+</ul>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
@@ -786,8 +827,12 @@ bornR: Born radius (Å)</p>
 <dl class="py method">
 <dt id="pythermo.pythermo.Model.NoAppComp">
 <code class="sig-name descname">NoAppComp</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">nAppComp</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pythermo.pythermo.Model.NoAppComp" title="Permalink to this definition">¶</a></dt>
-<dd><p>Sets the number of apparent components
-:param nAppComp: integer - Number of apparent components</p>
+<dd><p>Sets the number of apparent components</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>nAppComp</strong> (<em>integer</em>) – Number of apparent components</p>
+</dd>
+</dl>
 <p>Usage:</p>
 <p>NoAppComp(nAppComp)</p>
 </dd></dl>
@@ -798,7 +843,7 @@ bornR: Born radius (Å)</p>
 <dd><p>Set the number of pure components in the system</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>nComp</strong> – integer - number of components</p>
+<dd class="field-odd"><p><strong>nComp</strong> (<em>integer</em>) – number of components</p>
 </dd>
 </dl>
 <p>Usage:</p>
@@ -811,7 +856,7 @@ bornR: Born radius (Å)</p>
 <dd><p>Sets the number of specified cross association parameters</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>ncrs</strong> – integer - Number of specified cross association parameters</p>
+<dd class="field-odd"><p><strong>ncrs</strong> (<em>integer</em>) – Number of specified cross association parameters</p>
 </dd>
 </dl>
 <p>Usage:</p>
@@ -821,8 +866,12 @@ bornR: Born radius (Å)</p>
 <dl class="py method">
 <dt id="pythermo.pythermo.Model.NoSpecCrossHBond">
 <code class="sig-name descname">NoSpecCrossHBond</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">ncrsHB</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pythermo.pythermo.Model.NoSpecCrossHBond" title="Permalink to this definition">¶</a></dt>
-<dd><p>Sets the number of specified cross hydrogen bonding
-:param ncrsHB: integer - Number of specified hydrogen bonds.</p>
+<dd><p>Sets the number of specified cross hydrogen bonding</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>ncrsHB</strong> (<em>integer</em>) – Number of specified hydrogen bonds.</p>
+</dd>
+</dl>
 <p>Usage:</p>
 <p>NoSpecCrossHBond(ncrsHB)</p>
 </dd></dl>
@@ -833,7 +882,7 @@ bornR: Born radius (Å)</p>
 <dd><p>Set the number of specified HVNRTL</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>nhv</strong> – integer - Number of HVNRTL</p>
+<dd class="field-odd"><p><strong>nhv</strong> (<em>float</em>) – Number of HVNRTL</p>
 </dd>
 </dl>
 <p>Usage:</p>
@@ -1003,10 +1052,13 @@ bornR: Born radius (Å)</p>
 <dd><p>Sets the peneloux volume correction</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>idx</strong> – integer - Component number/id</p></li>
-<li><p><strong>c</strong> – float - Peneloux volume correction [(]cm3/mol]</p></li>
-</ul>
+<dd class="field-odd"><p><strong>idx</strong> (<em>integer</em>) – Component number/id</p>
+</dd>
+<dt class="field-even">Param</dt>
+<dd class="field-even"><p>Peneloux volume correction [(]cm3/mol]</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>float</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1030,18 +1082,32 @@ ierr: successful or not (ierr=0 means successful)</p>
 <dl class="py method">
 <dt id="pythermo.pythermo.Model.PolarProps">
 <code class="sig-name descname">PolarProps</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">idx</span></em>, <em class="sig-param"><span class="n">mu</span></em>, <em class="sig-param"><span class="n">a0</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pythermo.pythermo.Model.PolarProps" title="Permalink to this definition">¶</a></dt>
-<dd><p>mu: dipole moment (Debye)
-a0: molecular polarizability (10^40*C^2*m^2/J)</p>
+<dd><p>Set the polar properties</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>idx</strong> (<em>integer</em>) – Index of component in component list</p></li>
+<li><p><strong>mu</strong> (<em>float</em>) – Dipole moment (Debye)</p></li>
+<li><p><strong>a0</strong> (<em>float</em>) – Molecular polarizability (10^40*C^2*m^2/J)</p></li>
+</ul>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
 <dt id="pythermo.pythermo.Model.SAFTParams">
 <code class="sig-name descname">SAFTParams</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">idx</span></em>, <em class="sig-param"><span class="n">m</span></em>, <em class="sig-param"><span class="n">sig</span></em>, <em class="sig-param"><span class="n">eps</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pythermo.pythermo.Model.SAFTParams" title="Permalink to this definition">¶</a></dt>
-<dd><p>Sets the SAFT parameters of component idx
-:param idx: integer - Component number/id
-:param m: integer - number of segement (-)
-:param sig: double - size of segement (Å)
-:param eps: double - reduced self-interaction parameter /K)</p>
+<dd><p>Sets the SAFT parameters of component idx</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>idx</strong> (<em>integer</em>) – Component number/id</p></li>
+<li><p><strong>m</strong> (<em>integer</em>) – number of segement (-)</p></li>
+<li><p><strong>sig</strong> (<em>float</em>) – size of segement (Å)</p></li>
+<li><p><strong>eps</strong> (<em>float</em>) – reduced self-interaction parameter /K)</p></li>
+</ul>
+</dd>
+</dl>
 <p>Usage:</p>
 <p>SAFTParams(self, idx, m, sig, eps)</p>
 </dd></dl>
@@ -1055,10 +1121,16 @@ a0: molecular polarizability (10^40*C^2*m^2/J)</p>
 <dl class="py method">
 <dt id="pythermo.pythermo.Model.SpecAppCompStoich">
 <code class="sig-name descname">SpecAppCompStoich</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">idx</span></em>, <em class="sig-param"><span class="n">incides</span></em>, <em class="sig-param"><span class="n">stoichiometry</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pythermo.pythermo.Model.SpecAppCompStoich" title="Permalink to this definition">¶</a></dt>
-<dd><p>Specifies apparent component stoichiometry
-:param idx: integer - index in apparent component list
-:param indices: integer - index in component list
-:param stoichiometry: float - stoichiometry of indices</p>
+<dd><p>Specifies apparent component stoichiometry</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>idx</strong> (<em>integer</em>) – Index in apparent component list</p></li>
+<li><p><strong>indices</strong> (<em>integer</em>) – Index in component list</p></li>
+<li><p><strong>stoichiometry</strong> (<em>float</em>) – Stoichiometry of indices</p></li>
+</ul>
+</dd>
+</dl>
 <p>For example, the component list is [H2O, Na+, Cl-, Br-]
 the calling procedure will be:
 SPECAPPCOMPSTOICH(1,[1],[1]);
@@ -1073,14 +1145,14 @@ SPECAPPCOMPSTOICH(3,[2 4],[1 1]);</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>idx</strong> – integer - Index of specified cross association</p></li>
-<li><p><strong>i</strong> – integer - Index of component i in component list</p></li>
-<li><p><strong>j</strong> – integer - Index of component j in component list</p></li>
-<li><p><strong>crstyp</strong> – double - Type of cross-association</p></li>
-<li><p><strong>crsbeta</strong> – double - Cross-association volume (<a href="#id1"><span class="problematic" id="id2">*</span></a>1000 for CPA)</p></li>
-<li><p><strong>crseps</strong> – double - Reduced cross-association energy (K)</p></li>
-<li><p><strong>crse_b</strong> – double - Parameter b</p></li>
-<li><p><strong>crse_c</strong> – double - Parameter c</p></li>
+<li><p><strong>idx</strong> (<em>integer</em>) – Index of specified cross association</p></li>
+<li><p><strong>i</strong> (<em>integer</em>) – Index of component i in component list</p></li>
+<li><p><strong>j</strong> (<em>integer</em>) – Index of component j in component list</p></li>
+<li><p><strong>crstyp</strong> (<em>float</em>) – Type of cross-association</p></li>
+<li><p><strong>crsbeta</strong> (<em>float</em>) – Cross-association volume (<a href="#id1"><span class="problematic" id="id2">*</span></a>1000 for CPA)</p></li>
+<li><p><strong>crseps</strong> (<em>float</em>) – Reduced cross-association energy (K)</p></li>
+<li><p><strong>crse_b</strong> (<em>float</em>) – Parameter b</p></li>
+<li><p><strong>crse_c</strong> (<em>float</em>) – Parameter c</p></li>
 </ul>
 </dd>
 </dl>
@@ -1163,16 +1235,22 @@ crstyp: set type of cross-association</p>
 <dl class="py method">
 <dt id="pythermo.pythermo.Model.SpecCrossHBond">
 <code class="sig-name descname">SpecCrossHBond</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">idx</span></em>, <em class="sig-param"><span class="n">i</span></em>, <em class="sig-param"><span class="n">j</span></em>, <em class="sig-param"><span class="n">htij</span></em>, <em class="sig-param"><span class="n">htji</span></em>, <em class="sig-param"><span class="n">zij</span></em>, <em class="sig-param"><span class="n">zji</span></em>, <em class="sig-param"><span class="n">theta</span></em>, <em class="sig-param"><span class="n">gamma</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pythermo.pythermo.Model.SpecCrossHBond" title="Permalink to this definition">¶</a></dt>
-<dd><p>Specifies cross hydrogen bonding
-:param idx: integer - Index of specifiec cross HBond
-:param i: integer - Index of component i in component list
-:param j: integer - Index of component j in component list
-:param htij: integer - Hydrogen-bond type of i to j
-:param htji: integer - Hydrogen-bond type of j to i
-:param zij: integer - Coordination no. of i around j
-:param zji: integer - Coordination no. of j around i
-:param theta: double - Rotation angle inhydrogen bond (radian)
-:param gamma: double - Projection of angle of dipole moment in H-bond direction (radian)</p>
+<dd><p>Specifies cross hydrogen bonding</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>idx</strong> (<em>integer</em>) – Index of specifiec cross HBond</p></li>
+<li><p><strong>i</strong> (<em>integer</em>) – Index of component i in component list</p></li>
+<li><p><strong>j</strong> (<em>integer</em>) – Index of component j in component list</p></li>
+<li><p><strong>htij</strong> (<em>integer</em>) – Hydrogen-bond type of i to j</p></li>
+<li><p><strong>htji</strong> (<em>integer</em>) – Hydrogen-bond type of j to i</p></li>
+<li><p><strong>zij</strong> (<em>integer</em>) – Coordination no. of i around j</p></li>
+<li><p><strong>zji</strong> (<em>integer</em>) – Coordination no. of j around i</p></li>
+<li><p><strong>theta</strong> (<em>float</em>) – Rotation angle inhydrogen bond (radian)</p></li>
+<li><p><strong>gamma</strong> – Projection of angle of dipole moment in H-bond direction (radian)</p></li>
+</ul>
+</dd>
+</dl>
 <p><strong>Information about hydrogen-bond type</strong></p>
 <ul class="simple">
 <li><p>0: TETRAHEDRAL - A tetrahedral H - bond network(e.g.water)</p></li>
@@ -1195,13 +1273,13 @@ crstyp: set type of cross-association</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>idx</strong> – integer - index of the list of the specified binary interaction parameters</p></li>
-<li><p><strong>i</strong> – integer - index of component i in component list</p></li>
-<li><p><strong>j</strong> – integer - index of component j in component list</p></li>
-<li><p><strong>kija</strong> – double - see formula below</p></li>
-<li><p><strong>kijb</strong> – double - see formula below</p></li>
-<li><p><strong>kijc</strong> – double - see formula below</p></li>
-<li><p><strong>kijd</strong> – double - see formula below</p></li>
+<li><p><strong>idx</strong> (<em>integer</em>) – Index of the list of the specified binary interaction parameters</p></li>
+<li><p><strong>i</strong> (<em>integer</em>) – Index of component i in component list</p></li>
+<li><p><strong>j</strong> (<em>integer</em>) – Index of component j in component list</p></li>
+<li><p><strong>kija</strong> (<em>float</em>) – See formula below</p></li>
+<li><p><strong>kijb</strong> (<em>float</em>) – See formula below</p></li>
+<li><p><strong>kijc</strong> (<em>float</em>) – See formula below</p></li>
+<li><p><strong>kijd</strong> (<em>float</em>) – See formula below</p></li>
 </ul>
 </dd>
 </dl>
@@ -1404,8 +1482,11 @@ tl_p2: Composition of ‘right point’ of the tie-lines (size=id_tl(np_tl+1)-1,
 <code class="sig-name descname">WhichModelIsUsed</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pythermo.pythermo.Model.WhichModelIsUsed" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns used model</p>
 <dl class="field-list simple">
-<dt class="field-odd">Return sEOS</dt>
-<dd class="field-odd"><p>string</p>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Model used</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>string</p>
 </dd>
 </dl>
 <p>Usage:</p>
