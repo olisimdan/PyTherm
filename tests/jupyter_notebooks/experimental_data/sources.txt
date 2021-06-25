@@ -1,1 +1,1 @@
-All pure component data is from DIPPR database
+All experimental data here is generated from correlations, and thus not REAL experimental data. Do not treat this data as real data.
