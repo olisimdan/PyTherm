@@ -60,17 +60,5 @@ class Testing(unittest.TestCase):
         self.assertRaises(TypeError, pt.Model().TBubble, True, 1,1)
 
 
-    """
-        Here the ComparisonFuncs initialization procedure is tested
-    """
-    def test_ComparisonFuncs_values(self):
-        self.assertRaises(ValueError, pt.ComparisonFuncs, pt.Model, "bussemand")
-
-    def test_ComparisonFuncs_types(self):
-        self.assertRaises(TypeError, pt.ComparisonFuncs, pt.Model, 2)
-        self.assertRaises(TypeError, pt.ComparisonFuncs, pt.Model, 2+3j)
-        self.assertRaises(TypeError, pt.ComparisonFuncs, pt.Model, True)
-        self.assertRaises(TypeError, pt.ComparisonFuncs, 1, "ARD")
-
 if __name__ == '__main__':
     unittest.main()

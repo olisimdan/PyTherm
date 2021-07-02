@@ -2346,28 +2346,57 @@ class ComparisonFuncs:
          :return: List of doubles - Deviations in desired units
       """
       Thermo = self.Thermo
+
+      
    
-      if not isinstance(expT,(int,float,list,np.ndarray)):
-         raise SyntaxError('expT must be numeric')
-         
-      if not isinstance(expP,(int,float,list,np.ndarray)):
-         raise SyntaxError('expP must be numeric')
+      if isinstance(expT,bool):
+         raise TypeError('expT must be numeric')
+      elif not isinstance(expT,(int,float,list,np.ndarray)):
+         raise TypeError('expT must be numeric')
+
+      if isinstance(expP,bool):
+         raise TypeError('expT must be numeric')   
+      elif not isinstance(expP,(int,float,list,np.ndarray)):
+         raise TypeError('expP must be numeric')
+
+      if isinstance(expComposition,bool):
+         raise TypeError('expT must be numeric')   
+      elif not isinstance(expComposition,(int,float,list,np.ndarray)):
+         raise TypeError('expComposition must be numeric')
+
+      if isinstance(Pini,bool):
+         raise TypeError('expT must be numeric')
+      elif not isinstance(Pini,(int,float,list,np.ndarray)):
+         raise TypeError('Pini must be numeric')
          
       if isinstance(expT,(float,int)):
          expT = [expT]
          
       if isinstance(expP,(float,int)):
          expP = [expP]
+
+      if isinstance(expComposition,(float,int)):
+         expComposition = [expComposition]
       
       
       
       for element in expT:
          if not isinstance(element,(float,int)):
-               raise SyntaxError('Each element of expT must be numeric')
+               raise TypeError('Each element of expT must be numeric')
+         if element <= 0:
+               raise ValueError('Experimental temperatures must be positive')
       
       for element in expP:
          if not isinstance(element,(float,int)):
-               raise SyntaxError('Each element of expP must be numeric')
+               raise TypeError('Each element of expP must be numeric')
+         if element <= 0:
+               raise ValueError('Experimental pressure must be positive')
+      
+      for element in expComposition:
+         if not isinstance(element,(float,int)):
+               raise TypeError('Each element of expComposition must be numeric')
+         if element < 0:
+               raise ValueError('Molar compositions must be positive or equal to zero.')
       
       
       
@@ -2479,7 +2508,6 @@ class ComparisonFuncs:
          deviation = deviation[0]
 
       return deviation
-
 
    def PDew_comparison(self,expT,expP,expComposition,Pini = 1.0):
       """
